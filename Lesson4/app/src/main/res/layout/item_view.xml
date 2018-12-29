@@ -1,0 +1,24 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayoutItem"
+    style="@style/ConstraintLayoutItem"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/appCompactImageViewItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@drawable/child_category"
+        style="@style/AppCompactImageViewItem" />
+
+    <TextView
+        android:id="@+id/textViewTitleItem"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appCompactImageViewItem"
+        tools:text="Рассрочка"
+        style="@style/TextViewTitleItem" />
+</android.support.constraint.ConstraintLayout>

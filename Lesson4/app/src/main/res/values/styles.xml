@@ -1,0 +1,147 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="textViewProgressBar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/text_view_progress_margin_top</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/black__70</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="ImageViewForLogs">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ImageViewLog" parent="ImageViewForLogs">
+        <item name="android:contentDescription">@string/logo</item>
+        <item name="android:layout_marginTop">@dimen/logo_margin_top</item>
+    </style>
+
+    <style name="ImageViewLogoMss" parent="ImageViewForLogs">
+        <item name="android:contentDescription">@string/logo_mss</item>
+        <item name="android:layout_marginBottom">@dimen/logo_mss_margin_top</item>
+    </style>
+
+    <style name="ProgressBar">
+        <item name="android:layout_width">@dimen/proress_bar_width_height</item>
+        <item name="android:layout_height">@dimen/proress_bar_width_height</item>
+        <item name="android:layout_marginTop">@dimen/progress_bar_margin_top</item>
+    </style>
+
+    <style name="TextViewToolbar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:fontFamily">@font/officina_sans_extra_bold_scc</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_tv_toolbar</item>
+    </style>
+
+    <style name="Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="LinearLayoutHelpCategories">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="TextViewChooseCategoryHelp">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/tv_choose_category_help_margin_top</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textSize">@dimen/tv_choose_category_help_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="RecyclerViewChooseCategoryHelp">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/rv_choose_category_help_layout_height</item>
+        <item name="android:layout_marginEnd">@dimen/rv_choose_category_help_margin_end</item>
+        <item name="android:layout_marginTop">@dimen/rv_choose_category_help_margin_top</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:paddingBottom">@dimen/rv_choose_category_help_padding_bottom</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="ConstraintLayoutItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/constraint_layout_item_margin_bottom</item>
+        <item name="android:layout_marginStart">@dimen/constraint_layout_item_margin_start</item>
+        <item name="android:background">@color/light_grey</item>
+    </style>
+
+    <style name="AppCompactImageViewItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/app_compact_image_view_item_margin_top</item>
+    </style>
+
+    <style name="TextViewTitleItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/tv_title_item_margin_bottom</item>
+        <item name="android:layout_marginTop">@dimen/tv_title_item_margin_top</item>
+        <item name="android:fontFamily">@font/officina_sans_extra_bold_scc</item>
+        <item name="android:textColor">@color/light_olive_green</item>
+        <item name="android:textSize">@dimen/tv_title_item_text_size</item>
+    </style>
+
+    <style name="BottomNavMenu">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingBottom">@dimen/bottom_nav_pading_bottom</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/black_40</item>
+        <item name="android:textSize">@dimen/bottom_nav_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="ImageViewCirclesHeart">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/image_view_circles_heart_margin_bottom
+        </item>
+        <item name="android:background">@drawable/white_red_circle</item>
+    </style>
+
+    <style name="LinearLayoutBottomMenu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:weightSum">5</item>
+    </style>
+
+
+</resources>
