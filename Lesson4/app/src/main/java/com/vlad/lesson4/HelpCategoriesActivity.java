@@ -37,12 +37,7 @@ public class HelpCategoriesActivity extends AppCompatActivity {
         toolbar.setTitle(EMPTY);
         setSupportActionBar(toolbar);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, TWO);
 
@@ -52,10 +47,7 @@ public class HelpCategoriesActivity extends AppCompatActivity {
 
         rvAdapterCategoryHelp.notifyDataSetChanged();
         recyclerView.setAdapter(rvAdapterCategoryHelp);
-        rvAdapterCategoryHelp.setOnItemClickListener(new RVAdapterCategoryHelp.OnItemClickListener() {
-            @Override
-            public void onClickItem(ItemForChooseCategoryHelp item) {
-            }
+        rvAdapterCategoryHelp.setOnItemClickListener(item -> {
         });
 
 

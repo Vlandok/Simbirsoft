@@ -28,16 +28,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         textViewProgressBar.setText(R.string.loading_with_points);
         imageViewLogoMss.setImageResource(R.drawable.logo_mss);
 
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    TimeUnit.SECONDS.sleep(HelpCategoriesActivity.TWO);
-                    startActivity(HelpCategoriesActivity.createStartIntent(SplashScreenActivity.this));
-                    finish();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        Thread t = new Thread(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(HelpCategoriesActivity.TWO);
+                startActivity(HelpCategoriesActivity.createStartIntent(SplashScreenActivity.this));
+                finish();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         });
         t.start();
