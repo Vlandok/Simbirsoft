@@ -1,12 +1,10 @@
 package com.vlad.lesson4.adapter;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.model.ItemForChooseCategoryHelp;
@@ -35,7 +33,7 @@ public class RVAdapterCategoryHelp extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view, parent, false);
-        viewHolder = new ViewHolder(view, itemListener);
+        viewHolder = new ViewHolder(view, itemListener, itemsForChooseCategory);
         return viewHolder;
     }
 
@@ -50,29 +48,5 @@ public class RVAdapterCategoryHelp extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public int getItemCount() {
         return itemsForChooseCategory.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        AppCompatImageView appCompatImageView;
-        TextView textViewItemCategory;
-
-        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
-            super(itemView);
-            appCompatImageView = itemView.findViewById(R.id.appCompactImageViewItem);
-            textViewItemCategory = itemView.findViewById(R.id.textViewTitleItem);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onClickItem(itemsForChooseCategory.get(position));
-                        }
-                    }
-                }
-            });
-        }
     }
 }
