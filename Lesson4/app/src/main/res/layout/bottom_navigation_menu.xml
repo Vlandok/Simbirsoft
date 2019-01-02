@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayoutBottomMenu"
+    style="@style/LinearLayoutBottomMenu"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/newsBottomNav"
+        style="@style/ButtonBottomNavMenu"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_news"
+        android:text="@string/news_bottom_nav" />
+
+    <Button
+        android:id="@+id/seatchBottomNav"
+        style="@style/ButtonBottomNavMenu"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_searh"
+        android:text="@string/search_bottom_nav" />
+
+    <Button
+        android:id="@+id/helpBottomNav"
+        style="@style/ButtonBottomNavMenu"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawablePadding="16dp"
+        android:drawableTop="@drawable/ic_heart"
+        android:foregroundGravity="top"
+        android:text="@string/help_bottom_nav" />
+
+    <Button
+        android:id="@+id/historyBottomNav"
+        style="@style/ButtonBottomNavMenu"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_history"
+        android:text="@string/history_bottom_nav" />
+
+    <Button
+        android:id="@+id/profilBottomNav"
+        style="@style/ButtonBottomNavMenu"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_profil"
+        android:text="@string/profil_bottom_nav" />
+
+</LinearLayout>

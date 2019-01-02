@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="logo_margin_top">154dp</dimen>
+    <dimen name="proress_bar_width_height">38dp</dimen>
+    <dimen name="progress_bar_margin_top">84dp</dimen>
+    <dimen name="text_view_progress_margin_top">20dp</dimen>
+    <dimen name="logo_mss_margin_bottom">40dp</dimen>
+    <dimen name="text_size_tv_toolbar">21sp</dimen>
+    <dimen name="tv_choose_category_help_margin_top">20dp</dimen>
+    <dimen name="tv_choose_category_help_text_size">16sp</dimen>
+    <dimen name="rv_choose_category_help_layout_height">0dp</dimen>
+    <dimen name="rv_choose_category_help_margin_end">8dp</dimen>
+    <dimen name="rv_choose_category_help_margin_top">20dp</dimen>
+    <dimen name="rv_choose_category_help_padding_bottom">12dp</dimen>
+    <dimen name="constraint_layout_item_margin_bottom">8dp</dimen>
+    <dimen name="constraint_layout_item_margin_start">8dp</dimen>
+    <dimen name="app_compact_image_view_item_margin_top">12dp</dimen>
+    <dimen name="tv_title_item_margin_bottom">12dp</dimen>
+    <dimen name="tv_title_item_margin_top">12dp</dimen>
+    <dimen name="tv_title_item_text_size">15sp</dimen>
+    <dimen name="bottom_nav_pading_bottom">6dp</dimen>
+    <dimen name="bottom_nav_text_size">11sp</dimen>
+    <dimen name="image_view_circles_heart_margin_bottom">16dp</dimen>
+    <dimen name="red_circle_width_height">42dp</dimen>
+    <dimen name="white_circle_width_height">54dp</dimen>
+</resources>

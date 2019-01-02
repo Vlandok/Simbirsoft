@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Хочу помочь</string>
+    <string name="loading_with_points">Загрузка…</string>
+    <string name="logo">logo</string>
+    <string name="logo_mss">logoMss</string>
+    <string name="title_help_categ">Помочь</string>
+    <string name="news_bottom_nav">Новости</string>
+    <string name="search_bottom_nav">Поиск</string>
+    <string name="help_bottom_nav">Помочь</string>
+    <string name="history_bottom_nav">История</string>
+    <string name="profil_bottom_nav">Профиль</string>
+    <string name="choose_category_help">Выберите категорию помощи</string>
+    <string name="child_category">Дети</string>
+    <string name="adults_category">Взрослые</string>
+    <string name="seniors_category">Пожилые</string>
+    <string name="animals_category">Животные</string>
+    <string name="events_category">Мероприятия</string>
+</resources>
