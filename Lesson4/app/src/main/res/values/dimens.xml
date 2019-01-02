@@ -2,11 +2,11 @@
 <resources>
     <dimen name="logo_margin_top">154dp</dimen>
     <dimen name="proress_bar_width_height">38dp</dimen>
-    <dimen name="progress_bar_margin_top">83dp</dimen>
+    <dimen name="progress_bar_margin_top">84dp</dimen>
     <dimen name="text_view_progress_margin_top">20dp</dimen>
     <dimen name="logo_mss_margin_bottom">40dp</dimen>
     <dimen name="text_size_tv_toolbar">21sp</dimen>
-    <dimen name="tv_choose_category_help_margin_top">19dp</dimen>
+    <dimen name="tv_choose_category_help_margin_top">20dp</dimen>
     <dimen name="tv_choose_category_help_text_size">16sp</dimen>
     <dimen name="rv_choose_category_help_layout_height">0dp</dimen>
     <dimen name="rv_choose_category_help_margin_end">8dp</dimen>

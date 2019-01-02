@@ -41,8 +41,8 @@ public class RVAdapterCategoryHelp extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder vHolder, int position) {
 
         viewHolder = (ViewHolder) vHolder;
-        viewHolder.appCompatImageView.setBackgroundResource(itemsForChooseCategory.get(position).getImageCategory());
-        viewHolder.textViewItemCategory.setText(itemsForChooseCategory.get(position).getNameCategory());
+        viewHolder.getAppCompatImageView().setBackgroundResource(itemsForChooseCategory.get(position).getImageCategory());
+        viewHolder.getTextViewItemCategory().setText(itemsForChooseCategory.get(position).getNameCategory());
     }
 
     @Override

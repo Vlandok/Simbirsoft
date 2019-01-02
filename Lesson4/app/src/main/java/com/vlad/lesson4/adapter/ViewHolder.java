@@ -13,10 +13,19 @@ import java.util.ArrayList;
 
 public class ViewHolder extends RecyclerView.ViewHolder {
 
-    AppCompatImageView appCompatImageView;
-    TextView textViewItemCategory;
+    private AppCompatImageView appCompatImageView;
+    private TextView textViewItemCategory;
 
-    public ViewHolder(@NonNull View itemView, final RVAdapterCategoryHelp.OnItemClickListener listener, ArrayList<ItemForChooseCategoryHelp> itemsForChooseCategory) {
+    public AppCompatImageView getAppCompatImageView() {
+        return appCompatImageView;
+    }
+
+    public TextView getTextViewItemCategory() {
+        return textViewItemCategory;
+    }
+
+    public ViewHolder(@NonNull View itemView, final RVAdapterCategoryHelp.OnItemClickListener listener,
+                      ArrayList<ItemForChooseCategoryHelp> itemsForChooseCategory) {
         super(itemView);
         appCompatImageView = itemView.findViewById(R.id.appCompactImageViewItem);
         textViewItemCategory = itemView.findViewById(R.id.textViewTitleItem);

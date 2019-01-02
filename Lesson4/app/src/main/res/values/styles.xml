@@ -13,6 +13,7 @@
     </style>
 
     <style name="textViewProgressBar">
+        <item name="android:text">@string/loading_with_points</item>
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
@@ -23,10 +24,12 @@
 
 
     <style name="ImageViewLog">
+        <item name="android:src">@drawable/icon_logo</item>
         <item name="android:contentDescription">@string/logo</item>
     </style>
 
     <style name="ImageViewLogoMss">
+        <item name="android:src">@drawable/logo_mss</item>
         <item name="android:contentDescription">@string/logo_mss</item>
     </style>
 
