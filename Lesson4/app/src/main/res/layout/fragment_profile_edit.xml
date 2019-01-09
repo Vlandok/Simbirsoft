@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewFlipper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageViewUser"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayoutUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/constraint_user_padding_top">
+
+                <TextView
+                    android:id="@+id/textViewFullName"
+                    style="@style/TextViewFullNameProfileEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/profile_edit_default_margin_start"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Константинов Денис" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutBirthData"
+                    style="@style/TextInputLayoutProfileEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/profile_edit_default_margin_start"
+                    android:layout_marginTop="@dimen/text_input_margin_top"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewFullName">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/textInputEditTextBirthData"
+                        style="@style/TextInputEdProfileEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/date_birth"
+                        tools:text="01 февраля 1980" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutFieldActivity"
+                    style="@style/TextInputLayoutProfileEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/profile_edit_default_margin_start"
+                    android:layout_marginTop="@dimen/text_input_margin_top"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textInputLayoutBirthData">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/textInputEditTextFieldActivity"
+                        style="@style/TextInputEdProfileEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/field_activity"
+                        tools:text="Хирургия, травмотология" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textViewPushNotifications"
+                    style="@style/TextViewPushNotifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_view_profile_edit_margin_start"
+                    android:layout_marginTop="@dimen/text_view_push_notifications_margin_top"
+                    android:text="@string/receive_push_notif"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textInputLayoutFieldActivity"
+                    tools:text="Получать push-уведомления" />
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/switch_profile_edit_marrgin_end"
+                    android:layout_marginTop="@dimen/switch_profile_edit_marrgin_top"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textInputLayoutFieldActivity" />
+
+
+                <ImageView
+                    android:id="@+id/imageViewRectangleTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/grey_line_height"
+                    android:layout_marginTop="@dimen/image_view_rectangle_top_margin_top"
+                    android:contentDescription="@string/grey_line"
+                    android:src="@drawable/rectangle_grey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewPushNotifications" />
+
+                <TextView
+                    android:id="@+id/textViewYourFriends"
+                    style="@style/TextViewYourFriends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_view_your_friends_margin_bottom"
+                    android:layout_marginStart="@dimen/text_view_profile_edit_margin_start"
+                    android:layout_marginTop="@dimen/text_view_your_friends_margin_top"
+                    android:text="@string/your_friends"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imageViewRectangleTop"
+                    tools:text="Ваши друзья" />
+
+                <TextView
+                    android:id="@+id/textViewFriendOne"
+                    style="@style/TextViewFriendProfileEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_view_profile_edit_margin_start"
+                    android:layout_marginTop="@dimen/text_view_friend_margin_top"
+                    android:drawableStart="@drawable/avatar_3"
+                    android:text="@string/friend_one"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewYourFriends"
+                    tools:text="Дмитрий Валерьевич" />
+
+                <TextView
+                    android:id="@+id/textViewFriendTwo"
+                    style="@style/TextViewFriendProfileEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_view_profile_edit_margin_start"
+                    android:layout_marginTop="@dimen/text_view_friend_margin_top"
+                    android:drawableStart="@drawable/avatar_2"
+                    android:text="@string/friend_two"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewFriendOne"
+                    tools:text="Дмитрий Валерьевич" />
+
+                <TextView
+                    android:id="@+id/textViewFriendThree"
+                    style="@style/TextViewFriendProfileEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_view_profile_edit_margin_bottom"
+                    android:layout_marginStart="@dimen/text_view_profile_edit_margin_start"
+                    android:layout_marginTop="@dimen/text_view_friend_margin_top"
+                    android:drawableStart="@drawable/avatar_1"
+                    android:text="@string/friend_three"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewFriendTwo"
+                    tools:text="Дмитрий Валерьевич" />
+
+                <ImageView
+                    android:id="@+id/imageViewRectangleBottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/grey_line_height"
+                    android:layout_marginTop="@dimen/image_view_rectangle_top_margin_top"
+                    android:contentDescription="@string/grey_line"
+                    android:src="@drawable/rectangle_grey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewFriendThree" />
+
+                <Button
+                    android:id="@+id/buttonExitAccount"
+                    style="@style/ButtonExitAccountProfileEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/button_exit_account_margin_bottom"
+                    android:layout_marginTop="@dimen/button_exit_account_margin_top"
+                    android:text="@string/exit_account"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imageViewRectangleBottom" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/error_default_padding_offset">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_network" />
+
+        <Button
+            android:id="@+id/buttonRetry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/button_retry_margin_top"
+            android:text="@string/error_button_retry" />
+
+    </LinearLayout>
+
+</ViewFlipper>

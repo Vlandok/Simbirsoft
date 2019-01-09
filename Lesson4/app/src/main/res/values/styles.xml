@@ -1,0 +1,204 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="textViewProgressBar">
+        <item name="android:text">@string/loading_with_points</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/black__70</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+
+    <style name="ImageViewLog">
+        <item name="android:src">@drawable/icon_logo</item>
+        <item name="android:contentDescription">@string/logo</item>
+    </style>
+
+    <style name="ImageViewLogoMss">
+        <item name="android:src">@drawable/logo_mss</item>
+        <item name="android:contentDescription">@string/logo_mss</item>
+    </style>
+
+    <style name="TextViewToolbar">
+        <item name="android:fontFamily">@font/officina_sans_extra_bold_scc</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_tv_toolbar</item>
+    </style>
+
+    <style name="Toolbar">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="TextViewChooseCategoryHelp">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textSize">@dimen/tv_choose_category_help_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="RecyclerViewChooseCategoryHelp">
+        <item name="android:clipToPadding">false</item>
+        <item name="android:paddingBottom">@dimen/rv_choose_category_help_padding_bottom</item>
+    </style>
+
+    <style name="ConstraintLayoutItem">
+        <item name="android:background">@color/light_grey</item>
+    </style>
+
+
+    <style name="TextViewTitleItem">
+        <item name="android:fontFamily">@font/officina_sans_extra_bold_scc</item>
+        <item name="android:textColor">@color/light_olive_green</item>
+        <item name="android:textSize">@dimen/tv_title_item_text_size</item>
+    </style>
+
+    <style name="ButtonBottomNavMenu">
+        <item name="android:background">@color/white</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingBottom">@dimen/bottom_nav_pading_bottom</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/black_40</item>
+        <item name="android:textSize">@dimen/bottom_nav_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="ImageViewCirclesHeart">
+        <item name="android:background">@drawable/white_red_circle</item>
+    </style>
+
+    <style name="LinearLayoutBottomMenu">
+        <item name="android:background">@color/white</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:weightSum">5</item>
+    </style>
+
+    <style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="ButtonDialogProfile">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:drawablePadding">@dimen/padding_alert_default</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:paddingStart">@dimen/padding_alert_default</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textSize">@dimen/button_dialog_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="LinearLayoutProfileDialog">
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingBottom">@dimen/dialog_padding_bot</item>
+        <item name="android:paddingTop">@dimen/alert_padding_top</item>
+    </style>
+
+    <style name="TextViewFullNameProfileEdit">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textSize">@dimen/full_name_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextInputLayoutProfileEdit">
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">@color/black__38</item>
+        <item name="android:textSize">@dimen/text_input_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextInputEdProfileEdit">
+        <item name="android:background">@null</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textSize">@dimen/text_input_ed_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextViewPushNotifications">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textSize">@dimen/push_notif_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextViewYourFriends">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">@color/black__38</item>
+        <item name="android:textSize">@dimen/text_view_your_friends_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextViewFriendProfileEdit">
+        <item name="android:drawablePadding">@dimen/text_view_friend_drawable_padding</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textSize">@dimen/name_friend_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="ButtonExitAccountProfileEdit">
+        <item name="android:background">@drawable/rectangle_green_exit_account</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:paddingBottom">@dimen/button_exit_account_padding_top_bottom</item>
+        <item name="android:paddingEnd">@dimen/button_exit_account_padding_end_start</item>
+        <item name="android:paddingStart">@dimen/button_exit_account_padding_end_start</item>
+        <item name="android:paddingTop">@dimen/button_exit_account_padding_top_bottom</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/button_exit_account_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextViewKeyWords">
+        <item name="android:background">@color/light_grey_two</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/black__54</item>
+        <item name="android:textSize">@dimen/key_words_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextViewTitleSearch">
+        <item name="android:drawableEnd">@drawable/ic_chevron_right</item>
+        <item name="android:drawablePadding">@dimen/text_view_title_drawable_padding</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:paddingStart">@dimen/text_view_title_default_padding_start</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textSize">@dimen/text_view_title_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
+</resources>
