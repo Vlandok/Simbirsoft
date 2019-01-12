@@ -53,18 +53,13 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         setParametersBottomNav();
         toolbar.setTitle(EMPTY);
         fragmentManager = getSupportFragmentManager();
-
-
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.containerFragments, HelpFragment.getInstance(), HelpFragment.FRAGMENT_TAG_HELP)
-                .addToBackStack(HelpFragment.FRAGMENT_TAG_HELP);
-        fragmentTransaction.add(R.id.containerFragments, SearchFragment.getInstance(), SearchFragment.FRAGMENT_TAG_SEARCH)
-                .addToBackStack(SearchFragment.FRAGMENT_TAG_SEARCH);
-        fragmentTransaction.add(R.id.containerFragments, ProfileEditFragment.getInstance(), ProfileEditFragment.FRAGMENT_TAG_PROFILE)
-                .addToBackStack(ProfileEditFragment.FRAGMENT_TAG_PROFILE);
+        fragmentTransaction.add(R.id.containerFragments, HelpFragment.getInstance(), HelpFragment.FRAGMENT_TAG_HELP);
+        fragmentTransaction.add(R.id.containerFragments, SearchFragment.getInstance(),
+                SearchFragment.FRAGMENT_TAG_SEARCH);
+        fragmentTransaction.add(R.id.containerFragments, ProfileEditFragment.getInstance(),
+                ProfileEditFragment.FRAGMENT_TAG_PROFILE);
         fragmentTransaction.commit();
-
-
         setSupportActionBar(toolbar);
         mainPresenter = getApplicationComponents().provideMainPresenter();
         mainPresenter.attachView(this);
