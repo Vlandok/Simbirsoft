@@ -120,24 +120,24 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="TextInputLayoutProfileEdit">
+    <style name="TextViewProfileEdit">
         <item name="android:clickable">false</item>
         <item name="android:focusable">false</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingExtra">4sp</item>
-        <item name="android:textColor">@color/black__38</item>
-        <item name="android:textSize">@dimen/text_input_text_size</item>
+        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textSize">@dimen/text_view_profile_edit_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="TextInputEdProfileEdit">
+    <style name="TextViewSettingProfileEdit">
         <item name="android:background">@null</item>
         <item name="android:clickable">false</item>
         <item name="android:focusable">false</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">@color/black__87</item>
-        <item name="android:textSize">@dimen/text_input_ed_text_size</item>
+        <item name="android:textColor">@color/black__38</item>
+        <item name="android:textSize">@dimen/text_view_profile_edit_setting_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
 

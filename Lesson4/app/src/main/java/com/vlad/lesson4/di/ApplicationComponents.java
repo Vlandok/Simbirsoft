@@ -5,6 +5,7 @@ import android.content.Context;
 import com.vlad.lesson4.presentation.ui.help.HelpAdapter;
 import com.vlad.lesson4.presentation.ui.help.HelpPresenter;
 import com.vlad.lesson4.presentation.ui.main.MainPresenter;
+import com.vlad.lesson4.presentation.ui.profileedit.ProfileEditAdapter;
 import com.vlad.lesson4.presentation.ui.profileedit.ProfileEditPresenter;
 import com.vlad.lesson4.presentation.ui.searchresultevents.SearchResultEventsAdapter;
 import com.vlad.lesson4.presentation.ui.searchresultevents.SearchResultEventsPresenter;
@@ -14,7 +15,7 @@ import com.vlad.lesson4.presentation.ui.splashscreen.SplashScreenPresenter;
 
 public class ApplicationComponents {
 
-    private static volatile ApplicationComponents instance;
+    private static ApplicationComponents instance;
 
     private Context context;
 
@@ -24,16 +25,10 @@ public class ApplicationComponents {
     }
 
     public static ApplicationComponents getInstance(Context context) {
-        ApplicationComponents localInstance = instance;
-        if (localInstance == null) {
-            synchronized (ApplicationComponents.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new ApplicationComponents(context);
-                }
-            }
+        if (instance == null) {
+            instance = new ApplicationComponents(context);
         }
-        return localInstance;
+        return instance;
     }
 
     public SplashScreenPresenter provideSplashScreenPresenter() {
@@ -46,6 +41,10 @@ public class ApplicationComponents {
 
     public ProfileEditPresenter provideProfileEditPresenter() {
         return new ProfileEditPresenter();
+    }
+
+    public ProfileEditAdapter provideProfileEditAdapter() {
+        return new ProfileEditAdapter();
     }
 
     public HelpPresenter provideHelpPresenter() {

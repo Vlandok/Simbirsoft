@@ -19,6 +19,7 @@
     <color name="cool_grey">#aabbbb</color>
     <color name="leaf">#66a636</color>
     <color name="black__54">#8a000000</color>
+    <color name="black__20">#33000000</color>
     <color name="light_grey_two">#e8eded</color>
     <color name="macaroni_and_cheese">#f2b630</color>
 </resources>

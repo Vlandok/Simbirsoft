@@ -36,6 +36,8 @@
     <string name="friend_two">Евгений Александров</string>
     <string name="friend_one">Дмитрий Валерьевич</string>
     <string name="key_words_search_example">Ключевые слова: мастер-класс, помощь Результаты поиска: 109 мероприятий</string>
+    <string name="choose_category">Выбрана категория:</string>
+    <string name="enter_organization_name">Введите название организации</string>
 
 
 </resources>

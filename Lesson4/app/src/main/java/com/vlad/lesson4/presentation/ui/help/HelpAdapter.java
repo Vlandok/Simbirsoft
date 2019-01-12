@@ -41,7 +41,6 @@ public class HelpAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder vHolder, int position) {
-
         helpViewHolder = (HelpViewHolder) vHolder;
         helpViewHolder.getAppCompatImageView().setBackgroundResource(itemsForChooseCategory.get(position).getImageCategory());
         helpViewHolder.getTextViewItemCategory().setText(itemsForChooseCategory.get(position).getNameCategory());

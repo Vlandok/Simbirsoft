@@ -8,13 +8,14 @@ import com.vlad.lesson4.presentation.ui.main.MainActivity;
 
 public class SplashScreenActivity extends BaseActivity implements SplashScreenMvpView {
 
+    public final static int SECONDS_SLEEP = 2;
+
     private SplashScreenPresenter splashScreenPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-
         splashScreenPresenter = getApplicationComponents().provideSplashScreenPresenter();
         splashScreenPresenter.attachView(this);
         splashScreenPresenter.onCreate();

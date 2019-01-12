@@ -1,6 +1,7 @@
 package com.vlad.lesson4.presentation.ui.searchresultevents;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import java.util.ArrayList;
 
 public class SearchResultEventsFragment extends BaseFragment implements SearchResultEventsMvpView {
-
 
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
@@ -41,11 +41,10 @@ public class SearchResultEventsFragment extends BaseFragment implements SearchRe
         searchResultPresenter = getApplicationComponents().provideSearchResultEventsPresenter();
         searchResultAdapter = getApplicationComponents().provideSearchResultEventsAdapter();
         searchResultPresenter.attachView(this);
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search_result_events, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerViewSearchResult);

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class SearchResultNkoFragment extends BaseFragment implements SearchResultNkoMvpView {
 
+    public final static String FRAGMENT_TAG_SEARCH_NKO = "fragment_tag_search_nko";
 
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;

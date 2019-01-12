@@ -1,5 +1,6 @@
 package com.vlad.lesson4.presentation.ui.base;
 
+import com.vlad.lesson4.exception.MvpViewNotAttachedException;
 
 public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
 
@@ -28,13 +29,6 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
 
     public void checkViewAttached() {
         if (!isViewAttached()) throw new MvpViewNotAttachedException();
-    }
-
-    public static class MvpViewNotAttachedException extends RuntimeException {
-        public MvpViewNotAttachedException() {
-            super("Please call Presenter.attachView(MvpView) before" +
-                    " requesting data to the Presenter");
-        }
     }
 }
 

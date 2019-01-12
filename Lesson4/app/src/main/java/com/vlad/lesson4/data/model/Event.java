@@ -1,9 +1,9 @@
 package com.vlad.lesson4.data.model;
 
-public class Events {
+public class Event {
     private String title;
 
-    public Events (String title) {
+    public Event(String title) {
         this.title = title;
     }
 
