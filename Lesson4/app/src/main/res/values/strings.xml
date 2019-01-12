@@ -15,7 +15,6 @@
     <string name="seniors_category">Пожилые</string>
     <string name="animals_category">Животные</string>
     <string name="events_category">Мероприятия</string>
-
     <string name="error_network">Не удалось загрузить данные</string>
     <string name="error_button_retry">Повторить</string>
     <string name="date_birth">Дата рождения</string>
@@ -38,6 +37,4 @@
     <string name="key_words_search_example">Ключевые слова: мастер-класс, помощь Результаты поиска: 109 мероприятий</string>
     <string name="choose_category">Выбрана категория:</string>
     <string name="enter_organization_name">Введите название организации</string>
-
-
 </resources>
