@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayoutAlertDialog"
+    android:layout_width="@dimen/dialog_profile_width"
+    android:layout_height="wrap_content"
+    style="@style/LinearLayoutProfileDialog">
+
+    <Button
+        style="@style/ButtonDialogProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_upload"
+        android:text="@string/select_photo"
+        tools:text="Выбрать фото" />
+
+    <Button
+        style="@style/ButtonDialogProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/button_margin_top_dialog"
+        android:drawableStart="@drawable/ic_camera"
+        android:text="@string/take_photo"
+        tools:text="Сделать снимок" />
+
+    <Button
+        style="@style/ButtonDialogProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/button_margin_top_dialog"
+        android:drawableStart="@drawable/ic_delete"
+        android:text="@string/delete"
+        tools:text="Удалить" />
+</LinearLayout>

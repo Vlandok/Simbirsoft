@@ -2,7 +2,7 @@
     android:width="40dp"
     android:height="40dp"
     android:viewportWidth="40"
-    android:viewportHeight="40">
+    android:tint="@drawable/selector_bottom_menu">
   <path
       android:pathData="M26,27C26,24.2386 23.3137,22 20,22C16.6863,22 14,24.2386 14,27"
       android:strokeWidth="2"
