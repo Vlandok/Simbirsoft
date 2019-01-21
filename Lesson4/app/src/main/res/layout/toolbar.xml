@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
     style="@style/Toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize">
+    android:layout_height="?attr/actionBarSize"
+    app:titleTextColor="@color/white">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayoutToolbarSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="@dimen/default_margin_toolbar_offset"
         android:layout_marginStart="@dimen/default_margin_toolbar_offset"
         android:layout_marginTop="@dimen/default_margin_toolbar_offset"
+        android:layout_marginEnd="@dimen/default_margin_toolbar_offset"
         android:background="@drawable/rectangle_bg_search"
         android:visibility="gone">
 
@@ -24,10 +25,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/image_margin_toolbar_start_end"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_search_toolbar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_search_toolbar" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -51,16 +52,17 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/image_margin_toolbar_start_end"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_mic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_mic" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/textViewToolbar"
         style="@style/TextViewToolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-</android.support.v7.widget.Toolbar>
+        android:layout_gravity="center"
+        android:maxLines="1" />
+</androidx.appcompat.widget.Toolbar>

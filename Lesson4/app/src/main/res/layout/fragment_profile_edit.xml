@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayoutUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
                     app:layout_constraintTop_toBottomOf="@id/imageViewRectangleTop"
                     tools:text="Ваши друзья" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewFriends"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/recycler_friends_layout_height"
@@ -168,11 +168,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imageViewRectangleBottom" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"

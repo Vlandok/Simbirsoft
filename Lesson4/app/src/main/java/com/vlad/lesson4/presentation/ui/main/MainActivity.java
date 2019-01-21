@@ -3,21 +3,23 @@ package com.vlad.lesson4.presentation.ui.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.presentation.ui.help.HelpFragment;
 import com.vlad.lesson4.presentation.ui.profileedit.ProfileEditFragment;
 import com.vlad.lesson4.presentation.ui.search.SearchFragment;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends BaseActivity implements MainMvpView {
 
@@ -37,6 +39,10 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     public final static int ONE = 1;
     public final static int SPAN_COUNT = 2;
     public final static String EMPTY = " ";
+    public final static String NOTHING = "";
+    public final static String DOT = ".";
+    public final static String CLOSE_BRACKET = ")";
+    public final static String OPEN_BRACKET = "(";
 
     public static Intent createStartIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -46,6 +52,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AndroidThreeTen.init(this);
 
         toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottomNavigationMenu);
@@ -128,8 +135,12 @@ public class MainActivity extends BaseActivity implements MainMvpView {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.edit_menu, menu);
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         MenuItem editProfile = menu.findItem(R.id.edit_profile);
+        MenuItem eventFilter = menu.findItem(R.id.event_filter);
+        MenuItem eventShare = menu.findItem(R.id.share_event);
+        eventShare.setVisible(false);
+        eventFilter.setVisible(false);
         editProfile.setVisible(false);
         return true;
     }

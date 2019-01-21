@@ -1,15 +1,17 @@
 package com.vlad.lesson4.presentation.ui.help;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.TextView;
 
 import com.vlad.lesson4.R;
-import com.vlad.lesson4.data.model.ItemForChooseCategoryHelp;
+import com.vlad.lesson4.data.model.Category;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class HelpViewHolder extends RecyclerView.ViewHolder {
 
@@ -25,7 +27,7 @@ public class HelpViewHolder extends RecyclerView.ViewHolder {
     }
 
     public HelpViewHolder(@NonNull View itemView, final HelpAdapter.OnItemClickListener listener,
-                          List<ItemForChooseCategoryHelp> itemsForChooseCategory) {
+                          List<Category> itemsForChooseCategory) {
         super(itemView);
         appCompatImageView = itemView.findViewById(R.id.appCompactImageViewItem);
         textViewItemCategory = itemView.findViewById(R.id.textViewTitleItem);

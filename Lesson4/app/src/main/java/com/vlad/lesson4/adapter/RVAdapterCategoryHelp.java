@@ -1,16 +1,30 @@
 package com.vlad.lesson4.adapter;
 
+<<<<<<< HEAD
+
+=======
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+>>>>>>> e25e3b9aa008e37f189e16ff5aa129c4dcddd7b3
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.vlad.lesson4.R;
+<<<<<<< HEAD
+import com.vlad.lesson4.data.model.ItemForChooseCategoryHelp;
+
+import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+=======
 import com.vlad.lesson4.model.ItemForChooseCategoryHelp;
 
 import java.util.ArrayList;
 
+>>>>>>> e25e3b9aa008e37f189e16ff5aa129c4dcddd7b3
 public class RVAdapterCategoryHelp extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ViewHolder viewHolder;

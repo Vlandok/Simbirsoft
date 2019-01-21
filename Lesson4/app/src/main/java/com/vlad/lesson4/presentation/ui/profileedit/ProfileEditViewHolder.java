@@ -1,7 +1,5 @@
 package com.vlad.lesson4.presentation.ui.profileedit;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,6 +7,9 @@ import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Friend;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ProfileEditViewHolder extends RecyclerView.ViewHolder {
 

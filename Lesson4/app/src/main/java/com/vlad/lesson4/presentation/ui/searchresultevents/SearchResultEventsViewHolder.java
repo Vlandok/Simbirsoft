@@ -1,7 +1,5 @@
 package com.vlad.lesson4.presentation.ui.searchresultevents;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,6 +8,9 @@ import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.SearchResults;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class SearchResultEventsViewHolder extends RecyclerView.ViewHolder {
 

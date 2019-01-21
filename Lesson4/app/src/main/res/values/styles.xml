@@ -12,6 +12,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
+
     <style name="textViewProgressBar">
         <item name="android:text">@string/loading_with_points</item>
         <item name="android:textSize">14sp</item>
@@ -200,4 +202,21 @@
         <item name="android:textStyle">normal</item>
     </style>
 
+<<<<<<< HEAD
+    <style name="ButtonBottomMenuEvent">
+        <item name="android:background">@color/off_white</item>
+        <item name="android:paddingTop">@dimen/bottom_menu_event_pad_top</item>
+        <item name="android:paddingBottom">@dimen/bottom_menu_event_pad_bottom</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:drawablePadding">@dimen/bottom_menu_event_drawable_pad</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:lineSpacingExtra">@dimen/bottom_menu_event_line_spacing_extra</item>
+        <item name="android:textColor">@color/black___40</item>
+        <item name="android:textSize">@dimen/bottom_menu_event_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+=======
+>>>>>>> e25e3b9aa008e37f189e16ff5aa129c4dcddd7b3
 </resources>

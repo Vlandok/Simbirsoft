@@ -37,4 +37,21 @@
     <string name="key_words_search_example">Ключевые слова: мастер-класс, помощь Результаты поиска: 109 мероприятий</string>
     <string name="choose_category">Выбрана категория:</string>
     <string name="enter_organization_name">Введите название организации</string>
+<<<<<<< HEAD
+    <string name="filter">Фильтер</string>
+    <string name="share">Поделиться</string>
+    <string name="have_questions">У вас есть вопросы?</string>
+    <string name="write_us">Напишите нам</string>
+    <string name="go_to_site_organization">Перейти на сайт организации</string>
+    <string name="extra_friends_event_detail">+102</string>
+    <string name="hyphen">-</string>
+    <string name="left">Осталось</string>
+    <string name="will_begin">Начнется</string>
+    <string name="completed">Завершено</string>
+    <string name="help_things">Помочь вещами</string>
+    <string name="become_volunteer">Стать волонтером</string>
+    <string name="professional_help">Проф. помощь</string>
+    <string name="help_money">Помочь деньгами</string>
+=======
+>>>>>>> e25e3b9aa008e37f189e16ff5aa129c4dcddd7b3
 </resources>
