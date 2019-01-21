@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/item_charity_event_margin_default"
+    android:layout_marginTop="@dimen/item_charity_event_margin_default"
+    android:layout_marginEnd="@dimen/item_charity_event_margin_default"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="@dimen/item_charity_event_corner_radius"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageViewEvent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/image_event_default_margin"
+                android:layout_marginTop="@dimen/image_event_default_margin"
+                android:layout_marginEnd="@dimen/image_event_default_margin"
+                android:scaleType="fitXY"
+                android:src="@drawable/fade"
+                tools:background="@drawable/img"
+                tools:src="@drawable/fade" />
+
+            <TextView
+                android:id="@+id/textViewTitleEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/title_event_margin_start_end"
+                android:layout_marginTop="@dimen/title_event_margin_top"
+                android:layout_marginEnd="@dimen/title_event_margin_start_end"
+                android:fontFamily="@font/officina_sans_extra_bold_scc"
+                android:lineHeight="@dimen/title_event_line_height"
+                android:lineSpacingExtra="@dimen/title_event_line_spacing_extra"
+                android:textAlignment="center"
+                android:textColor="@color/blue_grey"
+                android:textSize="@dimen/title_event_text_size"
+                tools:targetApi="p"
+                tools:text="Спонсоры отремонтируют школу-интернат" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/decor_margin_top"
+                android:background="@drawable/decor"
+                tools:background="@drawable/decor" />
+
+            <TextView
+                android:id="@+id/textViewDescriptionEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/description_event_margin_start_end"
+                android:layout_marginEnd="@dimen/description_event_margin_start_end"
+                android:fontFamily="sans-serif"
+                android:lineHeight="@dimen/description_event_line_height"
+                android:lineSpacingExtra="@dimen/description_event_spacing_extra"
+                android:textAlignment="center"
+                android:textColor="@color/black__70"
+                android:textSize="@dimen/description_event_text_size"
+                android:textStyle="normal"
+                tools:targetApi="p"
+                tools:text="Дубовская школа-интернат для детей  с ограниченными возможностями здоровья стала первой в области …" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/lnr_time_event_margin_top"
+                android:background="@color/turtle_green"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewTimeEvent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/time_event_margin_start_end"
+                    android:layout_marginBottom="@dimen/time_event_margin_start_end"
+                    android:drawableStart="@drawable/ic_calendar"
+                    android:drawablePadding="@dimen/time_event_drawable_padding"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:lineHeight="@dimen/time_event_line_height"
+                    android:lineSpacingExtra="4sp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/time_event_text_size"
+                    android:textStyle="normal"
+                    tools:text="Осталось 13 дней (21.09 – 20.10)"
+                    tools:targetApi="p" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

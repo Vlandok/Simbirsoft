@@ -1,26 +1,27 @@
 package com.vlad.lesson4.presentation.ui.help;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
-import com.vlad.lesson4.data.model.ItemForChooseCategoryHelp;
+import com.vlad.lesson4.data.model.Category;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
+import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsFragment;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public class HelpFragment extends BaseFragment implements HelpMvpView {
@@ -84,14 +85,16 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
     @Override
     public void onClickCategory() {
         helpAdapter.setOnItemClickListener(item -> {
-            Toast toast = Toast.makeText(getContext(), getString(R.string.choose_category) + item.getNameCategory(),
-                    Toast.LENGTH_SHORT);
-            toast.show();
+            FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
+                    .getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.containerFragments,
+                    CharityEventsFragment.getInstance(item.getId()));
+            fragmentTransaction.commit();
         });
     }
 
     @Override
-    public void showItemsCategory(ArrayList<ItemForChooseCategoryHelp> arrayListHelpCategory) {
+    public void showItemsCategory(List<Category> arrayListHelpCategory) {
         viewFlipper.setDisplayedChild(VIEW_DATA);
         helpAdapter.setHelpCategory(arrayListHelpCategory);
     }
@@ -105,4 +108,5 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
     public void showProgressView() {
         viewFlipper.setDisplayedChild(VIEW_LOADING);
     }
+
 }

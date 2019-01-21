@@ -2,6 +2,7 @@ package com.vlad.lesson4.di;
 
 import android.content.Context;
 
+import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailPresenter;
 import com.vlad.lesson4.presentation.ui.help.HelpAdapter;
 import com.vlad.lesson4.presentation.ui.help.HelpPresenter;
 import com.vlad.lesson4.presentation.ui.main.MainPresenter;
@@ -12,6 +13,8 @@ import com.vlad.lesson4.presentation.ui.searchresultevents.SearchResultEventsPre
 import com.vlad.lesson4.presentation.ui.searchresultnko.SearchResultNkoAdapter;
 import com.vlad.lesson4.presentation.ui.searchresultnko.SearchResultNkoPresenter;
 import com.vlad.lesson4.presentation.ui.splashscreen.SplashScreenPresenter;
+import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsAdapter;
+import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsPresenter;
 
 public class ApplicationComponents {
 
@@ -69,6 +72,18 @@ public class ApplicationComponents {
 
     public SearchResultNkoAdapter provideSearchResultNkoAdapter() {
         return new SearchResultNkoAdapter();
+    }
+
+    public CharityEventsPresenter provideCharityEventsPresenter() {
+        return new CharityEventsPresenter();
+    }
+
+    public CharityEventsAdapter provideCharityEventsAdapter() {
+        return new CharityEventsAdapter();
+    }
+
+    public CharityEventDetailPresenter provideCharityEventDetailPresenter() {
+        return new CharityEventDetailPresenter();
     }
 
 }

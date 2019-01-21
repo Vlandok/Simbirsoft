@@ -1,21 +1,21 @@
 package com.vlad.lesson4.presentation.ui.search;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.tabs.TabLayout;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 public class SearchFragment extends BaseFragment implements SearchMvpView {
 

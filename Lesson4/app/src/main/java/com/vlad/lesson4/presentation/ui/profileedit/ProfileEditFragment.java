@@ -1,11 +1,6 @@
 package com.vlad.lesson4.presentation.ui.profileedit;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,9 +19,11 @@ import com.vlad.lesson4.presentation.ui.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
-import static com.vlad.lesson4.presentation.ui.splashscreen.SplashScreenActivity.SECONDS_SLEEP;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpView {
 
