@@ -1,0 +1,28 @@
+{
+  "categories": [
+    {
+      "id":1,
+      "name": "Дети",
+      "image":"http://ipic.su/img/img7/fs/child_category.1547817953.png"
+    },
+    {
+      "id":2,
+      "name": "Взрослые",
+      "image": "http://ipic.su/img/img7/fs/adults_category.1547817837.png"
+    },
+  {
+      "id":3,
+      "name": "Пожилые",
+      "image":"http://ipic.su/img/img7/fs/seniors_category.1547817976.png"
+    },
+   {
+      "id":4,
+      "name": "Животные",
+      "image": "http://ipic.su/img/img7/fs/animals_category.1547817923.png"
+    },
+    {
+      "id":5,
+      "name": "Мероприятия",
+      "image": "http://ipic.su/img/img7/fs/events_category.1547818018.png"
+    }         
+]}
