@@ -202,7 +202,7 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-<<<<<<< HEAD
+
     <style name="ButtonBottomMenuEvent">
         <item name="android:background">@color/off_white</item>
         <item name="android:paddingTop">@dimen/bottom_menu_event_pad_top</item>
@@ -217,6 +217,4 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-=======
->>>>>>> e25e3b9aa008e37f189e16ff5aa129c4dcddd7b3
 </resources>
