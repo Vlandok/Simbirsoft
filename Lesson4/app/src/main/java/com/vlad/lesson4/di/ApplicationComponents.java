@@ -2,6 +2,7 @@ package com.vlad.lesson4.di;
 
 import android.content.Context;
 
+import com.vlad.lesson4.presentation.ui.news.NewsPresenter;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailPresenter;
 import com.vlad.lesson4.presentation.ui.help.HelpAdapter;
 import com.vlad.lesson4.presentation.ui.help.HelpPresenter;
@@ -72,6 +73,10 @@ public class ApplicationComponents {
 
     public SearchResultNkoAdapter provideSearchResultNkoAdapter() {
         return new SearchResultNkoAdapter();
+    }
+
+    public NewsPresenter provideNewsPresenter() {
+        return new NewsPresenter();
     }
 
     public CharityEventsPresenter provideCharityEventsPresenter() {

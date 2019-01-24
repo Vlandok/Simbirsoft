@@ -10,6 +10,7 @@ import android.widget.ViewFlipper;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.SearchResults;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
+import com.vlad.lesson4.presentation.ui.search.Updatable;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SearchResultEventsFragment extends BaseFragment implements SearchResultEventsMvpView {
+public class SearchResultEventsFragment extends BaseFragment implements SearchResultEventsMvpView, Updatable {
 
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
@@ -85,5 +86,10 @@ public class SearchResultEventsFragment extends BaseFragment implements SearchRe
     @Override
     public void showProgressView() {
         viewFlipper.setDisplayedChild(VIEW_LOADING);
+    }
+
+    @Override
+    public void update() {
+        searchResultAdapter.setItemsSearchResults(searchResultPresenter.initSearchResults());
     }
 }

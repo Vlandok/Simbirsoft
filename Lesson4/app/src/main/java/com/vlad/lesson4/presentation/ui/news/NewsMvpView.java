@@ -1,11 +1,11 @@
-package com.vlad.lesson4.presentation.ui.сharityevents;
+package com.vlad.lesson4.presentation.ui.news;
 
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.MvpView;
 
 import java.util.List;
 
-public interface CharityEventsMvpView extends MvpView {
+public interface NewsMvpView extends MvpView {
     void showCharityEvents(List<Event> arrayListEvent);
 
     void showLoadingError();
@@ -13,8 +13,4 @@ public interface CharityEventsMvpView extends MvpView {
     void showProgressView();
 
     void onClickEvent();
-
-    void setTitleToolbar();
-
-    List<Event> getEventsCategory(List<Event> arrayListEvent);
 }

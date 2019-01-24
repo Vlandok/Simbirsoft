@@ -3,12 +3,10 @@ package com.vlad.lesson4.presentation.ui.charityeventdetail;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,32 +14,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.CharityEvent;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.utils.Date;
-import com.vlad.lesson4.utils.MakeLinksClicable;
+import com.vlad.lesson4.utils.MakeLinksClickable;
+import com.vlad.lesson4.utils.MyGlide;
 
 import org.threeten.bp.LocalDate;
 
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
-import static com.vlad.lesson4.presentation.ui.main.MainActivity.CLOSE_BRACKET;
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.DOT;
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.EMPTY;
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.NOTHING;
-import static com.vlad.lesson4.presentation.ui.main.MainActivity.OPEN_BRACKET;
 
 public class CharityEventDetailActivity extends BaseActivity implements CharityEventDetailMvpView {
 
-    public static final String EXTRA_ID_EVENT = "extra_id_event";
+    public static final String EXTRA_ID_EVENT = "EXTRA_ID_EVENT";
     public static final int DEFAULT_VALUE = -1;
     public static final int STATUS_FINISH = -1;
     public static final int STATUS_NOT_SHOW = -2;
@@ -80,13 +73,11 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
         } else if (days == STATUS_NOT_SHOW) {
             return res.getString(R.string.will_begin) + EMPTY + event.getTimeStart();
         } else {
-            return res.getString(R.string.left) + EMPTY + days
-                    + EMPTY + Date.getDayAddition((int) days)
-                    + EMPTY + OPEN_BRACKET + event.getTimeStart()
-                    .replace(String.valueOf(DOT + localDate.getYear()), NOTHING)
-                    + EMPTY + res.getString(R.string.hyphen)
-                    + EMPTY + event.getTimeFinish()
-                    .replace(String.valueOf(DOT + localDate.getYear()), NOTHING) + CLOSE_BRACKET;
+            return String.format(res.getQuantityString(R.plurals.days_left, (int) days),
+                    days,
+                    event.getTimeStart().replace(String.valueOf(DOT + localDate.getYear()), NOTHING),
+                    event.getTimeFinish().replace(String.valueOf(DOT + localDate.getYear()), NOTHING)
+            );
         }
     }
 
@@ -194,26 +185,10 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
         if (sizeImage == 0) {
             linearLayoutImageEvent.setVisibility(View.GONE);
         } else {
-            for (int i = 0; i < sizeImage; i++) {
-                int positionImage = i;
-                Glide.with(getApplicationContext())
-                        .load(event.getImageExtra().get(i).getImage())
-                        .into(new SimpleTarget<Drawable>() {
-                            @Override
-                            public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
-                                switch (positionImage) {
-                                    case 0:
-                                        imageViewOne.setImageDrawable(resource);
-                                        break;
-                                    case 1:
-                                        imageViewTwo.setImageDrawable(resource);
-                                        break;
-                                    case 2:
-                                        imageViewThree.setImageDrawable(resource);
-                                        break;
-                                }
-                            }
-                        });
+            for (int positionImage = 0; positionImage < sizeImage; positionImage++) {
+                MyGlide.loadImage(getApplicationContext(),
+                        event.getImageExtra().get(positionImage).getImage(),
+                        positionImage, imageViewOne, imageViewTwo, imageViewThree);
             }
         }
     }
@@ -221,18 +196,18 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     private void setLinksOnTextView(TextView textView, String url) {
         String textWithLink;
         if (textView == textViewAskEvent) {
-            textWithLink = "<a href=\"mailto:" + url + "\">"
-                    + getString(R.string.write_us) + "</a>";
+            textWithLink = String.format(getString(R.string.write_us_link), url,
+                    getString(R.string.write_us));
         } else {
-            textWithLink = "<a href=\"" + url + "\">"
-                    + getString(R.string.go_to_site_organization) + "</a>";
+            textWithLink = String.format(getString(R.string.go_to_site_organization_link), url,
+                    getString(R.string.go_to_site_organization));
         }
-        textView.setText(Html.fromHtml(textWithLink, null, null));
+        textView.setText(Html.fromHtml(textWithLink));
         textView.setLinksClickable(true);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         CharSequence text = textView.getText();
         if (text instanceof Spannable) {
-            textView.setText(MakeLinksClicable.reformatText(text));
+            textView.setText(MakeLinksClickable.reformatText(text));
         }
     }
 }

@@ -10,7 +10,7 @@ import static com.vlad.lesson4.presentation.ui.search.FragmentPagerAdapter.ALL_C
 
 public class SearchResultNkoPresenter extends BasePresenter<SearchResultNkoMvpView> {
 
-    public static int TEN = 10;
+    public static int LENGTH_STRING_RANDOM = 10;
 
     private Random random = new Random();
 
@@ -39,10 +39,11 @@ public class SearchResultNkoPresenter extends BasePresenter<SearchResultNkoMvpVi
         }
     }
 
-    private ArrayList<SearchResultsNko> initSearchResults() {
+    public ArrayList<SearchResultsNko> initSearchResults() {
         ArrayList<SearchResultsNko> listItems = new ArrayList<>();
-        for (int i = 0; i < TEN; i++) {
-            listItems.add(new SearchResultsNko(generateString(random, ALL_CHARACTERS, TEN)));
+        for (int i = 0; i < LENGTH_STRING_RANDOM; i++) {
+            listItems.add(new SearchResultsNko(generateString(random, ALL_CHARACTERS,
+                    LENGTH_STRING_RANDOM)));
         }
         return listItems;
     }

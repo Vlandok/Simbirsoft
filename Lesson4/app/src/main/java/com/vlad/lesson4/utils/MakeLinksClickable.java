@@ -6,13 +6,12 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
-public class MakeLinksClicable {
-    private final static String LOG = MakeLinksClicable.class.getSimpleName();
+public final class MakeLinksClickable {
+    private final static String LOG = MakeLinksClickable.class.getSimpleName();
 
     public static class CustomerTextClick extends ClickableSpan {
         String mUrl;
@@ -23,7 +22,7 @@ public class MakeLinksClicable {
 
         @Override
         public void onClick(@NonNull View widget) {
-            Log.i(LOG, "url clicked: " + this.mUrl);
+            CustomLog.showLogInfo(LOG, "url clicked: " + this.mUrl);
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(mUrl));
             widget.getContext().startActivity(i);
@@ -37,7 +36,7 @@ public class MakeLinksClicable {
         SpannableStringBuilder style = new SpannableStringBuilder(text);
         for (URLSpan url : urls) {
             style.removeSpan(url);
-            MakeLinksClicable.CustomerTextClick click = new MakeLinksClicable.CustomerTextClick(url.getURL());
+            MakeLinksClickable.CustomerTextClick click = new MakeLinksClickable.CustomerTextClick(url.getURL());
             style.setSpan(click, sp.getSpanStart(url), sp.getSpanEnd(url),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }

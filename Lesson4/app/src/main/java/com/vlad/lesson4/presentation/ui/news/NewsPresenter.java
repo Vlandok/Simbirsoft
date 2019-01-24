@@ -1,4 +1,4 @@
-package com.vlad.lesson4.presentation.ui.сharityevents;
+package com.vlad.lesson4.presentation.ui.news;
 
 import android.content.Context;
 
@@ -6,14 +6,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.vlad.lesson4.data.model.CharityEvent;
-import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 import com.vlad.lesson4.utils.JsonSupport;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
-public class CharityEventsPresenter extends BasePresenter<CharityEventsMvpView> {
+public class NewsPresenter extends BasePresenter<NewsMvpView> {
 
     private static final String FILE_JSON = "events.json";
 
@@ -43,9 +41,7 @@ public class CharityEventsPresenter extends BasePresenter<CharityEventsMvpView> 
         if (charityEvent == null) {
             getMvpView().showLoadingError();
         } else {
-            getMvpView().setTitleToolbar();
-            List<Event> events = getMvpView().getEventsCategory(charityEvent.getEvents());
-            getMvpView().showCharityEvents(events);
+            getMvpView().showCharityEvents(charityEvent.getEvents());
             getMvpView().onClickEvent();
         }
     }

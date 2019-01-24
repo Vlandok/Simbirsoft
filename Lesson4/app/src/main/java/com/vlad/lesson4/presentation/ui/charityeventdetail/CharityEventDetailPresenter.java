@@ -3,6 +3,7 @@ package com.vlad.lesson4.presentation.ui.charityeventdetail;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.vlad.lesson4.data.model.CharityEvent;
 import com.vlad.lesson4.data.model.Event;
@@ -17,10 +18,13 @@ public class CharityEventDetailPresenter extends BasePresenter<CharityEventDetai
 
     private static final String FILE_JSON = "events.json";
 
-    public void onCreate(Context context , int id) {
+    private CharityEvent charityEvent;
+
+    public void onCreate(Context context, int id) {
         checkViewAttached();
         getEvent(context, id);
     }
+
     @Override
     protected void doUnsubscribe() {
 
@@ -31,7 +35,11 @@ public class CharityEventDetailPresenter extends BasePresenter<CharityEventDetai
         String data = JsonSupport.loadJSONFromAsset(context, FILE_JSON);
         Type type = new TypeToken<CharityEvent>() {
         }.getType();
-        CharityEvent charityEvent = new Gson().fromJson(data, type);
+        try {
+            charityEvent = new Gson().fromJson(data, type);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
         if (charityEvent == null && id == DEFAULT_VALUE) {
             getMvpView().showLoadingError();
         } else {

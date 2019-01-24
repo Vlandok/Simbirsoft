@@ -2,17 +2,14 @@ package com.vlad.lesson4.presentation.ui.сharityevents;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.utils.Date;
+import com.vlad.lesson4.utils.MyGlide;
 
 import java.util.List;
 
@@ -23,15 +20,15 @@ import static com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDe
 
 public class CharityEventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private onEventClickListener listener;
+    private OnEventClickListener listener;
     private List<Event> arrayListCharityEvents;
     private CharityEventsViewHolder charityEventsViewHolder;
 
-    public interface onEventClickListener {
+    public interface OnEventClickListener {
         void onClickEvent(Event event);
     }
 
-    public void setOnEventClickListener(onEventClickListener eventClickListener) {
+    public void setOnEventClickListener(OnEventClickListener eventClickListener) {
         listener = eventClickListener;
     }
 
@@ -55,15 +52,8 @@ public class CharityEventsAdapter extends RecyclerView.Adapter<RecyclerView.View
         Context context = charityEventsViewHolder.itemView.getContext();
         charityEventsViewHolder.getTextViewTitleEvent().
                 setText(arrayListCharityEvents.get(position).getName());
-        Glide.with(context)
-                .load(arrayListCharityEvents.get(position).getImageMain())
-                .into(new SimpleTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource,
-                                                Transition<? super Drawable> transition) {
-                        charityEventsViewHolder.getImageViewEvent().setBackground(resource);
-                    }
-                });
+        MyGlide.loadImageWithGetDrawable(context, arrayListCharityEvents.get(position).getImageMain(),
+                charityEventsViewHolder.getImageViewEvent());
         charityEventsViewHolder.getTextViewDescriptionEvent()
                 .setText(arrayListCharityEvents.get(position).getDescription());
         long days = Date.getDays(arrayListCharityEvents.get(position).getTimeStart(),
@@ -74,6 +64,10 @@ public class CharityEventsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return arrayListCharityEvents.size();
+        if (arrayListCharityEvents == null) {
+            return 0;
+        } else {
+            return arrayListCharityEvents.size();
+        }
     }
 }

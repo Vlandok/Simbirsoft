@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.ui.charityeventdetail.CharityEventDetailActivity"></activity>
+        <activity android:name=".presentation.ui.сharityevents.CharityEventsActivity"></activity>
+        <activity android:name=".presentation.ui.charityeventdetail.CharityEventDetailActivity" />
         <activity android:name=".presentation.ui.splashscreen.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

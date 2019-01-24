@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpView {
 
-    public final static String FRAGMENT_TAG_PROFILE = "fragment_tag_profile";
+    public final static String FRAGMENT_TAG_PROFILE = "FRAGMENT_TAG_PROFILE";
 
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;

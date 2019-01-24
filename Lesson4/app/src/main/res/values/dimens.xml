@@ -134,8 +134,11 @@
     <dimen name="site_event_line_spacing_extra">6sp</dimen>
     <dimen name="site_event_text_size">14sp</dimen>
     <dimen name="ln_users_event_margin_top">30dp</dimen>
-    <dimen name="ln_users_event_paing_default">20dp</dimen>
-    <dimen name="extra_user_event_margin_start">10dp</dimen>
+    <dimen name="ln_users_event_padding_default">20dp</dimen>
+    <dimen name="extra_user_event_margin_start">8dp</dimen>
     <dimen name="extra_user_event_line_spacing_extra">6sp</dimen>
     <dimen name="extra_user_event_text_size">14sp</dimen>
+    <dimen name="event_detail_image_avatar_user_margin_start">-4dp</dimen>
+    <dimen name="item_charity_event_padding_for_background_default">-2dp</dimen>
+    <dimen name="description_event_margin_top">10dp</dimen>
 </resources>

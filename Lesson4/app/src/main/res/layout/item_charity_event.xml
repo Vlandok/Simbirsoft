@@ -20,14 +20,16 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageViewEvent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/image_event_default_margin"
                 android:layout_marginTop="@dimen/image_event_default_margin"
                 android:layout_marginEnd="@dimen/image_event_default_margin"
-                android:scaleType="fitXY"
+                android:scaleType="fitCenter"
+                android:padding="@dimen/item_charity_event_padding_for_background_default"
+                android:adjustViewBounds="true"
                 android:src="@drawable/fade"
                 tools:background="@drawable/img"
                 tools:src="@drawable/fade" />
@@ -66,9 +68,10 @@
                 android:layout_marginEnd="@dimen/description_event_margin_start_end"
                 android:fontFamily="sans-serif"
                 android:lineHeight="@dimen/description_event_line_height"
+                android:layout_marginTop="@dimen/description_event_margin_top"
                 android:lineSpacingExtra="@dimen/description_event_spacing_extra"
                 android:textAlignment="center"
-                android:textColor="@color/black__70"
+                android:textColor="@color/black_70"
                 android:textSize="@dimen/description_event_text_size"
                 android:textStyle="normal"
                 tools:targetApi="p"

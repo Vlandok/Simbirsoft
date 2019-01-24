@@ -31,7 +31,6 @@ public class HelpViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         appCompatImageView = itemView.findViewById(R.id.appCompactImageViewItem);
         textViewItemCategory = itemView.findViewById(R.id.textViewTitleItem);
-
         itemView.setOnClickListener(view -> {
             if (listener != null) {
                 int position = getAdapterPosition();

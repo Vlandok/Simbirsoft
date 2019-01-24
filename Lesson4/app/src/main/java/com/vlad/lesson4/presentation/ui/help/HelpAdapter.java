@@ -1,14 +1,13 @@
 package com.vlad.lesson4.presentation.ui.help;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Category;
+import com.vlad.lesson4.utils.MyGlide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,20 +42,22 @@ public class HelpAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return helpViewHolder;
     }
 
-    @SuppressLint("ResourceType")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder vHolder, int position) {
         helpViewHolder = (HelpViewHolder) vHolder;
         Context context = helpViewHolder.itemView.getContext();
-        Glide.with(context)
-                .load(itemsForChooseCategory.get(position).getImage())
-                .into(helpViewHolder.getAppCompatImageView());
+        MyGlide.loadImage(context, itemsForChooseCategory.get(position).getImage(),
+                helpViewHolder.getAppCompatImageView());
         helpViewHolder.getTextViewItemCategory().setText(itemsForChooseCategory.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return itemsForChooseCategory.size();
+        if (itemsForChooseCategory == null) {
+            return 0;
+        } else {
+            return itemsForChooseCategory.size();
+        }
     }
 
 

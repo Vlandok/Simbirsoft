@@ -1,74 +1,78 @@
-package com.vlad.lesson4.presentation.ui.сharityevents;
+package com.vlad.lesson4.presentation.ui.news;
 
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ViewFlipper;
 
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity;
+import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsAdapter;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CharityEventsFragment extends BaseFragment implements CharityEventsMvpView {
+public class NewsFragment extends BaseFragment implements NewsMvpView {
+
+    public final static String FRAGMENT_TAG_NEWS = "FRAGMENT_TAG_NEWS";
 
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
 
-    public static final String ARGUMENT_ID_CATEGORY_HELP = "argument_id_category_help";
-
-    private int idCategory;
-    private CharityEventsPresenter charityEventsPresenter;
+    private NewsPresenter newsPresenter;
+    private MenuItem menuItem;
     private CharityEventsAdapter charityEventsAdapter;
     private RecyclerView recyclerView;
     private ViewFlipper viewFlipper;
 
 
-    public CharityEventsFragment() {
+    public NewsFragment() {
         // Required empty public constructor
     }
 
-    public static CharityEventsFragment getInstance(int idCategory) {
-        CharityEventsFragment fragment = new CharityEventsFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARGUMENT_ID_CATEGORY_HELP, idCategory);
-        fragment.setArguments(args);
-        return fragment;
+    public static NewsFragment getInstance() {
+        return new NewsFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        charityEventsPresenter = getApplicationComponents().provideCharityEventsPresenter();
+        newsPresenter = getApplicationComponents().provideNewsPresenter();
         charityEventsAdapter = getApplicationComponents().provideCharityEventsAdapter();
-        charityEventsPresenter.attachView(this);
-        if (getArguments() != null) {
-            idCategory = getArguments().getInt(ARGUMENT_ID_CATEGORY_HELP);
-        }
+        newsPresenter.attachView(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_charity_events, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_news, container, false);
+        BottomNavigationViewEx bottomNavigationView = Objects.requireNonNull(getActivity())
+                .findViewById(R.id.bottomNavigationMenu);
+        menuItem = bottomNavigationView.getMenu().findItem(R.id.i_news);
         viewFlipper = rootView.findViewById(R.id.viewFlipperCharityEvents);
         recyclerView = rootView.findViewById(R.id.recyclerCharityEvents);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(charityEventsAdapter);
-        charityEventsPresenter.onCreate(Objects.requireNonNull(getActivity()).getApplicationContext());
+        newsPresenter.onCreate(Objects.requireNonNull(getActivity()).getApplicationContext());
         return rootView;
+    }
+
+    @Override
+    public void onPause() {
+        menuItem.setEnabled(true);
+        super.onPause();
     }
 
     @Override
@@ -86,7 +90,7 @@ public class CharityEventsFragment extends BaseFragment implements CharityEvents
     @Override
     public void showCharityEvents(List<Event> arrayListEvent) {
         viewFlipper.setDisplayedChild(VIEW_DATA);
-        charityEventsAdapter.setArrayListCharityEvents(getEventsCategory(arrayListEvent));
+        charityEventsAdapter.setArrayListCharityEvents(arrayListEvent);
     }
 
     @Override
@@ -99,14 +103,4 @@ public class CharityEventsFragment extends BaseFragment implements CharityEvents
         viewFlipper.setDisplayedChild(VIEW_LOADING);
     }
 
-    @Override
-    public List<Event> getEventsCategory(List<Event> arrayListEvent) {
-        for (Iterator<Event> it = arrayListEvent.iterator(); it.hasNext(); ) {
-            Event event = it.next();
-            if (event.getIdCategoryHelp() != idCategory) {
-                it.remove();
-            }
-        }
-        return arrayListEvent;
-    }
 }

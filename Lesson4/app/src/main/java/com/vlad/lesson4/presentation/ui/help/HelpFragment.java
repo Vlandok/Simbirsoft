@@ -12,21 +12,20 @@ import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Category;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
-import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsFragment;
+import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsActivity;
 
 import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 public class HelpFragment extends BaseFragment implements HelpMvpView {
 
-    public final static String FRAGMENT_TAG_HELP = "fragment_tag_help";
+    public final static String FRAGMENT_TAG_HELP = "FRAGMENT_TAG_HELP";
 
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
@@ -85,11 +84,8 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
     @Override
     public void onClickCategory() {
         helpAdapter.setOnItemClickListener(item -> {
-            FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.containerFragments,
-                    CharityEventsFragment.getInstance(item.getId()));
-            fragmentTransaction.commit();
+            startActivity(CharityEventsActivity.createStartIntent(getContext(),
+                    item.getId(), item.getName()));
         });
     }
 

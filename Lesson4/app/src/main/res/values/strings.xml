@@ -43,7 +43,6 @@
     <string name="write_us">Напишите нам</string>
     <string name="go_to_site_organization">Перейти на сайт организации</string>
     <string name="extra_friends_event_detail">+102</string>
-    <string name="hyphen">-</string>
     <string name="left">Осталось</string>
     <string name="will_begin">Начнется</string>
     <string name="completed">Завершено</string>
@@ -51,4 +50,21 @@
     <string name="become_volunteer">Стать волонтером</string>
     <string name="professional_help">Проф. помощь</string>
     <string name="help_money">Помочь деньгами</string>
+    <string name="on_events">По мероприятиям</string>
+    <string name="on_nko">По НКО</string>
+    <string name="write_us_link"><![CDATA[<a href=\"mailto: %s\">%s</a>]]></string>
+    <string name="go_to_site_organization_link"><![CDATA[<a href=\"%s\">%s</a>]]></string>
+    <plurals name="days_left">
+        <item quantity="one">Осталось %d день (%s - %s)</item>
+        <item quantity="few">Осталось %d  дня  (%s - %s)</item>
+        <item quantity="many">Осталось %d дней (%s - %s)</item>
+        <item quantity="other">Осталось %d дней (%s - %s)</item>
+    </plurals>
+    <plurals name="day">
+        <item quantity="one">день</item>
+        <item quantity="few">дня</item>
+        <item quantity="many">дней</item>
+        <item quantity="other">дней</item>
+    </plurals>
+
 </resources>

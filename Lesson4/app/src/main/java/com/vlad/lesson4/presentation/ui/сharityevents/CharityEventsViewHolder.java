@@ -10,16 +10,17 @@ import com.vlad.lesson4.data.model.Event;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CharityEventsViewHolder extends RecyclerView.ViewHolder {
 
-    private ImageView imageViewEvent;
+    private AppCompatImageView imageViewEvent;
     private TextView textViewTitleEvent;
     private TextView textViewDescriptionEvent;
     private TextView textViewTimeEvent;
 
-    public ImageView getImageViewEvent() {
+    public AppCompatImageView getImageViewEvent() {
         return imageViewEvent;
     }
 
@@ -36,7 +37,7 @@ public class CharityEventsViewHolder extends RecyclerView.ViewHolder {
     }
 
     public CharityEventsViewHolder(@NonNull View itemView,
-                                   final CharityEventsAdapter.onEventClickListener listener,
+                                   final CharityEventsAdapter.OnEventClickListener listener,
                                    List<Event> events) {
         super(itemView);
 

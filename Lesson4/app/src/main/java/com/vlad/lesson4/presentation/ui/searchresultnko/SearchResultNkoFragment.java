@@ -10,13 +10,14 @@ import android.widget.ViewFlipper;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.SearchResultsNko;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
+import com.vlad.lesson4.presentation.ui.search.Updatable;
 
 import java.util.ArrayList;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SearchResultNkoFragment extends BaseFragment implements SearchResultNkoMvpView {
+public class SearchResultNkoFragment extends BaseFragment implements SearchResultNkoMvpView, Updatable {
 
     public final static String FRAGMENT_TAG_SEARCH_NKO = "fragment_tag_search_nko";
 
@@ -86,5 +87,10 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
     @Override
     public void showProgressView() {
         viewFlipper.setDisplayedChild(VIEW_LOADING);
+    }
+
+    @Override
+    public void update() {
+        searchResultNkoAdapter.setItemsSearchResultsNko(searchResultNkoPresenter.initSearchResults());
     }
 }
