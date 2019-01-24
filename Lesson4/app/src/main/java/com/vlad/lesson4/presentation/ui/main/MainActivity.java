@@ -3,21 +3,24 @@ package com.vlad.lesson4.presentation.ui.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.presentation.ui.help.HelpFragment;
+import com.vlad.lesson4.presentation.ui.news.NewsFragment;
 import com.vlad.lesson4.presentation.ui.profileedit.ProfileEditFragment;
 import com.vlad.lesson4.presentation.ui.search.SearchFragment;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends BaseActivity implements MainMvpView {
 
@@ -34,9 +37,11 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     private final int TEXT_SIZE_BOT_MENU = 11;
     private final int MARGIN_TOP_ICON_BOT_MENU = -8;
 
-    public final static int ONE = 1;
+    public final static int BOTTOM_NAVIGATION_MENU_VISIBILITY = 1;
     public final static int SPAN_COUNT = 2;
     public final static String EMPTY = " ";
+    public final static String NOTHING = "";
+    public final static String DOT = ".";
 
     public static Intent createStartIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -46,6 +51,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AndroidThreeTen.init(this);
 
         toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottomNavigationMenu);
@@ -54,11 +60,14 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         toolbar.setTitle(EMPTY);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.containerFragments, HelpFragment.getInstance(), HelpFragment.FRAGMENT_TAG_HELP);
+        fragmentTransaction.add(R.id.containerFragments, HelpFragment.getInstance(),
+                HelpFragment.FRAGMENT_TAG_HELP);
         fragmentTransaction.add(R.id.containerFragments, SearchFragment.getInstance(),
                 SearchFragment.FRAGMENT_TAG_SEARCH);
         fragmentTransaction.add(R.id.containerFragments, ProfileEditFragment.getInstance(),
                 ProfileEditFragment.FRAGMENT_TAG_PROFILE);
+        fragmentTransaction.add(R.id.containerFragments, NewsFragment.getInstance(),
+                NewsFragment.FRAGMENT_TAG_NEWS);
         fragmentTransaction.commit();
         setSupportActionBar(toolbar);
         mainPresenter = getApplicationComponents().provideMainPresenter();
@@ -85,6 +94,17 @@ public class MainActivity extends BaseActivity implements MainMvpView {
             setTextInTextViewToolbar(menuItem.getTitle().toString());
             fragmentTransaction = fragmentManager.beginTransaction();
             switch (id) {
+                case R.id.i_news: {
+                    fragment = fragmentManager.findFragmentByTag(NewsFragment.FRAGMENT_TAG_NEWS);
+                    if (fragment != null) {
+                        fragmentTransaction.replace(R.id.containerFragments, fragment);
+                    } else {
+                        fragmentTransaction.replace(R.id.containerFragments, NewsFragment.getInstance());
+                    }
+                    findViewById(R.id.textViewToolbar).setVisibility(View.VISIBLE);
+                    findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.GONE);
+                    break;
+                }
                 case R.id.i_search: {
                     fragment = fragmentManager.findFragmentByTag(SearchFragment.FRAGMENT_TAG_SEARCH);
                     if (fragment != null) {
@@ -128,9 +148,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.edit_menu, menu);
-        MenuItem editProfile = menu.findItem(R.id.edit_profile);
-        editProfile.setVisible(false);
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
     }
 
@@ -138,7 +156,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         bottomNavigationView.setIconSize(WIDTH_HEIGHT_ICON, WIDTH_HEIGHT_ICON);
         bottomNavigationView.setTextSize(TEXT_SIZE_BOT_MENU);
         bottomNavigationView.enableAnimation(false);
-        bottomNavigationView.setLabelVisibilityMode(ONE);
+        bottomNavigationView.setLabelVisibilityMode(BOTTOM_NAVIGATION_MENU_VISIBILITY);
         bottomNavigationView.setItemHorizontalTranslationEnabled(false);
         bottomNavigationView.setIconsMarginTop(MARGIN_TOP_ICON_BOT_MENU);
     }

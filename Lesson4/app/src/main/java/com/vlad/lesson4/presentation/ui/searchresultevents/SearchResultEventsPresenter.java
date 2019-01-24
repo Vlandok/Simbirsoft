@@ -10,9 +10,8 @@ import static com.vlad.lesson4.presentation.ui.search.FragmentPagerAdapter.ALL_C
 
 public class SearchResultEventsPresenter extends BasePresenter<SearchResultEventsMvpView> {
 
-    public static int TEN = 10;
+    public static int LENGTH_STRING_RANDOM = 10;
 
-    private ArrayList<SearchResults> listItems;
     private Random random = new Random();
 
     public static String generateString(Random rng, String characters, int length) {
@@ -40,10 +39,11 @@ public class SearchResultEventsPresenter extends BasePresenter<SearchResultEvent
         }
     }
 
-    private ArrayList<SearchResults> initSearchResults() {
-        listItems = new ArrayList<>();
-        for (int i = 0; i < TEN; i++) {
-            listItems.add(new SearchResults(generateString(random, ALL_CHARACTERS, TEN)));
+    public ArrayList<SearchResults> initSearchResults() {
+        ArrayList<SearchResults> listItems = new ArrayList<>();
+        for (int i = 0; i < LENGTH_STRING_RANDOM; i++) {
+            listItems.add(new SearchResults(generateString(random, ALL_CHARACTERS,
+                    LENGTH_STRING_RANDOM)));
         }
         return listItems;
     }

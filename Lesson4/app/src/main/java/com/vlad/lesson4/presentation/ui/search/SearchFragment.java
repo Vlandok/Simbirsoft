@@ -1,25 +1,25 @@
 package com.vlad.lesson4.presentation.ui.search;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.tabs.TabLayout;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 public class SearchFragment extends BaseFragment implements SearchMvpView {
 
-    public final static String FRAGMENT_TAG_SEARCH = "fragment_tag_search";
+    public final static String FRAGMENT_TAG_SEARCH = "FRAGMENT_TAG_SEARCH";
 
     private MenuItem menuItem;
     private TabLayout tabLayout;
@@ -46,7 +46,8 @@ public class SearchFragment extends BaseFragment implements SearchMvpView {
         menuItem = bottomNavigationView.getMenu().findItem(R.id.i_search);
         tabLayout = rootView.findViewById(R.id.tablayout);
         viewPager = rootView.findViewById(R.id.viewpager);
-        PagerAdapter pagerAdapter = new FragmentPagerAdapter(getFragmentManager());
+        FragmentPagerAdapter pagerAdapter = new FragmentPagerAdapter(getFragmentManager(),
+                getActivity().getApplicationContext());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -56,7 +57,10 @@ public class SearchFragment extends BaseFragment implements SearchMvpView {
 
             @Override
             public void onPageSelected(int position) {
-                Objects.requireNonNull(viewPager.getAdapter()).notifyDataSetChanged();
+                Fragment fragment = pagerAdapter.getItem(position);
+                if (fragment instanceof Updatable) {
+                    ((Updatable) fragment).update();
+                }
             }
 
             @Override

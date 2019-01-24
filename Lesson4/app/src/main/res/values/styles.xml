@@ -12,12 +12,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
+
     <style name="textViewProgressBar">
         <item name="android:text">@string/loading_with_points</item>
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/black__70</item>
+        <item name="android:textColor">@color/black_70</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
@@ -46,7 +48,7 @@
 
     <style name="TextViewChooseCategoryHelp">
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textColor">@color/black_87</item>
         <item name="android:textSize">@dimen/tv_choose_category_help_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
@@ -101,7 +103,7 @@
         <item name="android:paddingStart">@dimen/padding_alert_default</item>
         <item name="android:textAlignment">textStart</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textColor">@color/black_87</item>
         <item name="android:textSize">@dimen/button_dialog_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
@@ -115,7 +117,7 @@
     <style name="TextViewFullNameProfileEdit">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textColor">@color/black_87</item>
         <item name="android:textSize">@dimen/full_name_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
@@ -125,7 +127,7 @@
         <item name="android:focusable">false</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingExtra">4sp</item>
-        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textColor">@color/black_87</item>
         <item name="android:textSize">@dimen/text_view_profile_edit_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
@@ -136,14 +138,14 @@
         <item name="android:focusable">false</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">@color/black__38</item>
+        <item name="android:textColor">@color/black_38</item>
         <item name="android:textSize">@dimen/text_view_profile_edit_setting_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
 
     <style name="TextViewPushNotifications">
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textColor">@color/black_87</item>
         <item name="android:textSize">@dimen/push_notif_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
@@ -151,7 +153,7 @@
     <style name="TextViewYourFriends">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingExtra">4sp</item>
-        <item name="android:textColor">@color/black__38</item>
+        <item name="android:textColor">@color/black_38</item>
         <item name="android:textSize">@dimen/text_view_your_friends_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
@@ -160,7 +162,7 @@
         <item name="android:drawablePadding">@dimen/text_view_friend_drawable_padding</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textColor">@color/black_87</item>
         <item name="android:textSize">@dimen/name_friend_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
@@ -183,7 +185,7 @@
         <item name="android:background">@color/light_grey_two</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingExtra">6sp</item>
-        <item name="android:textColor">@color/black__54</item>
+        <item name="android:textColor">@color/black_54</item>
         <item name="android:textSize">@dimen/key_words_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
@@ -195,8 +197,23 @@
         <item name="android:gravity">center_vertical|left</item>
         <item name="android:paddingStart">@dimen/text_view_title_default_padding_start</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@color/black__87</item>
+        <item name="android:textColor">@color/black_87</item>
         <item name="android:textSize">@dimen/text_view_title_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
+    <style name="ButtonBottomMenuEvent">
+        <item name="android:background">@color/off_white</item>
+        <item name="android:paddingTop">@dimen/bottom_menu_event_pad_top</item>
+        <item name="android:paddingBottom">@dimen/bottom_menu_event_pad_bottom</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:drawablePadding">@dimen/bottom_menu_event_drawable_pad</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:lineSpacingExtra">@dimen/bottom_menu_event_line_spacing_extra</item>
+        <item name="android:textColor">@color/black_40</item>
+        <item name="android:textSize">@dimen/bottom_menu_event_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
 

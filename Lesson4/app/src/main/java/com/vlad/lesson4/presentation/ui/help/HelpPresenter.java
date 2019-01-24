@@ -2,15 +2,20 @@ package com.vlad.lesson4.presentation.ui.help;
 
 import android.content.Context;
 
-import com.vlad.lesson4.R;
-import com.vlad.lesson4.data.model.ItemForChooseCategoryHelp;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+import com.vlad.lesson4.data.model.EventCategories;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
+import com.vlad.lesson4.utils.JsonSupport;
 
-import java.util.ArrayList;
+import java.lang.reflect.Type;
 
 public class HelpPresenter extends BasePresenter<HelpMvpView> {
 
-    private ArrayList<ItemForChooseCategoryHelp> listItems;
+    private static final String FILE_JSON = "categories.json";
+
+    private EventCategories categories;
 
     public void onCreate(Context context) {
         checkViewAttached();
@@ -20,25 +25,20 @@ public class HelpPresenter extends BasePresenter<HelpMvpView> {
     private void getItemsCategory(Context context) {
         checkViewAttached();
         getMvpView().showProgressView();
-        ArrayList<ItemForChooseCategoryHelp> arrayListItemsCategory = initItemsCategory(context);
-        if (arrayListItemsCategory == null) {
+        String data = JsonSupport.loadJSONFromAsset(context, FILE_JSON);
+        Type type = new TypeToken<EventCategories>() {
+        }.getType();
+        try {
+            categories = new Gson().fromJson(data, type);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        if (categories == null) {
             getMvpView().showLoadingError();
         } else {
-            getMvpView().showItemsCategory(arrayListItemsCategory);
+            getMvpView().showItemsCategory(categories.getCategories());
             getMvpView().onClickCategory();
         }
-    }
-
-    private ArrayList<ItemForChooseCategoryHelp> initItemsCategory(Context context) {
-        listItems = new ArrayList<>();
-
-        listItems.add(new ItemForChooseCategoryHelp(R.drawable.child_category, context.getString(R.string.child_category)));
-        listItems.add(new ItemForChooseCategoryHelp(R.drawable.adults_category, context.getString(R.string.adults_category)));
-        listItems.add(new ItemForChooseCategoryHelp(R.drawable.seniors_category, context.getString(R.string.seniors_category)));
-        listItems.add(new ItemForChooseCategoryHelp(R.drawable.animals_category, context.getString(R.string.animals_category)));
-        listItems.add(new ItemForChooseCategoryHelp(R.drawable.events_category, context.getString(R.string.events_category)));
-
-        return listItems;
     }
 
     @Override
