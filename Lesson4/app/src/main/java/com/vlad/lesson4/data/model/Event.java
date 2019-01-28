@@ -1,12 +1,15 @@
 
 package com.vlad.lesson4.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Event {
+public class Event implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -174,4 +177,80 @@ public class Event {
         this.urlSiteCompany = urlSiteCompany;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(id);
+        }
+        parcel.writeString(name);
+        parcel.writeString(description);
+        parcel.writeString(imageMain);
+        parcel.writeString(timeStart);
+        parcel.writeString(timeFinish);
+        if (idSearchEvent == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(idSearchEvent);
+        }
+        if (idCategoryHelp == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(idCategoryHelp);
+        }
+        parcel.writeString(charityCompany);
+        parcel.writeString(addressCompany);
+        parcel.writeString(emailCompany);
+        parcel.writeString(text);
+        parcel.writeString(urlSiteCompany);
+    }
+
+    protected Event(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        name = in.readString();
+        description = in.readString();
+        imageMain = in.readString();
+        timeStart = in.readString();
+        timeFinish = in.readString();
+        if (in.readByte() == 0) {
+            idSearchEvent = null;
+        } else {
+            idSearchEvent = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            idCategoryHelp = null;
+        } else {
+            idCategoryHelp = in.readInt();
+        }
+        charityCompany = in.readString();
+        addressCompany = in.readString();
+        emailCompany = in.readString();
+        text = in.readString();
+        urlSiteCompany = in.readString();
+    }
+
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 }

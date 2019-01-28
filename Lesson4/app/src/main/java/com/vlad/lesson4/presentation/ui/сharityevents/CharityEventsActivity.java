@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.vlad.lesson4.R;
+import com.vlad.lesson4.data.model.CharityEvent;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity;
@@ -15,6 +16,7 @@ import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailAct
 import java.util.Iterator;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +29,7 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
+    private static final String SAVED_BUNDLE_TAG = "SAVED_BUNDLE_TAG";
 
     public static final String ARGUMENT_ID_CATEGORY_HELP = "ARGUMENT_ID_CATEGORY_HELP";
     public static final String ARGUMENT_TITLE_CATEGORY_HELP = "ARGUMENT_TITLE_CATEGORY_HELP";
@@ -39,6 +42,7 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
     private ViewFlipper viewFlipper;
     private TextView textViewTitleToolbar;
     private Toolbar toolbar;
+    private CharityEvent charityEvent;
 
     public static Intent createStartIntent(Context context, int idCategory, String titleToolbar) {
         Intent intent = new Intent(context, CharityEventsActivity.class);
@@ -51,7 +55,9 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_events);
-
+        if (savedInstanceState != null) {
+            charityEvent = savedInstanceState.getParcelable(SAVED_BUNDLE_TAG);
+        }
         toolbar = findViewById(R.id.toolbar);
         viewFlipper = findViewById(R.id.viewFlipperCharityEvents);
         textViewTitleToolbar = findViewById(R.id.textViewToolbar);
@@ -70,7 +76,13 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
         titleToolbar = getIntent().getStringExtra(ARGUMENT_TITLE_CATEGORY_HELP);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(charityEventsAdapter);
-        charityEventsPresenter.onCreate(this);
+        charityEventsPresenter.onCreate(this, charityEvent);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SAVED_BUNDLE_TAG, charityEvent);
     }
 
     @Override
@@ -94,6 +106,7 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
 
     @Override
     public void showCharityEvents(List<Event> arrayListEvent) {
+        charityEvent = new CharityEvent(arrayListEvent);
         viewFlipper.setDisplayedChild(VIEW_DATA);
         charityEventsAdapter.setArrayListCharityEvents(getEventsCategory(arrayListEvent));
     }
