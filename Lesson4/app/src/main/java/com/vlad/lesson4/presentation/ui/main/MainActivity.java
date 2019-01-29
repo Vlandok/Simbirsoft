@@ -1,10 +1,10 @@
 package com.vlad.lesson4.presentation.ui.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     private TextView textViewToolbar;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
-    private Fragment fragment;
+    private Fragment fragment = null;
 
     private MainPresenter mainPresenter;
 
@@ -47,6 +47,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         return new Intent(context, MainActivity.class);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,21 +60,23 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         setParametersBottomNav();
         toolbar.setTitle(EMPTY);
         fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.containerFragments, HelpFragment.getInstance(),
-                HelpFragment.FRAGMENT_TAG_HELP);
-        fragmentTransaction.add(R.id.containerFragments, SearchFragment.getInstance(),
-                SearchFragment.FRAGMENT_TAG_SEARCH);
-        fragmentTransaction.add(R.id.containerFragments, ProfileEditFragment.getInstance(),
-                ProfileEditFragment.FRAGMENT_TAG_PROFILE);
-        fragmentTransaction.add(R.id.containerFragments, NewsFragment.getInstance(),
-                NewsFragment.FRAGMENT_TAG_NEWS);
-        fragmentTransaction.commit();
+        if (savedInstanceState == null) {
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.containerFragments, HelpFragment.getInstance(),
+                    HelpFragment.FRAGMENT_TAG_HELP);
+            fragmentTransaction.add(R.id.containerFragments, SearchFragment.getInstance(),
+                    SearchFragment.FRAGMENT_TAG_SEARCH);
+            fragmentTransaction.add(R.id.containerFragments, ProfileEditFragment.getInstance(),
+                    ProfileEditFragment.FRAGMENT_TAG_PROFILE);
+            fragmentTransaction.add(R.id.containerFragments, NewsFragment.getInstance(),
+                    NewsFragment.FRAGMENT_TAG_NEWS);
+            fragmentTransaction.commit();
+        }
         setSupportActionBar(toolbar);
         mainPresenter = getApplicationComponents().provideMainPresenter();
         mainPresenter.attachView(this);
         toolbar.setNavigationOnClickListener(view -> finish());
-        mainPresenter.onCreate();
+        mainPresenter.onCreate(savedInstanceState);
     }
 
     @Override
@@ -88,7 +91,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     }
 
     @Override
-    public void clickButtonBottomNav() {
+    public void clickButtonBottomNav(Bundle savedInstanceState) {
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
             setTextInTextViewToolbar(menuItem.getTitle().toString());
@@ -143,7 +146,9 @@ public class MainActivity extends BaseActivity implements MainMvpView {
             fragmentTransaction.commit();
             return true;
         });
-        bottomNavigationView.setSelectedItemId(R.id.i_help);
+        if (savedInstanceState == null) {
+            bottomNavigationView.setSelectedItemId(R.id.i_help);
+        }
     }
 
     @Override

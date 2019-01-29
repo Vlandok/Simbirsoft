@@ -20,9 +20,14 @@ public class CharityEventDetailPresenter extends BasePresenter<CharityEventDetai
 
     private CharityEvent charityEvent;
 
-    public void onCreate(Context context, int id) {
+    public void onCreate(Context context, int id, CharityEvent events) {
         checkViewAttached();
-        getEvent(context, id);
+        charityEvent = events;
+        if (charityEvent == null) {
+            getEvent(context, id);
+        } else {
+            showEventsDetail(getMvpView(), id);
+        }
     }
 
     @Override
@@ -32,6 +37,12 @@ public class CharityEventDetailPresenter extends BasePresenter<CharityEventDetai
 
     private void getEvent(Context context, int id) {
         checkViewAttached();
+        CharityEventDetailTask charityEventDetailTask
+                = new CharityEventDetailTask(context, getMvpView(), id, this);
+        charityEventDetailTask.execute();
+    }
+
+    void jsonToCharityEvent(Context context) {
         String data = JsonSupport.loadJSONFromAsset(context, FILE_JSON);
         Type type = new TypeToken<CharityEvent>() {
         }.getType();
@@ -40,11 +51,14 @@ public class CharityEventDetailPresenter extends BasePresenter<CharityEventDetai
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    void showEventsDetail(CharityEventDetailMvpView mvpView, Integer id) {
         if (charityEvent == null && id == DEFAULT_VALUE) {
-            getMvpView().showLoadingError();
+            mvpView.showLoadingError();
         } else {
             Event event = getMvpView().getEvent(charityEvent, id);
-            getMvpView().showEventDetail(event);
+            mvpView.showEventDetail(event);
         }
     }
 

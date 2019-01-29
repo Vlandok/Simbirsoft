@@ -13,4 +13,6 @@ public interface NewsMvpView extends MvpView {
     void showProgressView();
 
     void onClickEvent();
+
+    void onClickErrorButton();
 }

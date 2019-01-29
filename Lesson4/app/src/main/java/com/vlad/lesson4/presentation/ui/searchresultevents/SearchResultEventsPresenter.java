@@ -41,10 +41,13 @@ public class SearchResultEventsPresenter extends BasePresenter<SearchResultEvent
 
     public ArrayList<SearchResults> initSearchResults() {
         ArrayList<SearchResults> listItems = new ArrayList<>();
-        for (int i = 0; i < LENGTH_STRING_RANDOM; i++) {
-            listItems.add(new SearchResults(generateString(random, ALL_CHARACTERS,
-                    LENGTH_STRING_RANDOM)));
-        }
+        Thread thread = new Thread(() -> {
+            for (int i = 0; i < LENGTH_STRING_RANDOM; i++) {
+                listItems.add(new SearchResults(generateString(random, ALL_CHARACTERS,
+                        LENGTH_STRING_RANDOM)));
+            }
+        });
+        thread.start();
         return listItems;
     }
 

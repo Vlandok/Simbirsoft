@@ -19,9 +19,14 @@ public class CharityEventsPresenter extends BasePresenter<CharityEventsMvpView> 
 
     private CharityEvent charityEvent;
 
-    public void onCreate(Context context) {
+    public void onCreate(Context context, CharityEvent events) {
         checkViewAttached();
-        getCharityEvents(context);
+        charityEvent = events;
+        if (charityEvent == null) {
+            getCharityEvents(context);
+        } else {
+            showEvents(getMvpView());
+        }
     }
 
     @Override
@@ -31,7 +36,11 @@ public class CharityEventsPresenter extends BasePresenter<CharityEventsMvpView> 
 
     private void getCharityEvents(Context context) {
         checkViewAttached();
-        getMvpView().showProgressView();
+        CharityEventsTask charityEventsTask = new CharityEventsTask(context, getMvpView(), this);
+        charityEventsTask.execute();
+    }
+
+    void jsonToCharityEvent(Context context) {
         String data = JsonSupport.loadJSONFromAsset(context, FILE_JSON);
         Type type = new TypeToken<CharityEvent>() {
         }.getType();
@@ -40,13 +49,16 @@ public class CharityEventsPresenter extends BasePresenter<CharityEventsMvpView> 
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    void showEvents(CharityEventsMvpView mvpView) {
         if (charityEvent == null) {
-            getMvpView().showLoadingError();
+            mvpView.showLoadingError();
         } else {
-            getMvpView().setTitleToolbar();
+            mvpView.setTitleToolbar();
             List<Event> events = getMvpView().getEventsCategory(charityEvent.getEvents());
-            getMvpView().showCharityEvents(events);
-            getMvpView().onClickEvent();
+            mvpView.showCharityEvents(events);
+            mvpView.onClickEvent();
         }
     }
 }

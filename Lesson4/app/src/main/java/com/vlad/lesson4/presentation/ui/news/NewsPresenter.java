@@ -17,9 +17,20 @@ public class NewsPresenter extends BasePresenter<NewsMvpView> {
 
     private CharityEvent charityEvent;
 
-    public void onCreate(Context context) {
+    public void onCreate(Context context, CharityEvent events) {
         checkViewAttached();
-        getCharityEvents(context);
+        charityEvent = events;
+        if (charityEvent == null) {
+            getCharityEvents(context);
+        } else {
+            showNews(getMvpView());
+        }
+    }
+
+    private void getCharityEvents(Context context) {
+        checkViewAttached();
+        NewsTask newsTask = new NewsTask(context, getMvpView(), this);
+        newsTask.execute();
     }
 
     @Override
@@ -27,9 +38,7 @@ public class NewsPresenter extends BasePresenter<NewsMvpView> {
 
     }
 
-    private void getCharityEvents(Context context) {
-        checkViewAttached();
-        getMvpView().showProgressView();
+    void jsonToCharityEvent(Context context) {
         String data = JsonSupport.loadJSONFromAsset(context, FILE_JSON);
         Type type = new TypeToken<CharityEvent>() {
         }.getType();
@@ -38,11 +47,15 @@ public class NewsPresenter extends BasePresenter<NewsMvpView> {
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    void showNews(NewsMvpView mvpView) {
         if (charityEvent == null) {
-            getMvpView().showLoadingError();
+            mvpView.showLoadingError();
+            mvpView.onClickErrorButton();
         } else {
-            getMvpView().showCharityEvents(charityEvent.getEvents());
-            getMvpView().onClickEvent();
+            mvpView.showCharityEvents(charityEvent.getEvents());
+            mvpView.onClickEvent();
         }
     }
 }

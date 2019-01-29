@@ -21,6 +21,9 @@ public class SearchFragment extends BaseFragment implements SearchMvpView {
 
     public final static String FRAGMENT_TAG_SEARCH = "FRAGMENT_TAG_SEARCH";
 
+    private final static int FRAGMENT_EVENT_POSITION_VIEW_PAGER = 0;
+    private final static int FRAGMENT_NKO_POSITION_VIEW_PAGER = 1;
+
     private MenuItem menuItem;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -57,9 +60,14 @@ public class SearchFragment extends BaseFragment implements SearchMvpView {
 
             @Override
             public void onPageSelected(int position) {
-                Fragment fragment = pagerAdapter.getItem(position);
-                if (fragment instanceof Updatable) {
-                    ((Updatable) fragment).update();
+                Fragment fragmentEvents = pagerAdapter.getItem(FRAGMENT_EVENT_POSITION_VIEW_PAGER);
+                Fragment fragmentNko = pagerAdapter.getItem(FRAGMENT_NKO_POSITION_VIEW_PAGER);
+                if (position == FRAGMENT_EVENT_POSITION_VIEW_PAGER) {
+                    ((Updatable) fragmentNko).update();
+                } else {
+                    if (position == FRAGMENT_NKO_POSITION_VIEW_PAGER) {
+                        ((Updatable) fragmentEvents).update();
+                    }
                 }
             }
 
@@ -67,7 +75,6 @@ public class SearchFragment extends BaseFragment implements SearchMvpView {
             public void onPageScrollStateChanged(int state) {
             }
         });
-
         return rootView;
     }
 

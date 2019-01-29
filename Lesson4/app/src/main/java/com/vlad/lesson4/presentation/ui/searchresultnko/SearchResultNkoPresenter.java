@@ -41,10 +41,13 @@ public class SearchResultNkoPresenter extends BasePresenter<SearchResultNkoMvpVi
 
     public ArrayList<SearchResultsNko> initSearchResults() {
         ArrayList<SearchResultsNko> listItems = new ArrayList<>();
-        for (int i = 0; i < LENGTH_STRING_RANDOM; i++) {
-            listItems.add(new SearchResultsNko(generateString(random, ALL_CHARACTERS,
-                    LENGTH_STRING_RANDOM)));
-        }
+        Thread thread = new Thread(() -> {
+            for (int i = 0; i < LENGTH_STRING_RANDOM; i++) {
+                listItems.add(new SearchResultsNko(generateString(random, ALL_CHARACTERS,
+                        LENGTH_STRING_RANDOM)));
+            }
+        });
+        thread.start();
         return listItems;
     }
 
