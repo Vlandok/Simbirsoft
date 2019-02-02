@@ -10,6 +10,7 @@ import io.realm.annotations.PrimaryKey;
 
 public class Event extends RealmObject {
 
+    @PrimaryKey
     @SerializedName("id")
     @Expose
     private Integer id;

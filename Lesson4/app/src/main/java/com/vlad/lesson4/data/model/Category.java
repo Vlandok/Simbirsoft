@@ -9,6 +9,7 @@ import io.realm.annotations.PrimaryKey;
 
 public class Category extends RealmObject {
 
+    @PrimaryKey
     @SerializedName("id")
     @Expose
     private Integer id;

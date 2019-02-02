@@ -1,27 +1,17 @@
 package com.vlad.lesson4.presentation.ui.charityeventdetail;
 
-import android.content.Context;
-
-import com.vlad.lesson4.data.model.CharityEvent;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
-import java.util.List;
-
 import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
-
-import static com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity.DEFAULT_VALUE;
 
 public class CharityEventDetailPresenter extends BasePresenter<CharityEventDetailMvpView> {
 
-    private CharityEvent charityEvent = new CharityEvent();
-    private RealmList<Event> charityEventRealmList = new RealmList<>();
+    private Event eventCopy = new Event();
 
-    public void onCreate(Context context, int id) {
+    public void onCreate(int id) {
         checkViewAttached();
-        getEvent(context, id);
+        getEvent(id);
     }
 
     @Override
@@ -29,32 +19,28 @@ public class CharityEventDetailPresenter extends BasePresenter<CharityEventDetai
 
     }
 
-    private void getEvent(Context context, int id) {
+    private void getEvent(int id) {
         checkViewAttached();
         CharityEventDetailTask charityEventDetailTask
-                = new CharityEventDetailTask(context, getMvpView(), id, this);
+                = new CharityEventDetailTask(getMvpView(), id, this);
         charityEventDetailTask.execute();
     }
 
-    void getEventCategoriesFromRealm() {
+    void getEventFromRealm(int idEvent) {
         try (Realm realm = Realm.getDefaultInstance()) {
-            RealmResults<Event> events = realm.where(Event.class).findAll();
-            List<Event> eventsCopy = realm.copyFromRealm(events);
-            if (eventsCopy != null) {
-                charityEventRealmList.addAll(eventsCopy.subList(0, eventsCopy.size()));
-                charityEvent.setEvents(charityEventRealmList);
-            } else {
-                charityEvent = null;
+            Event event = realm.where(Event.class)
+                    .equalTo("id", idEvent).findFirst();
+            if (event != null) {
+                eventCopy = realm.copyFromRealm(event);
             }
         }
     }
 
-    void showEventsDetail(CharityEventDetailMvpView mvpView, Integer id) {
-        if (charityEvent == null && id == DEFAULT_VALUE) {
+    void showEventsDetail(CharityEventDetailMvpView mvpView) {
+        if (eventCopy == null) {
             mvpView.showLoadingError();
         } else {
-            Event event = getMvpView().getEvent(charityEvent, id);
-            mvpView.showEventDetail(event);
+            mvpView.showEventDetail(eventCopy);
         }
     }
 }

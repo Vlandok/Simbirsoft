@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.vlad.lesson4.R;
-import com.vlad.lesson4.data.model.CharityEvent;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.utils.Date;
@@ -109,7 +108,7 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
         charityEventDetailPresenter = getApplicationComponents().provideCharityEventDetailPresenter();
         charityEventDetailPresenter.attachView(this);
         int id = getIntent().getIntExtra(EXTRA_ID_EVENT, DEFAULT_VALUE);
-        charityEventDetailPresenter.onCreate(getApplicationContext(), id);
+        charityEventDetailPresenter.onCreate(id);
     }
 
     @Override
@@ -134,18 +133,6 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     @Override
     public void showProgressView() {
         viewFlipper.setDisplayedChild(VIEW_LOADING);
-    }
-
-    @Override
-    public Event getEvent(CharityEvent charityEvent, int id) {
-        if (charityEvent != null && id != DEFAULT_VALUE) {
-            for (Event event : charityEvent.getEvents()) {
-                if (event.getId() == id) {
-                    return event;
-                }
-            }
-        }
-        return null;
     }
 
     @Override
