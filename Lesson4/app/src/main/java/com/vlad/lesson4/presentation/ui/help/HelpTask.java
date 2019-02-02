@@ -12,9 +12,9 @@ public class HelpTask extends AsyncTask<Void, Void, Void> {
     private final WeakReference<HelpMvpView> mvpViewWeakReference;
 
     HelpTask(Context context, HelpMvpView mvpView, HelpPresenter helpPresenter) {
-        this.contextWeakReference = new WeakReference<>(context);
-        this.mvpViewWeakReference = new WeakReference<>(mvpView);
-        this.helpPresenterWeakReference = new WeakReference<>(helpPresenter);
+        contextWeakReference = new WeakReference<>(context);
+        mvpViewWeakReference = new WeakReference<>(mvpView);
+        helpPresenterWeakReference = new WeakReference<>(helpPresenter);
     }
 
     @Override
@@ -27,8 +27,8 @@ public class HelpTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        if (contextWeakReference.get() != null && helpPresenterWeakReference.get() != null) {
-            helpPresenterWeakReference.get().jsonToEventCategories(contextWeakReference.get());
+        if (helpPresenterWeakReference.get() != null) {
+            helpPresenterWeakReference.get().getEventCategoriesFromRealm();
         }
         return null;
     }
@@ -37,8 +37,7 @@ public class HelpTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         if (mvpViewWeakReference.get() != null && helpPresenterWeakReference.get() != null) {
             super.onPostExecute(result);
-            HelpMvpView mvpView = mvpViewWeakReference.get();
-            helpPresenterWeakReference.get().showCategories(mvpView);
+            helpPresenterWeakReference.get().showCategories(mvpViewWeakReference.get());
         }
     }
 }

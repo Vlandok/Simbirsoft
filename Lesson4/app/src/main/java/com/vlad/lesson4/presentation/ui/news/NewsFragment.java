@@ -13,7 +13,6 @@ import android.widget.ViewFlipper;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
-import com.vlad.lesson4.data.model.CharityEvent;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity;
@@ -33,7 +32,6 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
-    private static final String SAVED_BUNDLE_TAG = "SAVED_BUNDLE_TAG";
 
     private NewsPresenter newsPresenter;
     private MenuItem menuItem;
@@ -41,14 +39,11 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     private RecyclerView recyclerView;
     private ViewFlipper viewFlipper;
     private Button buttonError;
-    private CharityEvent charityEvent = null;
-    private Bundle savedState = null;
-    private boolean createdStateInDestroyView;
     private TextView textViewTitleToolbar;
 
 
     public NewsFragment() {
-        // Required empty public constructor
+
     }
 
     public static NewsFragment getInstance() {
@@ -59,9 +54,6 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        if (savedInstanceState != null) {
-            savedState = savedInstanceState.getBundle(SAVED_BUNDLE_TAG);
-        }
         newsPresenter = getApplicationComponents().provideNewsPresenter();
         charityEventsAdapter = getApplicationComponents().provideCharityEventsAdapter();
         newsPresenter.attachView(this);
@@ -81,12 +73,11 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
         recyclerView = rootView.findViewById(R.id.recyclerCharityEvents);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(charityEventsAdapter);
-        if (savedState != null) {
-            charityEvent = savedState.getParcelable(SAVED_BUNDLE_TAG);
+        if (savedInstanceState != null) {
             textViewTitleToolbar.setText(R.string.news_bottom_nav);
             menuItem.setEnabled(false);
         }
-        newsPresenter.onCreate(getContext(),charityEvent);
+        newsPresenter.onCreate(getContext());
         return rootView;
     }
 
@@ -97,34 +88,15 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        savedState = saveState();
-        createdStateInDestroyView = true;
-        charityEvent = null;
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        if (charityEvent == null) {
-            outState.putBundle(SAVED_BUNDLE_TAG, savedState);
-        } else {
-            outState.putBundle(SAVED_BUNDLE_TAG, createdStateInDestroyView ? savedState : saveState());
-        }
-        createdStateInDestroyView = false;
-        super.onSaveInstanceState(outState);
+    public void onDestroy() {
+        super.onDestroy();
+        newsPresenter.detachView();
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.event_filter).setVisible(true);
         super.onPrepareOptionsMenu(menu);
-    }
-
-    private Bundle saveState() {
-        Bundle state = new Bundle();
-        state.putParcelable(SAVED_BUNDLE_TAG, charityEvent);
-        return state;
     }
 
     @Override
@@ -136,13 +108,12 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     @Override
     public void onClickErrorButton() {
         if (newsPresenter != null && buttonError != null) {
-            buttonError.setOnClickListener(view -> newsPresenter.onCreate(getContext(), charityEvent));
+            buttonError.setOnClickListener(view -> newsPresenter.onCreate(getContext()));
         }
     }
 
     @Override
     public void showCharityEvents(List<Event> arrayListEvent) {
-        charityEvent = new CharityEvent(arrayListEvent);
         viewFlipper.setDisplayedChild(VIEW_DATA);
         charityEventsAdapter.setArrayListCharityEvents(arrayListEvent);
     }

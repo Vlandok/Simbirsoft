@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import io.realm.RealmConfiguration;
 
 public abstract class BaseFragment extends Fragment {
 

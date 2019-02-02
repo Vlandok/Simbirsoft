@@ -12,7 +12,6 @@ import android.widget.ViewFlipper;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Category;
-import com.vlad.lesson4.data.model.EventCategories;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsActivity;
@@ -33,7 +32,6 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
-    private static final String SAVED_BUNDLE_TAG = "SAVED_BUNDLE_TAG";
 
     private RecyclerView recyclerView;
     private HelpAdapter helpAdapter;
@@ -41,9 +39,6 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
     private ViewFlipper viewFlipper;
     private MenuItem menuItem;
     private Button buttonError;
-    private EventCategories listCategories = null;
-    private Bundle savedState = null;
-    private boolean createdStateInDestroyView;
     private TextView textViewTitleToolbar;
 
     public HelpFragment() {
@@ -57,30 +52,13 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            savedState = savedInstanceState.getBundle(SAVED_BUNDLE_TAG);
-        }
         helpPresenter = getApplicationComponents().provideHelpPresenter();
         helpAdapter = getApplicationComponents().provideHelpAdapter();
         helpPresenter.attachView(this);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        savedState = saveState();
-        createdStateInDestroyView = true;
-        listCategories = null;
-    }
-
-    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        if (listCategories == null) {
-            outState.putBundle(SAVED_BUNDLE_TAG, savedState);
-        } else {
-            outState.putBundle(SAVED_BUNDLE_TAG, createdStateInDestroyView ? savedState : saveState());
-        }
-        createdStateInDestroyView = false;
         super.onSaveInstanceState(outState);
     }
 
@@ -99,12 +77,11 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
         viewFlipper = rootView.findViewById(R.id.viewFlipper);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), MainActivity.SPAN_COUNT));
         recyclerView.setAdapter(helpAdapter);
-        if (savedState != null) {
-            listCategories = savedState.getParcelable(SAVED_BUNDLE_TAG);
+        if (savedInstanceState != null) {
             textViewTitleToolbar.setText(R.string.title_help_categ);
             menuItem.setEnabled(false);
         }
-        helpPresenter.onCreate(getContext(), listCategories);
+        helpPresenter.onCreate(getContext());
         return rootView;
     }
 
@@ -120,12 +97,6 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
         super.onDestroy();
     }
 
-    private Bundle saveState() {
-        Bundle state = new Bundle();
-        state.putParcelable(SAVED_BUNDLE_TAG, listCategories);
-        return state;
-    }
-
     @Override
     public void onClickCategory() {
         helpAdapter.setOnItemClickListener(item -> {
@@ -137,13 +108,12 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
     @Override
     public void onClickErrorButton() {
         if (helpPresenter != null && buttonError != null) {
-            buttonError.setOnClickListener(view -> helpPresenter.onCreate(getContext(), listCategories));
+            buttonError.setOnClickListener(view -> helpPresenter.onCreate(getContext()));
         }
     }
 
     @Override
     public void showItemsCategory(List<Category> arrayListHelpCategory) {
-        listCategories = new EventCategories(arrayListHelpCategory);
         viewFlipper.setDisplayedChild(VIEW_DATA);
         helpAdapter.setHelpCategory(arrayListHelpCategory);
     }

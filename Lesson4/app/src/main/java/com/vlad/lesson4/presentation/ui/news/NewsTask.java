@@ -28,7 +28,7 @@ class NewsTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         if (contextWeakReference.get() != null && newsPresenterWeakReference.get() != null) {
-            newsPresenterWeakReference.get().jsonToCharityEvent(contextWeakReference.get());
+            newsPresenterWeakReference.get().getEventCategoriesFromRealm();
         }
         return null;
     }
@@ -37,8 +37,7 @@ class NewsTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         if (mvpViewWeakReference.get() != null && newsPresenterWeakReference.get() != null) {
             super.onPostExecute(result);
-            NewsMvpView mvpView = mvpViewWeakReference.get();
-            newsPresenterWeakReference.get().showNews(mvpView);
+            newsPresenterWeakReference.get().showNews(mvpViewWeakReference.get());
         }
     }
 }

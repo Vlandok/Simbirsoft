@@ -4,7 +4,9 @@ package com.vlad.lesson4.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class NumberPhoneCharityEventCompany {
+import io.realm.RealmObject;
+
+public class NumberPhoneCharityEventCompany extends RealmObject {
 
     @SerializedName("number")
     @Expose

@@ -29,7 +29,7 @@ class CharityEventsTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         if (contextWeakReference.get() != null && charityEventsPresenterWeakReference.get() != null) {
-            charityEventsPresenterWeakReference.get().jsonToCharityEvent(contextWeakReference.get());
+            charityEventsPresenterWeakReference.get().getEventCategoriesFromRealm();
         }
         return null;
     }
@@ -38,8 +38,7 @@ class CharityEventsTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         if (mvpViewWeakReference.get() != null && charityEventsPresenterWeakReference.get() != null) {
             super.onPostExecute(result);
-            CharityEventsMvpView mvpView = mvpViewWeakReference.get();
-            charityEventsPresenterWeakReference.get().showEvents(mvpView);
+            charityEventsPresenterWeakReference.get().showEvents(mvpViewWeakReference.get());
         }
     }
 }

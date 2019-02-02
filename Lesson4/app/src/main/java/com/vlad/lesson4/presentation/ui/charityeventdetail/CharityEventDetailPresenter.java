@@ -2,32 +2,26 @@ package com.vlad.lesson4.presentation.ui.charityeventdetail;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import com.vlad.lesson4.data.model.CharityEvent;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
-import com.vlad.lesson4.utils.JsonSupport;
 
-import java.lang.reflect.Type;
+import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 
 import static com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity.DEFAULT_VALUE;
 
 public class CharityEventDetailPresenter extends BasePresenter<CharityEventDetailMvpView> {
 
-    private static final String FILE_JSON = "events.json";
+    private CharityEvent charityEvent = new CharityEvent();
+    private RealmList<Event> charityEventRealmList = new RealmList<>();
 
-    private CharityEvent charityEvent;
-
-    public void onCreate(Context context, int id, CharityEvent events) {
+    public void onCreate(Context context, int id) {
         checkViewAttached();
-        charityEvent = events;
-        if (charityEvent == null) {
-            getEvent(context, id);
-        } else {
-            showEventsDetail(getMvpView(), id);
-        }
+        getEvent(context, id);
     }
 
     @Override
@@ -42,14 +36,16 @@ public class CharityEventDetailPresenter extends BasePresenter<CharityEventDetai
         charityEventDetailTask.execute();
     }
 
-    void jsonToCharityEvent(Context context) {
-        String data = JsonSupport.loadJSONFromAsset(context, FILE_JSON);
-        Type type = new TypeToken<CharityEvent>() {
-        }.getType();
-        try {
-            charityEvent = new Gson().fromJson(data, type);
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
+    void getEventCategoriesFromRealm() {
+        try (Realm realm = Realm.getDefaultInstance()) {
+            RealmResults<Event> events = realm.where(Event.class).findAll();
+            List<Event> eventsCopy = realm.copyFromRealm(events);
+            if (eventsCopy != null) {
+                charityEventRealmList.addAll(eventsCopy.subList(0, eventsCopy.size()));
+                charityEvent.setEvents(charityEventRealmList);
+            } else {
+                charityEvent = null;
+            }
         }
     }
 
@@ -61,5 +57,4 @@ public class CharityEventDetailPresenter extends BasePresenter<CharityEventDetai
             mvpView.showEventDetail(event);
         }
     }
-
 }

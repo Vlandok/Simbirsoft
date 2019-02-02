@@ -8,6 +8,7 @@ import com.vlad.lesson4.di.ApplicationComponents;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import io.realm.RealmConfiguration;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
