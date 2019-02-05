@@ -77,7 +77,7 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
             textViewTitleToolbar.setText(R.string.news_bottom_nav);
             menuItem.setEnabled(false);
         }
-        newsPresenter.onCreate(getContext());
+        newsPresenter.onCreate();
         return rootView;
     }
 
@@ -108,7 +108,7 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     @Override
     public void onClickErrorButton() {
         if (newsPresenter != null && buttonError != null) {
-            buttonError.setOnClickListener(view -> newsPresenter.onCreate(getContext()));
+            buttonError.setOnClickListener(view -> newsPresenter.onCreate());
         }
     }
 

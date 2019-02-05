@@ -69,7 +69,7 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
         titleToolbar = getIntent().getStringExtra(ARGUMENT_TITLE_CATEGORY_HELP);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(charityEventsAdapter);
-        charityEventsPresenter.onCreate(this);
+        charityEventsPresenter.onCreate();
     }
 
     @Override

@@ -2,10 +2,14 @@ package com.vlad.lesson4.presentation.ui.charityeventdetail;
 
 import android.os.AsyncTask;
 
+import com.vlad.lesson4.data.model.Event;
+import com.vlad.lesson4.data.model.db.repository.CharityEventDetailRepository;
+
 import java.lang.ref.WeakReference;
 
 class CharityEventDetailTask extends AsyncTask<Void, Void, Void> {
 
+    private Event event = new Event();
     private final WeakReference<CharityEventDetailPresenter> charityEventDetailPresenterWeakReference;
     private final WeakReference<CharityEventDetailMvpView> mvpViewWeakReference;
     private final WeakReference<Integer> idCategoryWeakReference;
@@ -29,7 +33,7 @@ class CharityEventDetailTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         if (idCategoryWeakReference.get() != null
                 && charityEventDetailPresenterWeakReference.get() != null) {
-            charityEventDetailPresenterWeakReference.get()
+            event = CharityEventDetailRepository.getInstance()
                     .getEventFromRealm(idCategoryWeakReference.get());
         }
         return null;
@@ -41,7 +45,7 @@ class CharityEventDetailTask extends AsyncTask<Void, Void, Void> {
                 && charityEventDetailPresenterWeakReference.get() != null) {
             super.onPostExecute(result);
             charityEventDetailPresenterWeakReference.get()
-                    .showEventsDetail(mvpViewWeakReference.get());
+                    .showEventsDetail(mvpViewWeakReference.get(), event);
         }
     }
 }

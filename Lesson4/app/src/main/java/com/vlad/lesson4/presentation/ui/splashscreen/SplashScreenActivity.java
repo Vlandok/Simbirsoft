@@ -7,8 +7,6 @@ import com.vlad.lesson4.R;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 
-import io.realm.RealmConfiguration;
-
 public class SplashScreenActivity extends BaseActivity implements SplashScreenMvpView {
 
     private static final int VIEW_LOADING = 0;
@@ -26,7 +24,7 @@ public class SplashScreenActivity extends BaseActivity implements SplashScreenMv
         viewFlipper = findViewById(R.id.viewFlipperSplashScreen);
         splashScreenPresenter = getApplicationComponents().provideSplashScreenPresenter();
         splashScreenPresenter.attachView(this);
-        splashScreenPresenter.onCreate(getApplicationContext());
+        splashScreenPresenter.onCreate();
     }
 
     @Override

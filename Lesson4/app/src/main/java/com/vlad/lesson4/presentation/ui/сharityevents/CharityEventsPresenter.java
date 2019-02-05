@@ -1,25 +1,16 @@
 package com.vlad.lesson4.presentation.ui.сharityevents;
 
-import android.content.Context;
-
 import com.vlad.lesson4.data.model.CharityEvent;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
 import java.util.List;
 
-import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
-
 public class CharityEventsPresenter extends BasePresenter<CharityEventsMvpView> {
 
-    private CharityEvent charityEvent = new CharityEvent();
-    private RealmList<Event> charityEventRealmList = new RealmList<>();
-
-    public void onCreate(Context context) {
+    public void onCreate() {
         checkViewAttached();
-        getCharityEvents(context);
+        getCharityEvents();
     }
 
     @Override
@@ -27,26 +18,13 @@ public class CharityEventsPresenter extends BasePresenter<CharityEventsMvpView> 
 
     }
 
-    private void getCharityEvents(Context context) {
+    private void getCharityEvents() {
         checkViewAttached();
-        CharityEventsTask charityEventsTask = new CharityEventsTask(context, getMvpView(), this);
+        CharityEventsTask charityEventsTask = new CharityEventsTask(getMvpView(), this);
         charityEventsTask.execute();
     }
 
-    void getEventCategoriesFromRealm() {
-        try (Realm realm = Realm.getDefaultInstance()) {
-            RealmResults<Event> events = realm.where(Event.class).findAll();
-            List<Event> eventsCopy = realm.copyFromRealm(events);
-            if (eventsCopy != null) {
-                charityEventRealmList.addAll(eventsCopy.subList(0, eventsCopy.size()));
-                charityEvent.setEvents(charityEventRealmList);
-            } else {
-                charityEvent = null;
-            }
-        }
-    }
-
-    void showEvents(CharityEventsMvpView mvpView) {
+    void showEvents(CharityEventsMvpView mvpView, CharityEvent charityEvent) {
         checkViewAttached();
         if (charityEvent == null) {
             mvpView.showLoadingError();

@@ -81,7 +81,7 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
             textViewTitleToolbar.setText(R.string.title_help_categ);
             menuItem.setEnabled(false);
         }
-        helpPresenter.onCreate(getContext());
+        helpPresenter.onCreate();
         return rootView;
     }
 
@@ -108,7 +108,7 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
     @Override
     public void onClickErrorButton() {
         if (helpPresenter != null && buttonError != null) {
-            buttonError.setOnClickListener(view -> helpPresenter.onCreate(getContext()));
+            buttonError.setOnClickListener(view -> helpPresenter.onCreate());
         }
     }
 

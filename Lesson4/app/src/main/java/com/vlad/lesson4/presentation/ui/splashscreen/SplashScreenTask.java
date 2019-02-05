@@ -1,20 +1,19 @@
 package com.vlad.lesson4.presentation.ui.splashscreen;
 
-import android.content.Context;
 import android.os.AsyncTask;
+
 import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
+
 import static com.vlad.lesson4.presentation.ui.splashscreen.SplashScreenActivity.SECONDS_SLEEP;
 
 public class SplashScreenTask extends AsyncTask<Void, Void, Void> {
     private final WeakReference<SplashScreenPresenter> splashScreenPresenterWeakReference;
-    private final WeakReference<Context> contextWeakReference;
     private final WeakReference<SplashScreenMvpView> splashScreenMvpViewWeakReference;
 
-    SplashScreenTask(SplashScreenPresenter splashScreenPresenter, Context context,
+    SplashScreenTask(SplashScreenPresenter splashScreenPresenter,
                      SplashScreenMvpView splashScreenMvpView) {
         splashScreenPresenterWeakReference = new WeakReference<>(splashScreenPresenter);
-        contextWeakReference = new WeakReference<>(context);
         splashScreenMvpViewWeakReference = new WeakReference<>(splashScreenMvpView);
     }
 
@@ -27,8 +26,7 @@ public class SplashScreenTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        if (contextWeakReference.get() != null && splashScreenPresenterWeakReference.get() != null) {
-            splashScreenPresenterWeakReference.get().saveToRealm(contextWeakReference.get());
+        if (splashScreenPresenterWeakReference.get() != null) {
             try {
                 TimeUnit.SECONDS.sleep(SECONDS_SLEEP);
             } catch (InterruptedException e) {
@@ -40,7 +38,7 @@ public class SplashScreenTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        if (contextWeakReference.get() != null && splashScreenMvpViewWeakReference.get() != null) {
+        if (splashScreenMvpViewWeakReference.get() != null) {
             splashScreenMvpViewWeakReference.get().startMainActivity();
         } else {
             splashScreenMvpViewWeakReference.get().showLoadingError();

@@ -1,54 +1,28 @@
 package com.vlad.lesson4.presentation.ui.help;
 
-import android.content.Context;
-
-import com.vlad.lesson4.data.model.Category;
 import com.vlad.lesson4.data.model.EventCategories;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
-import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
-
 public class HelpPresenter extends BasePresenter<HelpMvpView> {
 
-    private EventCategories categories = new EventCategories();
-    private RealmList<Category> categoryRealmList = new RealmList<>();
-
-    public void onCreate(Context context) {
+    public void onCreate() {
         checkViewAttached();
-        getItemsCategory(context);
+        getItemsCategory();
     }
 
-    private void getItemsCategory(Context context) {
+    private void getItemsCategory() {
         checkViewAttached();
-        HelpTask helpTask = new HelpTask(context, getMvpView(), this);
+        HelpTask helpTask = new HelpTask(getMvpView(), this);
         helpTask.execute();
     }
 
-    void showCategories(HelpMvpView mvpView) {
-        if (categories == null) {
+    void showCategories(HelpMvpView mvpView, EventCategories eventCategories) {
+        if (eventCategories == null) {
             mvpView.showLoadingError();
             mvpView.onClickErrorButton();
         } else {
-            mvpView.showItemsCategory(categories.getCategories());
+            mvpView.showItemsCategory(eventCategories.getCategories());
             mvpView.onClickCategory();
-
-        }
-    }
-
-    void getEventCategoriesFromRealm() {
-        try (Realm realm = Realm.getDefaultInstance()) {
-            RealmResults<Category> category = realm.where(Category.class).findAll();
-            List<Category> categoryCopy = realm.copyFromRealm(category);
-            if (categoryCopy != null) {
-                categoryRealmList.addAll(categoryCopy.subList(0, categoryCopy.size()));
-                categories.setCategories(categoryRealmList);
-            } else {
-                categories = null;
-            }
         }
     }
 

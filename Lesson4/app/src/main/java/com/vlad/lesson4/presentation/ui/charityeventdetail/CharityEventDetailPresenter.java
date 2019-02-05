@@ -3,11 +3,7 @@ package com.vlad.lesson4.presentation.ui.charityeventdetail;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
-import io.realm.Realm;
-
 public class CharityEventDetailPresenter extends BasePresenter<CharityEventDetailMvpView> {
-
-    private Event eventCopy = new Event();
 
     public void onCreate(int id) {
         checkViewAttached();
@@ -26,21 +22,11 @@ public class CharityEventDetailPresenter extends BasePresenter<CharityEventDetai
         charityEventDetailTask.execute();
     }
 
-    void getEventFromRealm(int idEvent) {
-        try (Realm realm = Realm.getDefaultInstance()) {
-            Event event = realm.where(Event.class)
-                    .equalTo("id", idEvent).findFirst();
-            if (event != null) {
-                eventCopy = realm.copyFromRealm(event);
-            }
-        }
-    }
-
-    void showEventsDetail(CharityEventDetailMvpView mvpView) {
-        if (eventCopy == null) {
+    void showEventsDetail(CharityEventDetailMvpView mvpView, Event event) {
+        if (event == null) {
             mvpView.showLoadingError();
         } else {
-            mvpView.showEventDetail(eventCopy);
+            mvpView.showEventDetail(event);
         }
     }
 }
