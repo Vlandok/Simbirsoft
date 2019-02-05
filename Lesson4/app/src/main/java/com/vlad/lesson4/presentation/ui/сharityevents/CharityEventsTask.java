@@ -1,19 +1,20 @@
 package com.vlad.lesson4.presentation.ui.сharityevents;
 
-import android.content.Context;
 import android.os.AsyncTask;
+
+import com.vlad.lesson4.data.model.CharityEvent;
+import com.vlad.lesson4.data.model.db.repository.CharityEventsRepository;
 
 import java.lang.ref.WeakReference;
 
 class CharityEventsTask extends AsyncTask<Void, Void, Void> {
 
+    private CharityEvent charityEvent = new CharityEvent();
     private final WeakReference<CharityEventsPresenter> charityEventsPresenterWeakReference;
-    private final WeakReference<Context> contextWeakReference;
     private final WeakReference<CharityEventsMvpView> mvpViewWeakReference;
 
-    CharityEventsTask(Context context, CharityEventsMvpView mvpView,
+    CharityEventsTask(CharityEventsMvpView mvpView,
                       CharityEventsPresenter charityEventsPresenter) {
-        this.contextWeakReference = new WeakReference<>(context);
         this.mvpViewWeakReference = new WeakReference<>(mvpView);
         this.charityEventsPresenterWeakReference = new WeakReference<>(charityEventsPresenter);
     }
@@ -28,9 +29,7 @@ class CharityEventsTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        if (contextWeakReference.get() != null && charityEventsPresenterWeakReference.get() != null) {
-            charityEventsPresenterWeakReference.get().jsonToCharityEvent(contextWeakReference.get());
-        }
+        charityEvent = CharityEventsRepository.getInstance().getEventCategoriesFromRealm();
         return null;
     }
 
@@ -38,8 +37,8 @@ class CharityEventsTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         if (mvpViewWeakReference.get() != null && charityEventsPresenterWeakReference.get() != null) {
             super.onPostExecute(result);
-            CharityEventsMvpView mvpView = mvpViewWeakReference.get();
-            charityEventsPresenterWeakReference.get().showEvents(mvpView);
+            charityEventsPresenterWeakReference.get()
+                    .showEvents(mvpViewWeakReference.get(), charityEvent);
         }
     }
 }

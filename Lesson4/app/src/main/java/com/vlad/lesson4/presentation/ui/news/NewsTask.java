@@ -1,18 +1,19 @@
 package com.vlad.lesson4.presentation.ui.news;
 
-import android.content.Context;
 import android.os.AsyncTask;
+
+import com.vlad.lesson4.data.model.CharityEvent;
+import com.vlad.lesson4.data.model.db.repository.NewsRepository;
 
 import java.lang.ref.WeakReference;
 
 class NewsTask extends AsyncTask<Void, Void, Void> {
 
+    private CharityEvent charityEvent = new CharityEvent();
     private final WeakReference<NewsPresenter> newsPresenterWeakReference;
-    private final WeakReference<Context> contextWeakReference;
     private final WeakReference<NewsMvpView> mvpViewWeakReference;
 
-    NewsTask(Context context, NewsMvpView mvpView, NewsPresenter newsPresenter) {
-        this.contextWeakReference = new WeakReference<>(context);
+    NewsTask(NewsMvpView mvpView, NewsPresenter newsPresenter) {
         this.mvpViewWeakReference = new WeakReference<>(mvpView);
         this.newsPresenterWeakReference = new WeakReference<>(newsPresenter);
     }
@@ -27,9 +28,7 @@ class NewsTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        if (contextWeakReference.get() != null && newsPresenterWeakReference.get() != null) {
-            newsPresenterWeakReference.get().jsonToCharityEvent(contextWeakReference.get());
-        }
+        charityEvent = NewsRepository.getInstance().getEventCategoriesFromRealm();
         return null;
     }
 
@@ -37,8 +36,7 @@ class NewsTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         if (mvpViewWeakReference.get() != null && newsPresenterWeakReference.get() != null) {
             super.onPostExecute(result);
-            NewsMvpView mvpView = mvpViewWeakReference.get();
-            newsPresenterWeakReference.get().showNews(mvpView);
+            newsPresenterWeakReference.get().showNews(mvpViewWeakReference.get(), charityEvent);
         }
     }
 }

@@ -1,20 +1,21 @@
 package com.vlad.lesson4.presentation.ui.help;
 
-import android.content.Context;
 import android.os.AsyncTask;
+
+import com.vlad.lesson4.data.model.EventCategories;
+import com.vlad.lesson4.data.model.db.repository.CategoryRepository;
 
 import java.lang.ref.WeakReference;
 
 public class HelpTask extends AsyncTask<Void, Void, Void> {
 
+    private EventCategories eventCategories = new EventCategories();
     private final WeakReference<HelpPresenter> helpPresenterWeakReference;
-    private final WeakReference<Context> contextWeakReference;
     private final WeakReference<HelpMvpView> mvpViewWeakReference;
 
-    HelpTask(Context context, HelpMvpView mvpView, HelpPresenter helpPresenter) {
-        this.contextWeakReference = new WeakReference<>(context);
-        this.mvpViewWeakReference = new WeakReference<>(mvpView);
-        this.helpPresenterWeakReference = new WeakReference<>(helpPresenter);
+    HelpTask(HelpMvpView mvpView, HelpPresenter helpPresenter) {
+        mvpViewWeakReference = new WeakReference<>(mvpView);
+        helpPresenterWeakReference = new WeakReference<>(helpPresenter);
     }
 
     @Override
@@ -27,9 +28,7 @@ public class HelpTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        if (contextWeakReference.get() != null && helpPresenterWeakReference.get() != null) {
-            helpPresenterWeakReference.get().jsonToEventCategories(contextWeakReference.get());
-        }
+        eventCategories = CategoryRepository.getInstance().getEventCategoriesFromRealm();
         return null;
     }
 
@@ -37,8 +36,7 @@ public class HelpTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         if (mvpViewWeakReference.get() != null && helpPresenterWeakReference.get() != null) {
             super.onPostExecute(result);
-            HelpMvpView mvpView = mvpViewWeakReference.get();
-            helpPresenterWeakReference.get().showCategories(mvpView);
+            helpPresenterWeakReference.get().showCategories(mvpViewWeakReference.get(), eventCategories);
         }
     }
 }

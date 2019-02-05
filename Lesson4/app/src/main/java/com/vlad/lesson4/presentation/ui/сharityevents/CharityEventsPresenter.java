@@ -1,32 +1,16 @@
 package com.vlad.lesson4.presentation.ui.сharityevents;
 
-import android.content.Context;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import com.vlad.lesson4.data.model.CharityEvent;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
-import com.vlad.lesson4.utils.JsonSupport;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 public class CharityEventsPresenter extends BasePresenter<CharityEventsMvpView> {
 
-    private static final String FILE_JSON = "events.json";
-
-    private CharityEvent charityEvent;
-
-    public void onCreate(Context context, CharityEvent events) {
+    public void onCreate() {
         checkViewAttached();
-        charityEvent = events;
-        if (charityEvent == null) {
-            getCharityEvents(context);
-        } else {
-            showEvents(getMvpView());
-        }
+        getCharityEvents();
     }
 
     @Override
@@ -34,24 +18,14 @@ public class CharityEventsPresenter extends BasePresenter<CharityEventsMvpView> 
 
     }
 
-    private void getCharityEvents(Context context) {
+    private void getCharityEvents() {
         checkViewAttached();
-        CharityEventsTask charityEventsTask = new CharityEventsTask(context, getMvpView(), this);
+        CharityEventsTask charityEventsTask = new CharityEventsTask(getMvpView(), this);
         charityEventsTask.execute();
     }
 
-    void jsonToCharityEvent(Context context) {
-        String data = JsonSupport.loadJSONFromAsset(context, FILE_JSON);
-        Type type = new TypeToken<CharityEvent>() {
-        }.getType();
-        try {
-            charityEvent = new Gson().fromJson(data, type);
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }
-    }
-
-    void showEvents(CharityEventsMvpView mvpView) {
+    void showEvents(CharityEventsMvpView mvpView, CharityEvent charityEvent) {
+        checkViewAttached();
         if (charityEvent == null) {
             mvpView.showLoadingError();
         } else {

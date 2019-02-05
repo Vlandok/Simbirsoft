@@ -1,16 +1,16 @@
 
 package com.vlad.lesson4.data.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-public class Event implements Parcelable {
+public class Event extends RealmObject {
 
+    @PrimaryKey
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -25,7 +25,7 @@ public class Event implements Parcelable {
     private String imageMain;
     @SerializedName("imageExtra")
     @Expose
-    private List<ImageExtraEvent> imageExtra = null;
+    private RealmList<ImageExtraEvent> imageExtra = null;
     @SerializedName("timeStart")
     @Expose
     private String timeStart;
@@ -46,7 +46,7 @@ public class Event implements Parcelable {
     private String addressCompany;
     @SerializedName("numberPhone")
     @Expose
-    private List<NumberPhoneCharityEventCompany> numberPhone = null;
+    private RealmList<NumberPhoneCharityEventCompany> numberPhone = null;
     @SerializedName("emailCompany")
     @Expose
     private String emailCompany;
@@ -89,13 +89,21 @@ public class Event implements Parcelable {
         this.imageMain = imageMain;
     }
 
-    public List<ImageExtraEvent> getImageExtra() {
+    public RealmList<ImageExtraEvent> getImageExtra() {
         return imageExtra;
     }
 
-    public void setImageExtra(List<ImageExtraEvent> imageExtra) {
+    public void setImageExtra(RealmList<ImageExtraEvent> imageExtra) {
         this.imageExtra = imageExtra;
     }
+
+    //    public List<ImageExtraEvent> getImageExtra() {
+//        return imageExtra;
+//    }
+//
+//    public void setImageExtra(List<ImageExtraEvent> imageExtra) {
+//        this.imageExtra = imageExtra;
+//    }
 
     public String getTimeStart() {
         return timeStart;
@@ -145,13 +153,21 @@ public class Event implements Parcelable {
         this.addressCompany = addressCompany;
     }
 
-    public List<NumberPhoneCharityEventCompany> getNumberPhone() {
+    public RealmList<NumberPhoneCharityEventCompany> getNumberPhone() {
         return numberPhone;
     }
 
-    public void setNumberPhone(List<NumberPhoneCharityEventCompany> numberPhone) {
+    public void setNumberPhone(RealmList<NumberPhoneCharityEventCompany> numberPhone) {
         this.numberPhone = numberPhone;
     }
+
+    //    public List<NumberPhoneCharityEventCompany> getNumberPhone() {
+//        return numberPhone;
+//    }
+//
+//    public void setNumberPhone(List<NumberPhoneCharityEventCompany> numberPhone) {
+//        this.numberPhone = numberPhone;
+//    }
 
     public String getEmailCompany() {
         return emailCompany;
@@ -176,81 +192,4 @@ public class Event implements Parcelable {
     public void setUrlSiteCompany(String urlSiteCompany) {
         this.urlSiteCompany = urlSiteCompany;
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        if (id == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeInt(id);
-        }
-        parcel.writeString(name);
-        parcel.writeString(description);
-        parcel.writeString(imageMain);
-        parcel.writeString(timeStart);
-        parcel.writeString(timeFinish);
-        if (idSearchEvent == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeInt(idSearchEvent);
-        }
-        if (idCategoryHelp == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeInt(idCategoryHelp);
-        }
-        parcel.writeString(charityCompany);
-        parcel.writeString(addressCompany);
-        parcel.writeString(emailCompany);
-        parcel.writeString(text);
-        parcel.writeString(urlSiteCompany);
-    }
-
-    protected Event(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readInt();
-        }
-        name = in.readString();
-        description = in.readString();
-        imageMain = in.readString();
-        timeStart = in.readString();
-        timeFinish = in.readString();
-        if (in.readByte() == 0) {
-            idSearchEvent = null;
-        } else {
-            idSearchEvent = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            idCategoryHelp = null;
-        } else {
-            idCategoryHelp = in.readInt();
-        }
-        charityCompany = in.readString();
-        addressCompany = in.readString();
-        emailCompany = in.readString();
-        text = in.readString();
-        urlSiteCompany = in.readString();
-    }
-
-    public static final Creator<Event> CREATOR = new Creator<Event>() {
-        @Override
-        public Event createFromParcel(Parcel in) {
-            return new Event(in);
-        }
-
-        @Override
-        public Event[] newArray(int size) {
-            return new Event[size];
-        }
-    };
 }

@@ -2,11 +2,13 @@ package com.vlad.lesson4.di;
 
 import android.content.Context;
 
-import com.vlad.lesson4.presentation.ui.news.NewsPresenter;
+import com.vlad.lesson4.data.model.db.repository.RealmService;
+import com.vlad.lesson4.domain.provider.RealmProvider;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailPresenter;
 import com.vlad.lesson4.presentation.ui.help.HelpAdapter;
 import com.vlad.lesson4.presentation.ui.help.HelpPresenter;
 import com.vlad.lesson4.presentation.ui.main.MainPresenter;
+import com.vlad.lesson4.presentation.ui.news.NewsPresenter;
 import com.vlad.lesson4.presentation.ui.profileedit.ProfileEditAdapter;
 import com.vlad.lesson4.presentation.ui.profileedit.ProfileEditPresenter;
 import com.vlad.lesson4.presentation.ui.searchresultevents.SearchResultEventsAdapter;
@@ -23,9 +25,9 @@ public class ApplicationComponents {
 
     private Context context;
 
-
     private ApplicationComponents(Context context) {
         this.context = context;
+        RealmService.Creator.saveToRealm(context);
     }
 
     public static ApplicationComponents getInstance(Context context) {

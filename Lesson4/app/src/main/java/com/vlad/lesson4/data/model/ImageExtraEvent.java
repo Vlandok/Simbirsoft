@@ -4,7 +4,9 @@ package com.vlad.lesson4.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ImageExtraEvent {
+import io.realm.RealmObject;
+
+public class ImageExtraEvent extends RealmObject {
 
     @SerializedName("image")
     @Expose

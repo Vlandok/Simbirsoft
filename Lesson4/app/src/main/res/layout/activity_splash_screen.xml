@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplashScreenActivity">
+    tools:context=".presentation.ui.splashscreen.SplashScreenActivity">
+
     <ImageView
         android:id="@+id/imageViewLogo"
         style="@style/ImageViewLog"
@@ -16,25 +17,64 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/icon_logo" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="@dimen/proress_bar_width_height"
-        android:layout_height="@dimen/proress_bar_width_height"
-        android:layout_marginTop="@dimen/progress_bar_margin_top"
+    <ViewFlipper
+        android:id="@+id/viewFlipperSplashScreen"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewLogoMss"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageViewLogo" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewLogo"
+        app:layout_constraintVertical_weight="1">
 
-    <TextView
-        android:id="@+id/textViewProgressBar"
-        style="@style/textViewProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/text_view_progress_margin_top"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progressBar"
-        tools:text="Загрузка…" />
+        <LinearLayout
+            android:id="@+id/linearLayoutLoading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="@dimen/proress_bar_width_height"
+                android:layout_height="@dimen/proress_bar_width_height"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="@dimen/progress_bar_margin_top"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewProgressBar"
+                style="@style/textViewProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/text_view_progress_margin_top"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progressBar"
+                tools:text="Загрузка…" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/error_default_padding_offset">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/error_network" />
+
+            <Button
+                android:id="@+id/buttonRetry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/button_retry_margin_top"
+                android:text="@string/error_button_retry" />
+        </LinearLayout>
+    </ViewFlipper>
 
     <ImageView
         android:id="@+id/imageViewLogoMss"

@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.vlad.lesson4.R;
-import com.vlad.lesson4.data.model.CharityEvent;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.utils.Date;
@@ -26,7 +25,6 @@ import org.threeten.bp.LocalDate;
 
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.DOT;
@@ -43,8 +41,6 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
-    private static final String SAVED_BUNDLE_TAG = "SAVED_BUNDLE_TAG";
-
 
     private Toolbar toolbar;
     private ViewFlipper viewFlipper;
@@ -61,7 +57,6 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     private TextView textViewSiteEvent;
     private TextView textViewAskEvent;
     private LinearLayout linearLayoutImageEvent;
-    private CharityEvent charityEvent;
 
     public static Intent createStartIntent(Context context, int idEvent) {
         Intent intent = new Intent(context, CharityEventDetailActivity.class);
@@ -88,9 +83,6 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_event_detail);
-        if (savedInstanceState != null) {
-            charityEvent = savedInstanceState.getParcelable(SAVED_BUNDLE_TAG);
-        }
         toolbar = findViewById(R.id.toolbarEventDetail);
         viewFlipper = findViewById(R.id.viewFlipperEventDetail);
         textViewTitleDetailEvent = findViewById(R.id.textViewTitleDetailEvent);
@@ -116,13 +108,7 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
         charityEventDetailPresenter = getApplicationComponents().provideCharityEventDetailPresenter();
         charityEventDetailPresenter.attachView(this);
         int id = getIntent().getIntExtra(EXTRA_ID_EVENT, DEFAULT_VALUE);
-        charityEventDetailPresenter.onCreate(getApplicationContext(), id, charityEvent);
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(SAVED_BUNDLE_TAG, charityEvent);
+        charityEventDetailPresenter.onCreate(id);
     }
 
     @Override
@@ -147,19 +133,6 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     @Override
     public void showProgressView() {
         viewFlipper.setDisplayedChild(VIEW_LOADING);
-    }
-
-    @Override
-    public Event getEvent(CharityEvent charityEvent, int id) {
-        this.charityEvent = charityEvent;
-        if (charityEvent != null && id != DEFAULT_VALUE) {
-            for (Event event : charityEvent.getEvents()) {
-                if (event.getId() == id) {
-                    return event;
-                }
-            }
-        }
-        return null;
     }
 
     @Override
