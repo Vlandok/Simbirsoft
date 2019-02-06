@@ -409,8 +409,7 @@
 **3. Firebase:**
 + [Документация к проекту](https://firebase.google.com/docs/database/)  **(\*\*)**
 
-**4. Отладка:**
-Перехват и подмена трафика мобильных устройств.
+**4. Отладка. Перехват и подмена трафика мобильных устройств:**
 + [Fiddler](https://learn.javascript.ru/fiddler)  **(\*\*)**
 + [Postman](https://habr.com/ru/company/kolesa/blog/351250/)  **(\*\*)**
 + [Charles](http://wormiks.ru/faq_po_programmam_wormix/11-charles_instrukcija_polzovatelja_i_faq.html)  **(\*\*)**
