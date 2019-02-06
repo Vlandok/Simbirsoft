@@ -407,7 +407,7 @@
 + [OkHttp which ignores all SSL errors](https://gist.github.com/chalup/8706740) **(\*\*\*)**
 
 **3. Firebase:**
-+ [Документация к проекту](https://firebase.google.com/docs/database/)  **(\*\*)**
++ [Документация к проекту](https://firebase.google.com/docs/android/setup)  **(\*\*)**
 
 **4. Отладка. Перехват и подмена трафика мобильных устройств:**
 + [Fiddler](https://learn.javascript.ru/fiddler)  **(\*\*)**
