@@ -4,20 +4,19 @@ package com.vlad.lesson4.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
+import java.util.List;
 
-public class CharityEvent extends RealmObject {
+public class CharityEvent {
 
     @SerializedName("events")
     @Expose
-    private RealmList<Event> events = null;
+    private List<Event> events = null;
 
-    public RealmList<Event> getEvents() {
+    public List<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(RealmList<Event> events) {
+    public void setEvents(List<Event> events) {
         this.events = events;
     }
 }

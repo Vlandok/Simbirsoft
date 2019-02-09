@@ -4,11 +4,11 @@ package com.vlad.lesson4.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
+import java.util.List;
+
 import io.realm.annotations.PrimaryKey;
 
-public class Event extends RealmObject {
+public class Event {
 
     @PrimaryKey
     @SerializedName("id")
@@ -25,7 +25,7 @@ public class Event extends RealmObject {
     private String imageMain;
     @SerializedName("imageExtra")
     @Expose
-    private RealmList<ImageExtraEvent> imageExtra = null;
+    private List<ImageExtraEvent> imageExtra = null;
     @SerializedName("timeStart")
     @Expose
     private String timeStart;
@@ -46,7 +46,7 @@ public class Event extends RealmObject {
     private String addressCompany;
     @SerializedName("numberPhone")
     @Expose
-    private RealmList<NumberPhoneCharityEventCompany> numberPhone = null;
+    private List<NumberPhoneCharityEventCompany> numberPhone = null;
     @SerializedName("emailCompany")
     @Expose
     private String emailCompany;
@@ -89,21 +89,13 @@ public class Event extends RealmObject {
         this.imageMain = imageMain;
     }
 
-    public RealmList<ImageExtraEvent> getImageExtra() {
+    public List<ImageExtraEvent> getImageExtra() {
         return imageExtra;
     }
 
-    public void setImageExtra(RealmList<ImageExtraEvent> imageExtra) {
+    public void setImageExtra(List<ImageExtraEvent> imageExtra) {
         this.imageExtra = imageExtra;
     }
-
-    //    public List<ImageExtraEvent> getImageExtra() {
-//        return imageExtra;
-//    }
-//
-//    public void setImageExtra(List<ImageExtraEvent> imageExtra) {
-//        this.imageExtra = imageExtra;
-//    }
 
     public String getTimeStart() {
         return timeStart;
@@ -153,21 +145,13 @@ public class Event extends RealmObject {
         this.addressCompany = addressCompany;
     }
 
-    public RealmList<NumberPhoneCharityEventCompany> getNumberPhone() {
+    public List<NumberPhoneCharityEventCompany> getNumberPhone() {
         return numberPhone;
     }
 
-    public void setNumberPhone(RealmList<NumberPhoneCharityEventCompany> numberPhone) {
+    public void setNumberPhone(List<NumberPhoneCharityEventCompany> numberPhone) {
         this.numberPhone = numberPhone;
     }
-
-    //    public List<NumberPhoneCharityEventCompany> getNumberPhone() {
-//        return numberPhone;
-//    }
-//
-//    public void setNumberPhone(List<NumberPhoneCharityEventCompany> numberPhone) {
-//        this.numberPhone = numberPhone;
-//    }
 
     public String getEmailCompany() {
         return emailCompany;

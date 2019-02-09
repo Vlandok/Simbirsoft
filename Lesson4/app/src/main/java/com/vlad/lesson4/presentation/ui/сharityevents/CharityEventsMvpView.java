@@ -10,6 +10,8 @@ public interface CharityEventsMvpView extends MvpView {
 
     void showLoadingError();
 
+    void onClickErrorButton();
+
     void showProgressView();
 
     void onClickEvent();
@@ -17,4 +19,6 @@ public interface CharityEventsMvpView extends MvpView {
     void setTitleToolbar();
 
     List<Event> getEventsCategory(List<Event> arrayListEvent);
+
+    List<Event> getListEventsCategoryFromJson();
 }

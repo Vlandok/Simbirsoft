@@ -9,13 +9,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Category;
+import com.vlad.lesson4.data.model.EventCategories;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsActivity;
+import com.vlad.lesson4.utils.JsonSupport;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class HelpFragment extends BaseFragment implements HelpMvpView {
 
     public final static String FRAGMENT_TAG_HELP = "FRAGMENT_TAG_HELP";
+    private static final String FILE_JSON_CATEGORIES = "categories.json";
 
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
@@ -99,10 +106,9 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
 
     @Override
     public void onClickCategory() {
-        helpAdapter.setOnItemClickListener(item -> {
-            startActivity(CharityEventsActivity.createStartIntent(getContext(),
-                    item.getId(), item.getName()));
-        });
+        helpAdapter.setOnItemClickListener(item ->
+                startActivity(CharityEventsActivity.createStartIntent(getContext(),
+                        item.getId(), item.getName())));
     }
 
     @Override
@@ -110,6 +116,20 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
         if (helpPresenter != null && buttonError != null) {
             buttonError.setOnClickListener(view -> helpPresenter.onCreate());
         }
+    }
+
+    @Override
+    public List<Category> getListCategoriesFromJson() {
+        EventCategories categories = new EventCategories();
+        String data = JsonSupport.loadJSONFromAsset(getContext(), FILE_JSON_CATEGORIES);
+        Type type = new TypeToken<EventCategories>() {
+        }.getType();
+        try {
+            categories = new Gson().fromJson(data, type);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        return categories != null ? categories.getCategories() : null;
     }
 
     @Override

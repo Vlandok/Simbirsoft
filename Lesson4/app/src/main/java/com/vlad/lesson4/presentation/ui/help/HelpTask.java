@@ -2,14 +2,15 @@ package com.vlad.lesson4.presentation.ui.help;
 
 import android.os.AsyncTask;
 
-import com.vlad.lesson4.data.model.EventCategories;
-import com.vlad.lesson4.data.model.db.repository.CategoryRepository;
+import com.vlad.lesson4.data.model.Category;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HelpTask extends AsyncTask<Void, Void, Void> {
 
-    private EventCategories eventCategories = new EventCategories();
+    private List<Category> categories = new ArrayList<>();
     private final WeakReference<HelpPresenter> helpPresenterWeakReference;
     private final WeakReference<HelpMvpView> mvpViewWeakReference;
 
@@ -28,7 +29,9 @@ public class HelpTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        eventCategories = CategoryRepository.getInstance().getEventCategoriesFromRealm();
+        if (mvpViewWeakReference.get() != null) {
+            categories = mvpViewWeakReference.get().getListCategoriesFromJson();
+        }
         return null;
     }
 
@@ -36,7 +39,7 @@ public class HelpTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         if (mvpViewWeakReference.get() != null && helpPresenterWeakReference.get() != null) {
             super.onPostExecute(result);
-            helpPresenterWeakReference.get().showCategories(mvpViewWeakReference.get(), eventCategories);
+            helpPresenterWeakReference.get().showCategories(mvpViewWeakReference.get(), categories);
         }
     }
 }

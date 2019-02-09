@@ -15,4 +15,6 @@ public interface NewsMvpView extends MvpView {
     void onClickEvent();
 
     void onClickErrorButton();
+
+    List<Event> getListEventsFromJson();
 }

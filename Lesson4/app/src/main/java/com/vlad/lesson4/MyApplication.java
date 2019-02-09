@@ -2,10 +2,8 @@ package com.vlad.lesson4;
 
 import android.app.Application;
 
+import com.google.firebase.FirebaseApp;
 import com.vlad.lesson4.di.ApplicationComponents;
-
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 public class MyApplication extends Application {
 
@@ -14,13 +12,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Realm.init(getApplicationContext());
-        RealmConfiguration config = new RealmConfiguration
-                .Builder()
-                .deleteRealmIfMigrationNeeded()
-                .build();
+        FirebaseApp.initializeApp(getApplicationContext());
         applicationComponents = ApplicationComponents.getInstance(this);
-        Realm.setDefaultConfiguration(config);
     }
 
     public ApplicationComponents getApplicationComponents() {

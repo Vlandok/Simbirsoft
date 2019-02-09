@@ -2,14 +2,15 @@ package com.vlad.lesson4.presentation.ui.news;
 
 import android.os.AsyncTask;
 
-import com.vlad.lesson4.data.model.CharityEvent;
-import com.vlad.lesson4.data.model.db.repository.NewsRepository;
+import com.vlad.lesson4.data.model.Event;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 class NewsTask extends AsyncTask<Void, Void, Void> {
 
-    private CharityEvent charityEvent = new CharityEvent();
+    private List<Event> events = new ArrayList<>();
     private final WeakReference<NewsPresenter> newsPresenterWeakReference;
     private final WeakReference<NewsMvpView> mvpViewWeakReference;
 
@@ -28,7 +29,9 @@ class NewsTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        charityEvent = NewsRepository.getInstance().getEventCategoriesFromRealm();
+        if (mvpViewWeakReference.get() != null) {
+            events = mvpViewWeakReference.get().getListEventsFromJson();
+        }
         return null;
     }
 
@@ -36,7 +39,7 @@ class NewsTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         if (mvpViewWeakReference.get() != null && newsPresenterWeakReference.get() != null) {
             super.onPostExecute(result);
-            newsPresenterWeakReference.get().showNews(mvpViewWeakReference.get(), charityEvent);
+            newsPresenterWeakReference.get().showNews(mvpViewWeakReference.get(), events);
         }
     }
 }

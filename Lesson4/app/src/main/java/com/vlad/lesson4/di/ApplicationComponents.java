@@ -2,8 +2,9 @@ package com.vlad.lesson4.di;
 
 import android.content.Context;
 
-import com.vlad.lesson4.data.model.db.repository.RealmService;
-import com.vlad.lesson4.domain.provider.RealmProvider;
+import com.vlad.lesson4.data.remote.ApiService;
+import com.vlad.lesson4.domain.provider.CategoryProvider;
+import com.vlad.lesson4.domain.provider.EventProvider;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailPresenter;
 import com.vlad.lesson4.presentation.ui.help.HelpAdapter;
 import com.vlad.lesson4.presentation.ui.help.HelpPresenter;
@@ -24,10 +25,16 @@ public class ApplicationComponents {
     private static ApplicationComponents instance;
 
     private Context context;
+    private ApiService apiService;
+
+    private final CategoryProvider categoryProvider;
+    private final EventProvider eventProvider;
 
     private ApplicationComponents(Context context) {
         this.context = context;
-        RealmService.Creator.saveToRealm(context);
+        this.apiService = ApiService.Creator.newApiService(context);
+        this.categoryProvider = new CategoryProvider(apiService);
+        this.eventProvider = new EventProvider(apiService);
     }
 
     public static ApplicationComponents getInstance(Context context) {
@@ -53,8 +60,16 @@ public class ApplicationComponents {
         return new ProfileEditAdapter();
     }
 
+    public CategoryProvider provideCategoryProvider() {
+        return categoryProvider;
+    }
+
+    public EventProvider provideEventProvider() {
+        return eventProvider;
+    }
+
     public HelpPresenter provideHelpPresenter() {
-        return new HelpPresenter();
+        return new HelpPresenter(provideCategoryProvider());
     }
 
     public HelpAdapter provideHelpAdapter() {
@@ -78,11 +93,11 @@ public class ApplicationComponents {
     }
 
     public NewsPresenter provideNewsPresenter() {
-        return new NewsPresenter();
+        return new NewsPresenter(provideEventProvider());
     }
 
     public CharityEventsPresenter provideCharityEventsPresenter() {
-        return new CharityEventsPresenter();
+        return new CharityEventsPresenter(provideEventProvider());
     }
 
     public CharityEventsAdapter provideCharityEventsAdapter() {
@@ -90,7 +105,7 @@ public class ApplicationComponents {
     }
 
     public CharityEventDetailPresenter provideCharityEventDetailPresenter() {
-        return new CharityEventDetailPresenter();
+        return new CharityEventDetailPresenter(provideEventProvider());
     }
 
 }
