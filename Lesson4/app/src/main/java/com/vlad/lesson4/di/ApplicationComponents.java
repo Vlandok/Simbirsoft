@@ -2,7 +2,7 @@ package com.vlad.lesson4.di;
 
 import android.content.Context;
 
-import com.vlad.lesson4.data.remote.ApiService;
+import com.vlad.lesson4.data.remote.Creator;
 import com.vlad.lesson4.data.remote.api.FirebaseApi;
 import com.vlad.lesson4.domain.provider.CategoryProvider;
 import com.vlad.lesson4.domain.provider.EventProvider;
@@ -35,7 +35,7 @@ public class ApplicationComponents {
 
     private ApplicationComponents(Context context) {
         this.context = context;
-        this.firebaseApi = ApiService.Creator.newApiService(context);
+        this.firebaseApi = Creator.newApiService(context);
         this.categoryProvider = new CategoryProvider(firebaseApi);
         this.eventProvider = new EventProvider(firebaseApi);
         this.itemsJsonProvider = new ItemsJsonProvider(context);

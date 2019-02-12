@@ -1,7 +1,6 @@
 package com.vlad.lesson4.domain.provider;
 
 import com.vlad.lesson4.data.model.Event;
-import com.vlad.lesson4.data.remote.ApiService;
 import com.vlad.lesson4.data.remote.api.FirebaseApi;
 
 import java.util.List;
