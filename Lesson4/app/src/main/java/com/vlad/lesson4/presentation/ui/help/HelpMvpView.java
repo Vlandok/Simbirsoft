@@ -15,6 +15,4 @@ public interface HelpMvpView extends MvpView {
     void showProgressView();
 
     void onClickErrorButton();
-
-    List<Category> getListCategoriesFromJson();
 }

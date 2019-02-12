@@ -14,22 +14,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import com.vlad.lesson4.R;
-import com.vlad.lesson4.data.model.CharityEvent;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.utils.Date;
-import com.vlad.lesson4.utils.JsonSupport;
 import com.vlad.lesson4.utils.MakeLinksClickable;
 import com.vlad.lesson4.utils.MyGlide;
 
 import org.threeten.bp.LocalDate;
 
-import java.lang.reflect.Type;
-import java.util.List;
 import java.util.Objects;
 
 import androidx.appcompat.widget.Toolbar;
@@ -48,7 +41,6 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
-    private final static String FILE_JSON_EVENTS = "events.json";
 
     private Toolbar toolbar;
     private ViewFlipper viewFlipper;
@@ -132,32 +124,6 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }
-
-    @Override
-    public List<Event> getListEventsCategoryFromJson() {
-        CharityEvent charityEvent = new CharityEvent();
-        String data = JsonSupport.loadJSONFromAsset(getApplicationContext(), FILE_JSON_EVENTS);
-        Type type = new TypeToken<CharityEvent>() {
-        }.getType();
-        try {
-            charityEvent = new Gson().fromJson(data, type);
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }
-        return charityEvent != null ? charityEvent.getEvents() : null;
-    }
-
-    @Override
-    public Event getEventFromListEvents(int id, List<Event> events) {
-        Event eventInfo = new Event();
-        for (Event event : events) {
-            if (event.getId() == id) {
-                eventInfo = event;
-                break;
-            }
-        }
-        return eventInfo;
     }
 
     @Override

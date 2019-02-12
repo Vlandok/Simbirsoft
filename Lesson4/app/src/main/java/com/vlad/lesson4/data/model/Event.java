@@ -4,6 +4,7 @@ package com.vlad.lesson4.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Iterator;
 import java.util.List;
 
 import io.realm.annotations.PrimaryKey;
@@ -175,5 +176,26 @@ public class Event {
 
     public void setUrlSiteCompany(String urlSiteCompany) {
         this.urlSiteCompany = urlSiteCompany;
+    }
+
+    public static List<Event> getEventsCategory(List<Event> arrayListEvent, int idCategory) {
+        for (Iterator<Event> it = arrayListEvent.iterator(); it.hasNext(); ) {
+            Event event = it.next();
+            if (event.getIdCategoryHelp() != idCategory) {
+                it.remove();
+            }
+        }
+        return arrayListEvent;
+    }
+
+    public static Event getEventFromListEvents(int id, List<Event> events) {
+        Event eventInfo = new Event();
+        for (Event event : events) {
+            if (event.getId() == id) {
+                eventInfo = event;
+                break;
+            }
+        }
+        return eventInfo;
     }
 }

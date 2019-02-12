@@ -11,19 +11,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
-import com.vlad.lesson4.data.model.CharityEvent;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity;
 import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsAdapter;
-import com.vlad.lesson4.utils.JsonSupport;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,7 +29,6 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
 
     public final static String FRAGMENT_TAG_NEWS = "FRAGMENT_TAG_NEWS";
 
-    private final static String FILE_JSON_EVENTS = "events.json";
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
@@ -110,20 +103,6 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     public void onClickEvent() {
         charityEventsAdapter.setOnEventClickListener(event ->
                 startActivity(CharityEventDetailActivity.createStartIntent(getActivity(), event.getId())));
-    }
-
-    @Override
-    public List<Event> getListEventsFromJson() {
-        CharityEvent charityEvent = new CharityEvent();
-        String data = JsonSupport.loadJSONFromAsset(getContext(), FILE_JSON_EVENTS);
-        Type type = new TypeToken<CharityEvent>() {
-        }.getType();
-        try {
-            charityEvent = new Gson().fromJson(data, type);
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }
-        return charityEvent != null ? charityEvent.getEvents() : null;
     }
 
     @Override

@@ -1,26 +1,25 @@
 package com.vlad.lesson4.presentation.ui.help;
 
-import com.vlad.lesson4.data.model.Category;
 import com.vlad.lesson4.domain.provider.CategoryProvider;
+import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class HelpPresenter extends BasePresenter<HelpMvpView> {
 
-    @Nullable
     private Disposable disposable;
     @NonNull
     private CategoryProvider categoryProvider;
+    @NonNull
+    private ItemsJsonProvider itemsJsonProvider;
 
-    public HelpPresenter(@NonNull CategoryProvider categoryProvider) {
+    public HelpPresenter(@NonNull CategoryProvider categoryProvider,
+                         @NonNull ItemsJsonProvider itemsJsonProvider) {
         this.categoryProvider = categoryProvider;
+        this.itemsJsonProvider = itemsJsonProvider;
     }
 
     public void onCreate() {
@@ -29,33 +28,18 @@ public class HelpPresenter extends BasePresenter<HelpMvpView> {
     }
 
     public void getItemsCategory() {
-        checkViewAttached();
-        getMvpView().showProgressView();
         disposable = categoryProvider.getCategories()
-                .subscribeOn(Schedulers.io())
+                .compose(applyBinding())
+                .compose(categoryProvider.applyScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(__ -> getMvpView().showProgressView())
+                .onErrorReturn(__ -> itemsJsonProvider.getListCategoriesFromJson())
+                .doOnError(Throwable::printStackTrace)
                 .subscribe(categories -> {
-                            getMvpView().showItemsCategory(categories);
-                            getMvpView().onClickCategory();
-                        },
-                        error -> {
-                            checkViewAttached();
-                            HelpTask helpTask = new HelpTask(getMvpView(), this);
-                            helpTask.execute();
-                            error.printStackTrace();
-//                            getMvpView().showLoadingError();
-//                            getMvpView().onClickErrorButton();
-                        });
-    }
+                    getMvpView().showItemsCategory(categories);
+                    getMvpView().onClickCategory();
 
-    void showCategories(HelpMvpView mvpView, List<Category> categories) {
-        if (categories.isEmpty()) {
-            mvpView.showLoadingError();
-            mvpView.onClickErrorButton();
-        } else {
-            mvpView.showItemsCategory(categories);
-            mvpView.onClickCategory();
-        }
+                });
     }
 
     @Override

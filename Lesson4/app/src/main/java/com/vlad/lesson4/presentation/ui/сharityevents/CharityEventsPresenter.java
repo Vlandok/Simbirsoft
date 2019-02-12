@@ -2,30 +2,32 @@ package com.vlad.lesson4.presentation.ui.сharityevents;
 
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.domain.provider.EventProvider;
+import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class CharityEventsPresenter extends BasePresenter<CharityEventsMvpView> {
 
-    @Nullable
     private Disposable disposable;
     @NonNull
     private EventProvider eventProvider;
+    @NonNull
+    private ItemsJsonProvider itemsJsonProvider;
 
-    public CharityEventsPresenter(@NonNull EventProvider eventProvider) {
+    public CharityEventsPresenter(@NonNull EventProvider eventProvider,
+                                  @NonNull ItemsJsonProvider itemsJsonProvider) {
         this.eventProvider = eventProvider;
+        this.itemsJsonProvider = itemsJsonProvider;
     }
 
-    public void onCreate() {
+    public void onCreate(int idCategory) {
         checkViewAttached();
-        getCharityEvents();
+        getCharityEvents(idCategory);
     }
 
     @Override
@@ -35,34 +37,19 @@ public class CharityEventsPresenter extends BasePresenter<CharityEventsMvpView> 
         }
     }
 
-    private void getCharityEvents() {
-        checkViewAttached();
-        getMvpView().showProgressView();
+    private void getCharityEvents(int idCategory) {
         disposable = eventProvider.getEvents()
-                .subscribeOn(Schedulers.io())
+                .compose(applyBinding())
+                .compose(eventProvider.applyScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(__ -> getMvpView().showProgressView())
+                .doOnError(Throwable::printStackTrace)
+                .onErrorReturn(__ -> itemsJsonProvider.getListEventsCategoryFromJson())
                 .subscribe(events -> {
-                            getMvpView().showCharityEvents(events);
-                            getMvpView().onClickEvent();
-                        },
-                        error -> {
-                            checkViewAttached();
-                            CharityEventsTask charityEventsTask = new CharityEventsTask(getMvpView(), this);
-                            charityEventsTask.execute();
-                            error.printStackTrace();
-//                            getMvpView().showLoadingError();
-//                            getMvpView().onClickErrorButton();
-                        });
-    }
-
-    public void showEvents(List<Event> events) {
-        checkViewAttached();
-        if (events.isEmpty()) {
-            getMvpView().showLoadingError();
-        } else {
-            getMvpView().setTitleToolbar();
-            getMvpView().showCharityEvents(getMvpView().getEventsCategory(events));
-            getMvpView().onClickEvent();
-        }
+                    List<Event> eventsCategory = Event.getEventsCategory(events, idCategory);
+                    getMvpView().setTitleToolbar();
+                    getMvpView().showCharityEvents(eventsCategory);
+                    getMvpView().onClickEvent();
+                });
     }
 }

@@ -1,26 +1,25 @@
 package com.vlad.lesson4.presentation.ui.news;
 
-import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.domain.provider.EventProvider;
+import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class NewsPresenter extends BasePresenter<NewsMvpView> {
 
-    @Nullable
     private Disposable disposable;
     @NonNull
     private EventProvider eventProvider;
+    @NonNull
+    private ItemsJsonProvider itemsJsonProvider;
 
-    public NewsPresenter(@NonNull EventProvider eventProvider) {
+    public NewsPresenter(@NonNull EventProvider eventProvider,
+                         @NonNull ItemsJsonProvider itemsJsonProvider) {
         this.eventProvider = eventProvider;
+        this.itemsJsonProvider = itemsJsonProvider;
     }
 
     public void onCreate() {
@@ -30,38 +29,23 @@ public class NewsPresenter extends BasePresenter<NewsMvpView> {
 
     private void getCharityEvents() {
         checkViewAttached();
-        getMvpView().showProgressView();
         disposable = eventProvider.getEvents()
-                .subscribeOn(Schedulers.io())
+                .compose(applyBinding())
+                .compose(eventProvider.applyScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(__ -> getMvpView().showProgressView())
+                .doOnError(Throwable::printStackTrace)
+                .onErrorReturn(__ -> itemsJsonProvider.getListEventsCategoryFromJson())
                 .subscribe(events -> {
-                            getMvpView().showCharityEvents(events);
-                            getMvpView().onClickEvent();
-                        },
-                        error -> {
-                            checkViewAttached();
-                            NewsTask newsTask = new NewsTask(getMvpView(), this);
-                            newsTask.execute();
-                            error.printStackTrace();
-//                            getMvpView().showLoadingError();
-//                            getMvpView().onClickErrorButton();
-                        });
+                    getMvpView().showCharityEvents(events);
+                    getMvpView().onClickEvent();
+                });
     }
 
     @Override
     protected void doUnsubscribe() {
         if (disposable != null) {
             disposable.dispose();
-        }
-    }
-
-    void showNews(NewsMvpView mvpView, List<Event> events) {
-        if (events == null) {
-            mvpView.showLoadingError();
-            mvpView.onClickErrorButton();
-        } else {
-            mvpView.showCharityEvents(events);
-            mvpView.onClickEvent();
         }
     }
 }

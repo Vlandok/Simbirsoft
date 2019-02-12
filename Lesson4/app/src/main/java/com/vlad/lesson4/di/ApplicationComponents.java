@@ -3,8 +3,10 @@ package com.vlad.lesson4.di;
 import android.content.Context;
 
 import com.vlad.lesson4.data.remote.ApiService;
+import com.vlad.lesson4.data.remote.api.FirebaseApi;
 import com.vlad.lesson4.domain.provider.CategoryProvider;
 import com.vlad.lesson4.domain.provider.EventProvider;
+import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailPresenter;
 import com.vlad.lesson4.presentation.ui.help.HelpAdapter;
 import com.vlad.lesson4.presentation.ui.help.HelpPresenter;
@@ -25,16 +27,18 @@ public class ApplicationComponents {
     private static ApplicationComponents instance;
 
     private Context context;
-    private ApiService apiService;
+    private FirebaseApi firebaseApi;
 
     private final CategoryProvider categoryProvider;
     private final EventProvider eventProvider;
+    private final ItemsJsonProvider itemsJsonProvider;
 
     private ApplicationComponents(Context context) {
         this.context = context;
-        this.apiService = ApiService.Creator.newApiService(context);
-        this.categoryProvider = new CategoryProvider(apiService);
-        this.eventProvider = new EventProvider(apiService);
+        this.firebaseApi = ApiService.Creator.newApiService(context);
+        this.categoryProvider = new CategoryProvider(firebaseApi);
+        this.eventProvider = new EventProvider(firebaseApi);
+        this.itemsJsonProvider = new ItemsJsonProvider(context);
     }
 
     public static ApplicationComponents getInstance(Context context) {
@@ -64,12 +68,16 @@ public class ApplicationComponents {
         return categoryProvider;
     }
 
+    public ItemsJsonProvider provideItemsJsonProvider() {
+        return itemsJsonProvider;
+    }
+
     public EventProvider provideEventProvider() {
         return eventProvider;
     }
 
     public HelpPresenter provideHelpPresenter() {
-        return new HelpPresenter(provideCategoryProvider());
+        return new HelpPresenter(provideCategoryProvider(), provideItemsJsonProvider());
     }
 
     public HelpAdapter provideHelpAdapter() {
@@ -93,11 +101,11 @@ public class ApplicationComponents {
     }
 
     public NewsPresenter provideNewsPresenter() {
-        return new NewsPresenter(provideEventProvider());
+        return new NewsPresenter(provideEventProvider(), provideItemsJsonProvider());
     }
 
     public CharityEventsPresenter provideCharityEventsPresenter() {
-        return new CharityEventsPresenter(provideEventProvider());
+        return new CharityEventsPresenter(provideEventProvider(), provideItemsJsonProvider());
     }
 
     public CharityEventsAdapter provideCharityEventsAdapter() {
@@ -105,7 +113,7 @@ public class ApplicationComponents {
     }
 
     public CharityEventDetailPresenter provideCharityEventDetailPresenter() {
-        return new CharityEventDetailPresenter(provideEventProvider());
+        return new CharityEventDetailPresenter(provideEventProvider(), provideItemsJsonProvider());
     }
 
 }
