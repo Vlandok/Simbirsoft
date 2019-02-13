@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "83423692031",
+    "firebase_url": "https://lesson4-baada.firebaseio.com",
+    "project_id": "lesson4-baada",
+    "storage_bucket": "lesson4-baada.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83423692031:android:ddc96e6cf0ea759a",
+        "android_client_info": {
+          "package_name": "com.vlad.lesson4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83423692031-522tu1h8kks7f2vm5nc0t779aaat3enn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vlad.lesson4",
+            "certificate_hash": "aa3aa923380fbd0737b61ebbdfc9115dde5c84f9"
+          }
+        },
+        {
+          "client_id": "83423692031-v4dojf8ps2do766uap1tlseksn2ebad8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRCiIOIrxwiGRdUg2C5YcYQRbjATeAMjQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83423692031-v4dojf8ps2do766uap1tlseksn2ebad8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

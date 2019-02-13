@@ -7,6 +7,8 @@ public interface CharityEventDetailMvpView extends MvpView {
 
     void showLoadingError();
 
+    void onClickErrorButton();
+
     void showProgressView();
 
     void showEventDetail(Event event);

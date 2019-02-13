@@ -12,7 +12,6 @@ import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity;
 
-import java.util.Iterator;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
@@ -24,12 +23,12 @@ import static com.vlad.lesson4.presentation.ui.main.MainActivity.EMPTY;
 
 public class CharityEventsActivity extends BaseActivity implements CharityEventsMvpView {
 
+    public static final String ARGUMENT_ID_CATEGORY_HELP = "ARGUMENT_ID_CATEGORY_HELP";
+    public static final String ARGUMENT_TITLE_CATEGORY_HELP = "ARGUMENT_TITLE_CATEGORY_HELP";
+
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
-
-    public static final String ARGUMENT_ID_CATEGORY_HELP = "ARGUMENT_ID_CATEGORY_HELP";
-    public static final String ARGUMENT_TITLE_CATEGORY_HELP = "ARGUMENT_TITLE_CATEGORY_HELP";
 
     private int idCategory;
     private String titleToolbar;
@@ -69,7 +68,7 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
         titleToolbar = getIntent().getStringExtra(ARGUMENT_TITLE_CATEGORY_HELP);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(charityEventsAdapter);
-        charityEventsPresenter.onCreate();
+        charityEventsPresenter.onCreate(idCategory);
     }
 
     @Override
@@ -92,9 +91,14 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
     }
 
     @Override
+    public void onClickErrorButton() {
+        charityEventsPresenter.onCreate(idCategory);
+    }
+
+    @Override
     public void showCharityEvents(List<Event> arrayListEvent) {
         viewFlipper.setDisplayedChild(VIEW_DATA);
-        charityEventsAdapter.setArrayListCharityEvents(getEventsCategory(arrayListEvent));
+        charityEventsAdapter.setArrayListCharityEvents(arrayListEvent);
     }
 
     @Override
@@ -105,17 +109,6 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
     @Override
     public void showProgressView() {
         viewFlipper.setDisplayedChild(VIEW_LOADING);
-    }
-
-    @Override
-    public List<Event> getEventsCategory(List<Event> arrayListEvent) {
-        for (Iterator<Event> it = arrayListEvent.iterator(); it.hasNext(); ) {
-            Event event = it.next();
-            if (event.getIdCategoryHelp() != idCategory) {
-                it.remove();
-            }
-        }
-        return arrayListEvent;
     }
 
     @Override

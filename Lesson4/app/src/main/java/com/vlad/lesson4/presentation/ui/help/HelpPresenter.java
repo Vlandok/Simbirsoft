@@ -1,33 +1,52 @@
 package com.vlad.lesson4.presentation.ui.help;
 
-import com.vlad.lesson4.data.model.EventCategories;
+import com.vlad.lesson4.domain.provider.CategoryProvider;
+import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
+import androidx.annotation.NonNull;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+
 public class HelpPresenter extends BasePresenter<HelpMvpView> {
+
+    private Disposable disposable;
+    @NonNull
+    private CategoryProvider categoryProvider;
+    @NonNull
+    private ItemsJsonProvider itemsJsonProvider;
+
+    public HelpPresenter(@NonNull CategoryProvider categoryProvider,
+                         @NonNull ItemsJsonProvider itemsJsonProvider) {
+        this.categoryProvider = categoryProvider;
+        this.itemsJsonProvider = itemsJsonProvider;
+    }
 
     public void onCreate() {
         checkViewAttached();
         getItemsCategory();
     }
 
-    private void getItemsCategory() {
-        checkViewAttached();
-        HelpTask helpTask = new HelpTask(getMvpView(), this);
-        helpTask.execute();
-    }
+    public void getItemsCategory() {
+        disposable = categoryProvider.getCategories()
+                .compose(applyBinding())
+                .compose(categoryProvider.applyScheduler())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(__ -> getMvpView().showProgressView())
+                .onErrorReturn(__ -> itemsJsonProvider.getListCategoriesFromJson())
+                .doOnError(Throwable::printStackTrace)
+                .subscribe(categories -> {
+                    getMvpView().showItemsCategory(categories);
+                    getMvpView().onClickCategory();
 
-    void showCategories(HelpMvpView mvpView, EventCategories eventCategories) {
-        if (eventCategories == null) {
-            mvpView.showLoadingError();
-            mvpView.onClickErrorButton();
-        } else {
-            mvpView.showItemsCategory(eventCategories.getCategories());
-            mvpView.onClickCategory();
-        }
+                });
     }
 
     @Override
     protected void doUnsubscribe() {
+        if (disposable != null) {
+            disposable.dispose();
+        }
     }
 }
 

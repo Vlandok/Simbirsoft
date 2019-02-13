@@ -57,6 +57,7 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     private TextView textViewSiteEvent;
     private TextView textViewAskEvent;
     private LinearLayout linearLayoutImageEvent;
+    private int id;
 
     public static Intent createStartIntent(Context context, int idEvent) {
         Intent intent = new Intent(context, CharityEventDetailActivity.class);
@@ -107,7 +108,7 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
         }
         charityEventDetailPresenter = getApplicationComponents().provideCharityEventDetailPresenter();
         charityEventDetailPresenter.attachView(this);
-        int id = getIntent().getIntExtra(EXTRA_ID_EVENT, DEFAULT_VALUE);
+        id = getIntent().getIntExtra(EXTRA_ID_EVENT, DEFAULT_VALUE);
         charityEventDetailPresenter.onCreate(id);
     }
 
@@ -133,6 +134,11 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     @Override
     public void showProgressView() {
         viewFlipper.setDisplayedChild(VIEW_LOADING);
+    }
+
+    @Override
+    public void onClickErrorButton() {
+        charityEventDetailPresenter.onCreate(id);
     }
 
     @Override
