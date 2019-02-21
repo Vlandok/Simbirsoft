@@ -168,7 +168,7 @@
     </style>
 
     <style name="ButtonExitAccountProfileEdit">
-        <item name="android:background">@drawable/rectangle_green_exit_account</item>
+        <item name="android:background">@drawable/rectangle_green_account</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:letterSpacing">0.04</item>
         <item name="android:paddingBottom">@dimen/button_exit_account_padding_top_bottom</item>

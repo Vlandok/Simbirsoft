@@ -1,8 +1,5 @@
 package com.vlad.lesson4.data.remote;
 
-import android.content.Context;
-
-import com.readystatesoftware.chuck.ChuckInterceptor;
 import com.vlad.lesson4.data.remote.api.FirebaseApi;
 
 import okhttp3.OkHttpClient;
@@ -13,11 +10,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Creator {
     private static String ENDPOINT = "https://lesson4-baada.firebaseio.com/";
 
-    public static FirebaseApi newApiService(Context context) {
-
+    public static FirebaseApi newApiService() {
         OkHttpClient.Builder okBuilder = new OkHttpClient.Builder();
-
-        okBuilder.addInterceptor(new ChuckInterceptor(context));
+        okBuilder.addInterceptor(new FirebaseUserIdTokenInterceptor());
 
         OkHttpClient client = okBuilder.build();
         Retrofit retrofit = new Retrofit.Builder()

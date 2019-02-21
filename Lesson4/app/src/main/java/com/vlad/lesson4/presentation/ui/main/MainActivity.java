@@ -4,13 +4,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.vlad.lesson4.R;
+import com.vlad.lesson4.presentation.ui.authorization.AuthorizationActivity;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.presentation.ui.help.HelpFragment;
 import com.vlad.lesson4.presentation.ui.news.NewsFragment;
@@ -30,6 +34,8 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private Fragment fragment = null;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     private MainPresenter mainPresenter;
 
@@ -53,6 +59,8 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AndroidThreeTen.init(this);
+
+        mAuth = FirebaseAuth.getInstance();
 
         toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottomNavigationMenu);
@@ -80,6 +88,12 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        currentUser = mAuth.getCurrentUser();
+    }
+
+    @Override
     protected void onDestroy() {
         mainPresenter.detachView();
         super.onDestroy();
@@ -94,7 +108,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     public void clickButtonBottomNav(Bundle savedInstanceState) {
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
-            setTextInTextViewToolbar(menuItem.getTitle().toString());
+            menuItem.setEnabled(false);
             fragmentTransaction = fragmentManager.beginTransaction();
             switch (id) {
                 case R.id.i_news: {
@@ -106,6 +120,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                     }
                     findViewById(R.id.textViewToolbar).setVisibility(View.VISIBLE);
                     findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.GONE);
+                    setTextInTextViewToolbar(menuItem.getTitle().toString());
                     break;
                 }
                 case R.id.i_search: {
@@ -117,6 +132,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                     }
                     findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.VISIBLE);
                     findViewById(R.id.textViewToolbar).setVisibility(View.GONE);
+                    setTextInTextViewToolbar(menuItem.getTitle().toString());
                     break;
                 }
                 case R.id.i_help: {
@@ -128,21 +144,29 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                     }
                     findViewById(R.id.textViewToolbar).setVisibility(View.VISIBLE);
                     findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.GONE);
+                    setTextInTextViewToolbar(menuItem.getTitle().toString());
                     break;
                 }
                 case R.id.i_profile: {
-                    fragment = fragmentManager.findFragmentByTag(ProfileEditFragment.FRAGMENT_TAG_PROFILE);
-                    if (fragment != null) {
-                        fragmentTransaction.replace(R.id.containerFragments, fragment);
+                    if (currentUser != null) {
+                        menuItem.setCheckable(true);
+                        fragment = fragmentManager.findFragmentByTag(ProfileEditFragment.FRAGMENT_TAG_PROFILE);
+                        if (fragment != null) {
+                            fragmentTransaction.replace(R.id.containerFragments, fragment);
+                        } else {
+                            fragmentTransaction.replace(R.id.containerFragments, ProfileEditFragment.getInstance());
+                        }
+                        findViewById(R.id.textViewToolbar).setVisibility(View.VISIBLE);
+                        findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.GONE);
+                        setTextInTextViewToolbar(menuItem.getTitle().toString());
                     } else {
-                        fragmentTransaction.replace(R.id.containerFragments, ProfileEditFragment.getInstance());
+                        menuItem.setEnabled(true);
+                        menuItem.setCheckable(false);
+                        startActivity(AuthorizationActivity.createStartIntent(this));
                     }
-                    findViewById(R.id.textViewToolbar).setVisibility(View.VISIBLE);
-                    findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.GONE);
                     break;
                 }
             }
-            menuItem.setEnabled(false);
             fragmentTransaction.commit();
             return true;
         });

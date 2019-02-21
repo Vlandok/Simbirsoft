@@ -1,19 +1,23 @@
 package com.vlad.lesson4.presentation.ui.profileedit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Friend;
 import com.vlad.lesson4.data.model.User;
+import com.vlad.lesson4.presentation.ui.authorization.AuthorizationActivity;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 
@@ -24,6 +28,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpView {
 
@@ -44,6 +51,10 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     private MenuItem menuItem;
     private RecyclerView recyclerView;
     private ProfileEditAdapter profileEditAdapter;
+    private Unbinder unbinder;
+
+    @BindView(R.id.buttonExitAccount)
+    Button buttonExitAccount;
 
     public static ProfileEditFragment getInstance() {
         return new ProfileEditFragment();
@@ -66,6 +77,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_profile_edit, container, false);
+        unbinder = ButterKnife.bind(this, rootView);
         BottomNavigationViewEx bottomNavigationView = Objects.requireNonNull(getActivity())
                 .findViewById(R.id.bottomNavigationMenu);
         menuItem = bottomNavigationView.getMenu().findItem(R.id.i_profile);
@@ -79,8 +91,13 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
         viewFlipper = rootView.findViewById(R.id.viewFlipper);
         dialog = new AlertDialog.Builder(Objects.requireNonNull(getActivity()))
                 .setView(inflater.inflate(R.layout.dialog_profile_edit, null)).create();
-        profileEditPresenter.onCreate();
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        profileEditPresenter.onCreate();
     }
 
     @Override
@@ -92,6 +109,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     @Override
     public void onDestroy() {
         profileEditPresenter.detachView();
+        unbinder.unbind();
         super.onDestroy();
     }
 
@@ -117,6 +135,16 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.edit_profile).setVisible(true);
         super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void clickToExitAccount() {
+        buttonExitAccount.setOnClickListener(view -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = AuthorizationActivity.createStartIntent(getActivity());
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
     }
 
     @Override

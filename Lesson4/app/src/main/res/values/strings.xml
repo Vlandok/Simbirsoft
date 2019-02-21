@@ -54,6 +54,17 @@
     <string name="on_nko">По НКО</string>
     <string name="write_us_link"><![CDATA[<a href=\"mailto: %s\">%s</a>]]></string>
     <string name="go_to_site_organization_link"><![CDATA[<a href=\"%s\">%s</a>]]></string>
+    <string name="text_authorization">Для участия в мероприятиях войдите в приложение через социальые сети</string>
+    <string name="Authorization_social_networks">Или авторизуйтесь через приложение</string>
+    <string name="enter_email">Введите e-mail</string>
+    <string name="enter">Войти</string>
+    <string name="forgot_password"><u>Забыли пароль?</u></string>
+    <string name="registration"><u>Регистрация</u></string>
+    <string name="authorization">Авторизация</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="error_sign_up">Неверный email или пароль</string>
+    <string name="error">Ошибка</string>
+    <string name="ok">ОК</string>
     <plurals name="days_left">
         <item quantity="one">Осталось %d день (%s - %s)</item>
         <item quantity="few">Осталось %d  дня  (%s - %s)</item>

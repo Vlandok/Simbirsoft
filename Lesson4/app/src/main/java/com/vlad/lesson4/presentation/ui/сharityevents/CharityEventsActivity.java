@@ -79,6 +79,12 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
     }
 
     @Override
+    protected void onDestroy() {
+        charityEventsPresenter.detachView();
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
