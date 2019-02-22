@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -41,12 +41,12 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
     Button buttonLogin;
     @BindView(R.id.progressBarAuthorization)
     ProgressBar progressBar;
+    @BindView(R.id.imageButtonChangeVisiblePassword)
+    ImageButton imageButtonChangeVisiblePassword;
 
     private AuthorizationPresenter authorizationPresenter;
     private AuthorizationViewHolder authorizationViewHolder;
     private AuthorizationModel authorizationModel;
-
-    private final static int DRAWABLE_RIGHT = 2;
 
     public static Intent createStartIntent(Context context) {
         return new Intent(context, AuthorizationActivity.class);
@@ -59,8 +59,8 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
         ButterKnife.bind(this);
         setSettingsToolbar();
 
-        authorizationViewHolder = new AuthorizationViewHolder(editTextEmail,
-                editTextPassword, buttonLogin);
+        authorizationViewHolder = new AuthorizationViewHolder(editTextEmail, editTextPassword,
+                buttonLogin, imageButtonChangeVisiblePassword);
         authorizationModel = new AuthorizationProvider(authorizationViewHolder);
         authorizationPresenter = new AuthorizationPresenter(authorizationModel);
         authorizationPresenter.attachView(this);
@@ -139,39 +139,25 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
         }
     }
 
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void clickChangeVisibilityPassword() {
-        editTextPassword.setOnTouchListener((view, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (event.getRawX() >= (editTextPassword.getRight()
-                        - editTextPassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                    int start = editTextPassword.getSelectionStart();
-                    int end = editTextPassword.getSelectionEnd();
-                    changeDrawablePassword();
-                    editTextPassword.setSelection(start, end);
-                    return true;
-                }
-            }
-            return false;
-        });
-    }
-
-    private void changeDrawablePassword() {
-        Drawable drawableNow = editTextPassword.getCompoundDrawables()[DRAWABLE_RIGHT];
+        int start = editTextPassword.getSelectionStart();
+        int end = editTextPassword.getSelectionEnd();
+        Drawable drawableNow = imageButtonChangeVisiblePassword.getDrawable();
         Drawable drawableClose = getResources().getDrawable(R.drawable.ic_close);
         Drawable drawableOpen = getResources().getDrawable(R.drawable.ic_open);
         if (Objects.requireNonNull(drawableNow.getConstantState())
                 .equals(drawableClose.getConstantState())) {
-            editTextPassword.setCompoundDrawablesWithIntrinsicBounds(null, null,
-                    drawableOpen, null);
+            imageButtonChangeVisiblePassword.setImageDrawable(drawableOpen);
             editTextPassword.setTransformationMethod(null);
         }
         if (Objects.requireNonNull(drawableNow.getConstantState())
                 .equals(drawableOpen.getConstantState())) {
-            editTextPassword.setCompoundDrawablesWithIntrinsicBounds(null, null,
-                    drawableClose, null);
+            imageButtonChangeVisiblePassword.setImageDrawable(drawableClose);
             editTextPassword.setTransformationMethod(new PasswordTransformationMethod());
         }
+        editTextPassword.setSelection(start, end);
     }
 }

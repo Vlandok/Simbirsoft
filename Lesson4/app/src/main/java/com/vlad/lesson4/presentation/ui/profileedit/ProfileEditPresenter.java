@@ -16,13 +16,22 @@ import durdinapps.rxfirebase2.RxFirebaseDatabase;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import rx.Completable;
+import rx.Observable;
 
 public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
 
     private final static String USERS_REF = "users";
+    private final static String SWITCH_NOTIFY_REF = "isPushNotifications";
 
     private ArrayList<Friend> arrayListFriends;
     private Disposable disposable;
+    private ProfileEditModel profileEditModel;
+    private Observable<Boolean> switchObservable;
+
+    public ProfileEditPresenter(ProfileEditModel profileEditModel) {
+        this.profileEditModel = profileEditModel;
+    }
 
     public void onCreate() {
         checkViewAttached();
@@ -36,6 +45,19 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
         }
     }
 
+    private void setSwitchNotify(DatabaseReference databaseReference) {
+        switchObservable = profileEditModel.changeSwitchNotify();
+        switchObservable.subscribe(aBoolean -> databaseReference.child(SWITCH_NOTIFY_REF)
+                .setValue(aBoolean));
+    }
+
+    private Completable getImageUrl(final String url) {
+        return Completable.create(subscriber -> {
+            getMvpView().setImageUser(url);
+            subscriber.onCompleted();
+        });
+    }
+
     private void getUserInfo() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference query = FirebaseDatabase.getInstance().getReference().child(USERS_REF)
@@ -46,16 +68,20 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
                 .doOnSubscribe(__ -> getMvpView().showProgressView())
                 .doOnError(Throwable::printStackTrace)
                 .subscribe(user -> {
-                    ArrayList<Friend> arrayListFriendsExample = initArrayListFriends();
-                    if (arrayListFriendsExample.isEmpty()) {
-                        getMvpView().showLoadingError();
-                    } else {
-                        getMvpView().showInfoUser(user, initArrayListFriends());
-                        getMvpView().clickOnImageUser();
-                        getMvpView().clickToExitAccount();
-                    }
+                    getImageUrl(user.getFullImageUrl()).subscribe(() -> {
+                        setSwitchNotify(query);
+                        ArrayList<Friend> arrayListFriendsExample = initArrayListFriends();
+                        if (arrayListFriendsExample.isEmpty()) {
+                            getMvpView().showLoadingError();
+                        } else {
+                            getMvpView().showInfoUser(user, initArrayListFriends());
+                            getMvpView().clickOnImageUser();
+                            getMvpView().clickToExitAccount();
+                        }
+                    });
                 });
     }
+
 
     private ArrayList<Friend> initArrayListFriends() {
         arrayListFriends = new ArrayList<>();

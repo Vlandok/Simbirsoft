@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
@@ -109,46 +108,51 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
             menuItem.setEnabled(false);
-            fragmentTransaction = fragmentManager.beginTransaction();
-            switch (id) {
-                case R.id.i_news: {
-                    fragment = fragmentManager.findFragmentByTag(NewsFragment.FRAGMENT_TAG_NEWS);
-                    if (fragment != null) {
-                        fragmentTransaction.replace(R.id.containerFragments, fragment);
-                    } else {
-                        fragmentTransaction.replace(R.id.containerFragments, NewsFragment.getInstance());
+            if (id == R.id.i_profile && currentUser == null) {
+                menuItem.setEnabled(true);
+                menuItem.setCheckable(false);
+                menuItem.setChecked(false);
+                startActivity(AuthorizationActivity.createStartIntent(this));
+            } else {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                switch (id) {
+                    case R.id.i_news: {
+                        fragment = fragmentManager.findFragmentByTag(NewsFragment.FRAGMENT_TAG_NEWS);
+                        if (fragment != null) {
+                            fragmentTransaction.replace(R.id.containerFragments, fragment);
+                        } else {
+                            fragmentTransaction.replace(R.id.containerFragments, NewsFragment.getInstance());
+                        }
+                        findViewById(R.id.textViewToolbar).setVisibility(View.VISIBLE);
+                        findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.GONE);
+                        setTextInTextViewToolbar(menuItem.getTitle().toString());
+                        break;
                     }
-                    findViewById(R.id.textViewToolbar).setVisibility(View.VISIBLE);
-                    findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.GONE);
-                    setTextInTextViewToolbar(menuItem.getTitle().toString());
-                    break;
-                }
-                case R.id.i_search: {
-                    fragment = fragmentManager.findFragmentByTag(SearchFragment.FRAGMENT_TAG_SEARCH);
-                    if (fragment != null) {
-                        fragmentTransaction.replace(R.id.containerFragments, fragment);
-                    } else {
-                        fragmentTransaction.replace(R.id.containerFragments, SearchFragment.getInstance());
+                    case R.id.i_search: {
+                        fragment = fragmentManager.findFragmentByTag(SearchFragment.FRAGMENT_TAG_SEARCH);
+                        if (fragment != null) {
+                            fragmentTransaction.replace(R.id.containerFragments, fragment);
+                        } else {
+                            fragmentTransaction.replace(R.id.containerFragments, SearchFragment.getInstance());
+                        }
+                        findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.VISIBLE);
+                        findViewById(R.id.textViewToolbar).setVisibility(View.GONE);
+                        setTextInTextViewToolbar(menuItem.getTitle().toString());
+                        break;
                     }
-                    findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.VISIBLE);
-                    findViewById(R.id.textViewToolbar).setVisibility(View.GONE);
-                    setTextInTextViewToolbar(menuItem.getTitle().toString());
-                    break;
-                }
-                case R.id.i_help: {
-                    fragment = fragmentManager.findFragmentByTag(HelpFragment.FRAGMENT_TAG_HELP);
-                    if (fragment != null) {
-                        fragmentTransaction.replace(R.id.containerFragments, fragment);
-                    } else {
-                        fragmentTransaction.replace(R.id.containerFragments, HelpFragment.getInstance());
+                    case R.id.i_help: {
+                        fragment = fragmentManager.findFragmentByTag(HelpFragment.FRAGMENT_TAG_HELP);
+                        if (fragment != null) {
+                            fragmentTransaction.replace(R.id.containerFragments, fragment);
+                        } else {
+                            fragmentTransaction.replace(R.id.containerFragments, HelpFragment.getInstance());
+                        }
+                        findViewById(R.id.textViewToolbar).setVisibility(View.VISIBLE);
+                        findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.GONE);
+                        setTextInTextViewToolbar(menuItem.getTitle().toString());
+                        break;
                     }
-                    findViewById(R.id.textViewToolbar).setVisibility(View.VISIBLE);
-                    findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.GONE);
-                    setTextInTextViewToolbar(menuItem.getTitle().toString());
-                    break;
-                }
-                case R.id.i_profile: {
-                    if (currentUser != null) {
+                    case R.id.i_profile: {
                         menuItem.setCheckable(true);
                         fragment = fragmentManager.findFragmentByTag(ProfileEditFragment.FRAGMENT_TAG_PROFILE);
                         if (fragment != null) {
@@ -159,15 +163,11 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                         findViewById(R.id.textViewToolbar).setVisibility(View.VISIBLE);
                         findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.GONE);
                         setTextInTextViewToolbar(menuItem.getTitle().toString());
-                    } else {
-                        menuItem.setEnabled(true);
-                        menuItem.setCheckable(false);
-                        startActivity(AuthorizationActivity.createStartIntent(this));
+                        break;
                     }
-                    break;
                 }
+                fragmentTransaction.commit();
             }
-            fragmentTransaction.commit();
             return true;
         });
         if (savedInstanceState == null) {

@@ -18,6 +18,9 @@ public class User{
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("fullImageUrl")
+    @Expose
+    private String fullImageUrl;
     @SerializedName("fieldActivity")
     @Expose
     private String fieldActivity;
@@ -39,6 +42,14 @@ public class User{
     @SerializedName("password")
     @Expose
     private String password;
+
+    public String getFullImageUrl() {
+        return fullImageUrl;
+    }
+
+    public void setFullImageUrl(String fullImageUrl) {
+        this.fullImageUrl = fullImageUrl;
+    }
 
     public Integer getBirthDay() {
         return birthDay;

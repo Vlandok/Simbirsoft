@@ -1,13 +1,10 @@
 package com.vlad.lesson4.presentation.ui.profileedit;
 
-import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Friend;
 import com.vlad.lesson4.data.model.User;
 import com.vlad.lesson4.presentation.ui.base.MvpView;
 
 import java.util.ArrayList;
-
-import butterknife.OnClick;
 
 public interface ProfileEditMvpView extends MvpView {
     void clickOnImageUser();
@@ -19,4 +16,6 @@ public interface ProfileEditMvpView extends MvpView {
     void showProgressView();
 
     void clickToExitAccount();
+
+    void setImageUser(String urlImage);
 }

@@ -217,4 +217,50 @@
         <item name="android:textStyle">normal</item>
     </style>
 
+    <style name="TextAuthorization">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:paddingStart">@dimen/authorization_default_padd_text</item>
+        <item name="android:paddingEnd">@dimen/authorization_default_padd_text</item>
+        <item name="android:textColor">@color/black_70</item>
+        <item name="android:textSize">@dimen/authorization_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="AuthorizationSocialTextView">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/black_70</item>
+        <item name="android:textSize">@dimen/authorization_text_social_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="AuthorizationTextViewEmailAndPass">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">@color/black_38</item>
+        <item name="android:textSize">@dimen/authorization_text_view_email_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="AuthorizationButtonLogin">
+        <item name="android:background">@drawable/rectangle_grey_account</item>
+        <item name="android:clickable">false</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:paddingTop">@dimen/authorization_button_login_default_padding</item>
+        <item name="android:paddingBottom">@dimen/authorization_button_login_default_padding</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/authorization_button_login_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="AuthorizationLnrExtraHelpTextView">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/leaf</item>
+        <item name="android:textSize">@dimen/authorization_lnr_extra_help_text_view_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
 </resources>

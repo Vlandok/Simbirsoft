@@ -1,7 +1,5 @@
 package com.vlad.lesson4.domain.provider;
 
-import android.view.MotionEvent;
-
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.vlad.lesson4.presentation.ui.authorization.AuthorizationModel;
@@ -34,7 +32,7 @@ public class AuthorizationProvider implements AuthorizationModel {
     }
 
     @Override
-    public Observable<MotionEvent> clickChangeVisibilityPassword() {
-        return RxView.touches(viewHolder.editTextPassword);
+    public Observable<Void> clickChangeVisibilityPassword() {
+        return RxView.clicks(viewHolder.imageButtonChangeVisiblePassword);
     }
 }

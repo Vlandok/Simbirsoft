@@ -59,10 +59,6 @@ public class ApplicationComponents {
         return new MainPresenter();
     }
 
-    public ProfileEditPresenter provideProfileEditPresenter() {
-        return new ProfileEditPresenter();
-    }
-
     public ProfileEditAdapter provideProfileEditAdapter() {
         return new ProfileEditAdapter();
     }

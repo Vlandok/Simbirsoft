@@ -10,6 +10,7 @@ import com.bumptech.glide.request.transition.Transition;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.Fragment;
 
 public final class MyGlide {
     public static void loadImage(Context context, String urlImage, int positionImage,
@@ -52,5 +53,11 @@ public final class MyGlide {
                         imageView.setBackground(resource);
                     }
                 });
+    }
+
+    public static void loadImage(Fragment fragment, String urlImage, ImageView imageViewUser) {
+        Glide.with(fragment)
+                .load(urlImage)
+                .into(imageViewUser);
     }
 }

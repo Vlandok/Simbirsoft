@@ -1,8 +1,6 @@
 package com.vlad.lesson4.presentation.ui.authorization;
 
 
-import android.view.MotionEvent;
-
 import rx.Observable;
 
 public interface AuthorizationModel {
@@ -12,5 +10,5 @@ public interface AuthorizationModel {
 
     Observable<Void> clickButtonEntry();
 
-    Observable<MotionEvent> clickChangeVisibilityPassword();
+    Observable<Void> clickChangeVisibilityPassword();
 }

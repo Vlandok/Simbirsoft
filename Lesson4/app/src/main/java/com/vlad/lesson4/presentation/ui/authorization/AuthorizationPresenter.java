@@ -1,7 +1,5 @@
 package com.vlad.lesson4.presentation.ui.authorization;
 
-import android.view.MotionEvent;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 import com.vlad.lesson4.utils.ValidEmail;
@@ -18,17 +16,16 @@ import rx.android.schedulers.AndroidSchedulers;
 public class AuthorizationPresenter extends BasePresenter<AuthorizationMvpView> {
 
     private final static int MIN_LENGTH_PASSWORD = 6;
-    private final static int TIME_WAIT_MILLISECONDS = 200;
+    private final static int TIME_WAIT_MILLISECONDS = 100;
 
     private Subscription editTextSub;
     private AuthorizationModel authorizationModel;
     private Observable<Boolean> emailObservable;
     private Observable<Boolean> passwordObservable;
     private Observable<Void> buttonObservable;
-    private Observable<MotionEvent> clickDrawableChangeVisible;
+    private Observable<Void> clickButtonChangeVisible;
     private FirebaseAuth mAuth;
     private Disposable disposable;
-
 
     public AuthorizationPresenter(AuthorizationModel authorizationModel) {
         this.authorizationModel = authorizationModel;
@@ -36,8 +33,7 @@ public class AuthorizationPresenter extends BasePresenter<AuthorizationMvpView> 
 
     public void onCreate() {
         checkViewAttached();
-//        clickChangeVisibilityPassword();
-        getMvpView().clickChangeVisibilityPassword();
+        clickChangeVisibilityPassword();
         clickToButtonEntry();
         initEmailObservable();
         initPasswordObservable();
@@ -77,11 +73,12 @@ public class AuthorizationPresenter extends BasePresenter<AuthorizationMvpView> 
         buttonObservable.subscribe(__ -> signInAccount());
     }
 
-//    private void clickChangeVisibilityPassword() {
-//        clickDrawableChangeVisible = authorizationModel.clickChangeVisibilityPassword();
-//        clickDrawableChangeVisible.subscribe(motionEvent ->
-//                getMvpView().clickChangeVisibilityPassword(motionEvent));
-//    }
+    private void clickChangeVisibilityPassword() {
+        clickButtonChangeVisible = authorizationModel.clickChangeVisibilityPassword();
+        clickButtonChangeVisible
+                .subscribe(__ ->
+                        getMvpView().clickChangeVisibilityPassword());
+    }
 
     private void signInAccount() {
         mAuth = FirebaseAuth.getInstance();

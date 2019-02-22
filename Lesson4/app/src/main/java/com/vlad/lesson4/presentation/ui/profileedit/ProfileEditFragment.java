@@ -9,17 +9,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Friend;
 import com.vlad.lesson4.data.model.User;
+import com.vlad.lesson4.domain.provider.ProfileEditProvider;
 import com.vlad.lesson4.presentation.ui.authorization.AuthorizationActivity;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
+import com.vlad.lesson4.utils.MyGlide;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -52,9 +56,13 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     private RecyclerView recyclerView;
     private ProfileEditAdapter profileEditAdapter;
     private Unbinder unbinder;
+    private ProfileEditViewHolderRx profileEditViewHolderRx;
+    private ProfileEditModel profileEditModel;
 
     @BindView(R.id.buttonExitAccount)
     Button buttonExitAccount;
+    @BindView(R.id.switchNotify)
+    Switch switchNotify;
 
     public static ProfileEditFragment getInstance() {
         return new ProfileEditFragment();
@@ -68,9 +76,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        profileEditPresenter = getApplicationComponents().provideProfileEditPresenter();
         profileEditAdapter = getApplicationComponents().provideProfileEditAdapter();
-        profileEditPresenter.attachView(this);
     }
 
     @Override
@@ -78,6 +84,10 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_profile_edit, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+        profileEditViewHolderRx = new ProfileEditViewHolderRx(switchNotify);
+        profileEditModel = new ProfileEditProvider(profileEditViewHolderRx);
+        profileEditPresenter = new ProfileEditPresenter(profileEditModel);
+        profileEditPresenter.attachView(this);
         BottomNavigationViewEx bottomNavigationView = Objects.requireNonNull(getActivity())
                 .findViewById(R.id.bottomNavigationMenu);
         menuItem = bottomNavigationView.getMenu().findItem(R.id.i_profile);
@@ -123,12 +133,22 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
         viewFlipper.setDisplayedChild(VIEW_DATA);
         String fullName = user.getLastName() + MainActivity.EMPTY + user.getName();
         textViewFullName.setText(fullName);
+        switchNotify.setChecked(user.getIsPushNotifications());
         String fullDataBirth = user.getBirthDay() + MainActivity.EMPTY + user.getBirthMonth()
                 + MainActivity.EMPTY + user.getBirthYears();
-        imageViewUser.setImageResource(R.drawable.image_man);
         textViewBirthData.setText(fullDataBirth);
         textViewFieldActivity.setText(user.getFieldActivity());
         profileEditAdapter.setArrayListFriends(arrayListFriends);
+    }
+
+    @Override
+    public void setImageUser(String urlImage) {
+        MyGlide.loadImage(this, urlImage, imageViewUser);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     @Override
