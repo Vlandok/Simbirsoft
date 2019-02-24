@@ -87,12 +87,6 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        currentUser = mAuth.getCurrentUser();
-    }
-
-    @Override
     protected void onDestroy() {
         mainPresenter.detachView();
         super.onDestroy();
@@ -107,13 +101,11 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     public void clickButtonBottomNav(Bundle savedInstanceState) {
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
-            menuItem.setEnabled(false);
             if (id == R.id.i_profile && currentUser == null) {
-                menuItem.setEnabled(true);
-                menuItem.setCheckable(false);
-                menuItem.setChecked(false);
                 startActivity(AuthorizationActivity.createStartIntent(this));
+                return false;
             } else {
+                menuItem.setEnabled(false);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 switch (id) {
                     case R.id.i_news: {
@@ -153,7 +145,6 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                         break;
                     }
                     case R.id.i_profile: {
-                        menuItem.setCheckable(true);
                         fragment = fragmentManager.findFragmentByTag(ProfileEditFragment.FRAGMENT_TAG_PROFILE);
                         if (fragment != null) {
                             fragmentTransaction.replace(R.id.containerFragments, fragment);
@@ -166,8 +157,8 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                         break;
                     }
                 }
-                fragmentTransaction.commit();
             }
+            fragmentTransaction.commit();
             return true;
         });
         if (savedInstanceState == null) {
