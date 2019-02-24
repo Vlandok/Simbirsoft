@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,7 +36,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     private Fragment fragment = null;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-
+    private int idMenuSelected;
     private MainPresenter mainPresenter;
 
     private final int WIDTH_HEIGHT_ICON = 40;
@@ -87,20 +88,22 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        currentUser = mAuth.getCurrentUser();
+    }
+
+    @Override
     protected void onDestroy() {
         mainPresenter.detachView();
         super.onDestroy();
     }
 
     @Override
-    public void setTextInTextViewToolbar(String titleToolbar) {
-        textViewToolbar.setText(titleToolbar);
-    }
-
-    @Override
     public void clickButtonBottomNav(Bundle savedInstanceState) {
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
+            idMenuSelected = id;
             if (id == R.id.i_profile && currentUser == null) {
                 startActivity(AuthorizationActivity.createStartIntent(this));
                 return false;
@@ -117,7 +120,6 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                         }
                         findViewById(R.id.textViewToolbar).setVisibility(View.VISIBLE);
                         findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.GONE);
-                        setTextInTextViewToolbar(menuItem.getTitle().toString());
                         break;
                     }
                     case R.id.i_search: {
@@ -129,7 +131,6 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                         }
                         findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.VISIBLE);
                         findViewById(R.id.textViewToolbar).setVisibility(View.GONE);
-                        setTextInTextViewToolbar(menuItem.getTitle().toString());
                         break;
                     }
                     case R.id.i_help: {
@@ -141,7 +142,6 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                         }
                         findViewById(R.id.textViewToolbar).setVisibility(View.VISIBLE);
                         findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.GONE);
-                        setTextInTextViewToolbar(menuItem.getTitle().toString());
                         break;
                     }
                     case R.id.i_profile: {
@@ -153,7 +153,6 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                         }
                         findViewById(R.id.textViewToolbar).setVisibility(View.VISIBLE);
                         findViewById(R.id.constraintLayoutToolbarSearch).setVisibility(View.GONE);
-                        setTextInTextViewToolbar(menuItem.getTitle().toString());
                         break;
                     }
                 }
