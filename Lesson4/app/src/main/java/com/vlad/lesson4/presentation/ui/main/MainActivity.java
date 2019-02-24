@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,13 +28,11 @@ public class MainActivity extends BaseActivity implements MainMvpView {
 
     private Toolbar toolbar;
     private BottomNavigationViewEx bottomNavigationView;
-    private TextView textViewToolbar;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private Fragment fragment = null;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private int idMenuSelected;
     private MainPresenter mainPresenter;
 
     private final int WIDTH_HEIGHT_ICON = 40;
@@ -64,7 +60,6 @@ public class MainActivity extends BaseActivity implements MainMvpView {
 
         toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottomNavigationMenu);
-        textViewToolbar = findViewById(R.id.textViewToolbar);
         setParametersBottomNav();
         toolbar.setTitle(EMPTY);
         fragmentManager = getSupportFragmentManager();
@@ -103,12 +98,10 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     public void clickButtonBottomNav(Bundle savedInstanceState) {
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
-            idMenuSelected = id;
             if (id == R.id.i_profile && currentUser == null) {
                 startActivity(AuthorizationActivity.createStartIntent(this));
                 return false;
             } else {
-                menuItem.setEnabled(false);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 switch (id) {
                     case R.id.i_news: {

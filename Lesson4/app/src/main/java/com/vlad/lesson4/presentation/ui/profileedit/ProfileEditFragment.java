@@ -13,7 +13,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
@@ -58,6 +57,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     private Unbinder unbinder;
     private ProfileEditViewHolderRx profileEditViewHolderRx;
     private ProfileEditModel profileEditModel;
+    private TextView textViewTitleToolbar;
 
     @BindView(R.id.buttonExitAccount)
     Button buttonExitAccount;
@@ -90,6 +90,8 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
         profileEditPresenter.attachView(this);
         BottomNavigationViewEx bottomNavigationView = Objects.requireNonNull(getActivity())
                 .findViewById(R.id.bottomNavigationMenu);
+        textViewTitleToolbar = Objects.requireNonNull(getActivity())
+                .findViewById(R.id.textViewToolbar);
         menuItem = bottomNavigationView.getMenu().findItem(R.id.i_profile);
         imageViewUser = rootView.findViewById(R.id.imageViewUser);
         textViewFullName = rootView.findViewById(R.id.textViewFullName);
@@ -101,13 +103,15 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
         viewFlipper = rootView.findViewById(R.id.viewFlipper);
         dialog = new AlertDialog.Builder(Objects.requireNonNull(getActivity()))
                 .setView(inflater.inflate(R.layout.dialog_profile_edit, null)).create();
+        profileEditPresenter.onCreate();
         return rootView;
     }
 
     @Override
     public void onStart() {
+        textViewTitleToolbar.setText(R.string.profil_bottom_nav);
+        menuItem.setEnabled(false);
         super.onStart();
-        profileEditPresenter.onCreate();
     }
 
     @Override

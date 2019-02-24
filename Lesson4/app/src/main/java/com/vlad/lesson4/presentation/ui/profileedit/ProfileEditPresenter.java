@@ -28,6 +28,7 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
     private Disposable disposable;
     private ProfileEditModel profileEditModel;
     private Observable<Boolean> switchObservable;
+    private FirebaseAuth mAuth;
 
     public ProfileEditPresenter(ProfileEditModel profileEditModel) {
         this.profileEditModel = profileEditModel;
@@ -59,16 +60,19 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
     }
 
     private void getUserInfo() {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference query = FirebaseDatabase.getInstance().getReference().child(USERS_REF)
-                .child(Objects.requireNonNull(firebaseUser).getUid());
-        disposable = RxFirebaseDatabase.observeSingleValueEvent(query, User.class)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(__ -> getMvpView().showProgressView())
-                .doOnError(Throwable::printStackTrace)
-                .subscribe(user -> {
-                    getImageUrl(user.getFullImageUrl()).subscribe(() -> {
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            DatabaseReference query = FirebaseDatabase.getInstance().getReference().child(USERS_REF)
+                    .child(Objects.requireNonNull(firebaseUser).getUid());
+            disposable = RxFirebaseDatabase.observeSingleValueEvent(query, User.class)
+                    .compose(applyBindingMaybe())
+                    .compose(profileEditModel.applySchedulerMaybe())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(__ -> getMvpView().showProgressView())
+                    .doOnError(Throwable::printStackTrace)
+                    .subscribe(user -> getImageUrl(user.getFullImageUrl()).subscribe(() -> {
                         setSwitchNotify(query);
                         ArrayList<Friend> arrayListFriendsExample = initArrayListFriends();
                         if (arrayListFriendsExample.isEmpty()) {
@@ -78,8 +82,8 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
                             getMvpView().clickOnImageUser();
                             getMvpView().clickToExitAccount();
                         }
-                    });
-                });
+                    }));
+        }
     }
 
 

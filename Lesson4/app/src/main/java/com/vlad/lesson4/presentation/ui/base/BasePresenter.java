@@ -2,6 +2,7 @@ package com.vlad.lesson4.presentation.ui.base;
 
 import com.vlad.lesson4.exception.MvpViewNotAttachedException;
 
+import io.reactivex.MaybeTransformer;
 import io.reactivex.SingleTransformer;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -28,6 +29,11 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
     }
 
     protected <T> SingleTransformer<T, T> applyBinding() {
+        return upstream -> upstream
+                .doOnSubscribe((Consumer<Disposable>) this::bindToLifecycle);
+    }
+
+    protected <T> MaybeTransformer<T, T> applyBindingMaybe() {
         return upstream -> upstream
                 .doOnSubscribe((Consumer<Disposable>) this::bindToLifecycle);
     }

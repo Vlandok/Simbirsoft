@@ -85,6 +85,7 @@ public class AuthorizationPresenter extends BasePresenter<AuthorizationMvpView> 
         disposable = RxFirebaseAuth.signInWithEmailAndPassword(mAuth,
                 authorizationModel.changeTextEmail().toBlocking().first(),
                 authorizationModel.changeTextPassword().toBlocking().first())
+                .compose(applyBindingMaybe())
                 .map(authResult -> authResult.getUser() != null)
                 .doOnSubscribe(__ -> getMvpView().showProgressView())
                 .doOnEvent((__, throwable) -> getMvpView().hideProgressView())
