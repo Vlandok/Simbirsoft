@@ -452,3 +452,48 @@
 1. Создать экран Авторизации согласно [макету] (https://zpl.io/25ge5Z3) .
 2. Подключить фреймворк `RxJava`. Реализовать логику работы приложения максимально используя принципы реактивного программирования. Авторизацию через соц. сети не нужно реализовывать.
 3. После завершения работ над задением отправить ментору количество затраченного времени на практическое выполнение задачи.
+
+---
+## XI. Архитектура приложений. Практика в рамках продуктового проекта.
+---
+### Теоретическая часть
++ [MVC, MVP, MVVM](https://habrahabr.ru/company/mobileup/blog/313538/) **(\*\*)**
++ [Moxy](https://github.com/Arello-Mobile/Moxy), [Moxy — реализация MVP](https://habrahabr.ru/post/276189/) **(\*\*\*\*)**
++ [toothpick](https://github.com/stephanenicolas/toothpick) **(\*\*\*)**
+
+### Практическое задание
+Реализовать экран "История обслуживания" согласно описанным функциональным требованиям в документе ["ФТ История Обслуживания"](ФТ История Обслуживания.docx).
+
+---
+## Рекомендуемая литература и ресурсы
+---
+
+**Java**
++  Философия java Брюс Эккель **(\*\*)**
++  Effective Java **(\*\*)**
++  Герберт Шилдт "Java. Полное руководство" **(\*)**
++  http://kb.simbirsoft/java-education-core/ **(\*)**
+
+**Паттерны проектирования**
++ [обзор всех паттернов и их классификация](https://refactoring.guru/ru/design-patterns) **(\*)**
+
+**Методологии [Agile](https://habrahabr.ru/company/edison/blog/313410/)**
++ [scrum](https://habrahabr.ru/post/247319/) **(\*\*)**
++ [kanban](https://habrahabr.ru/post/64997/) **(\*\*)**
+
+**Порталы, подкасты и дайджесты**
++ [YouTube канал Android Developers](https://www.youtube.com/channel/UCVHFbqXqoYvEWM1Ddxl0QDg) **(\*\*\*)**
++ [Подкаст про разработку](http://androiddev.apptractor.ru/) **(\*\*\*)**
++ [Статьи Хабра про Android разработку](https://habrahabr.ru/hub/android_dev/) **(\*\*\*)**
++ [Пример дайджеста, бывает много интересного](https://habrahabr.ru/company/everydaytools/blog/352580/) **(\*\*\*)**
++ [Hannes Dorfmann](http://hannesdorfmann.com/) **(\*\*)**
++ [Stfalcon](https://stfalcon.com/ru/blog) **(\*\*)**
+
+**Телеграм**
++ [Канал андроида](https://telegram.me/android_ru) **(\*\*)**
++ [Канал подкаста](https://t.me/androiddevpodcast) **(\*\*)**
++ [Канал архитектуры](https://t.me/Android_Architecture) **(\*)**
+
+**Прочие ресурсы**
++ [Склад библиотек](https://android-arsenal.com/) **(\*)**
++ [Иконки](https://material.io/icons/) **(\*)**
