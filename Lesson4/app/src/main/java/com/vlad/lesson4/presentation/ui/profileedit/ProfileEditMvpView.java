@@ -14,4 +14,8 @@ public interface ProfileEditMvpView extends MvpView {
     void showLoadingError();
 
     void showProgressView();
+
+    void clickToExitAccount();
+
+    void setImageUser(String urlImage);
 }

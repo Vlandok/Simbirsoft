@@ -1,82 +1,142 @@
+
 package com.vlad.lesson4.data.model;
 
-public class User {
-    private String name;
-    private String lastName;
-    private int birthDay;
-    private String birthMonth;
-    private int birthYears;
-    private String fieldActivity;
-    private boolean isPushNotifications;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    public User(String name, String lastName, int birthDay,
-                String birthMonth, int birthYears,
-                String fieldActivity, boolean isPushNotifications) {
-        this.name = name;
-        this.lastName = lastName;
-        this.birthDay = birthDay;
-        this.birthMonth = birthMonth;
-        this.birthYears = birthYears;
-        this.fieldActivity = fieldActivity;
-        this.isPushNotifications = isPushNotifications;
+public class User{
+
+    @SerializedName("birthDay")
+    @Expose
+    private Integer birthDay;
+    @SerializedName("birthMonth")
+    @Expose
+    private String birthMonth;
+    @SerializedName("birthYears")
+    @Expose
+    private Integer birthYears;
+    @SerializedName("email")
+    @Expose
+    private String email;
+    @SerializedName("fullImageUrl")
+    @Expose
+    private String fullImageUrl;
+    @SerializedName("fieldActivity")
+    @Expose
+    private String fieldActivity;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("isPushNotifications")
+    @Expose
+    private Boolean isPushNotifications;
+    @SerializedName("lastName")
+    @Expose
+    private String lastName;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("token")
+    @Expose
+    private String token;
+    @SerializedName("password")
+    @Expose
+    private String password;
+
+    public String getFullImageUrl() {
+        return fullImageUrl;
     }
 
-    public int getBirthDay() {
+    public void setFullImageUrl(String fullImageUrl) {
+        this.fullImageUrl = fullImageUrl;
+    }
+
+    public Integer getBirthDay() {
         return birthDay;
     }
 
-    public int getBirthYears() {
-        return birthYears;
+    public void setBirthDay(Integer birthDay) {
+        this.birthDay = birthDay;
     }
 
     public String getBirthMonth() {
         return birthMonth;
     }
 
-    public void setBirthDay(int birthDay) {
-        this.birthDay = birthDay;
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public void setBirthMonth(String birthMonth) {
         this.birthMonth = birthMonth;
     }
 
-    public void setBirthYears(int birthYears) {
+    public Integer getBirthYears() {
+        return birthYears;
+    }
+
+    public void setBirthYears(Integer birthYears) {
         this.birthYears = birthYears;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFieldActivity() {
         return fieldActivity;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setFieldActivity(String fieldActivity) {
+        this.fieldActivity = fieldActivity;
     }
 
-
-    public String getName() {
-        return name;
+    public Integer getId() {
+        return id;
     }
 
-    public boolean isPushNotifications() {
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Boolean getIsPushNotifications() {
         return isPushNotifications;
     }
 
-    public void setFieldActivity(String fieldActivity) {
-        this.fieldActivity = fieldActivity;
+    public void setIsPushNotifications(Boolean isPushNotifications) {
+        this.isPushNotifications = isPushNotifications;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setPushNotifications(boolean pushNotifications) {
-        isPushNotifications = pushNotifications;
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }
-

@@ -141,4 +141,22 @@
     <dimen name="event_detail_image_avatar_user_margin_start">-4dp</dimen>
     <dimen name="item_charity_event_padding_for_background_default">-2dp</dimen>
     <dimen name="description_event_margin_top">10dp</dimen>
+    <dimen name="default_padding_authorization">20dp</dimen>
+    <dimen name="authorization_default_padd_text">36dp</dimen>
+    <dimen name="authorization_text_size">14sp</dimen>
+    <dimen name="authorization_text_margin_top">40dp</dimen>
+    <dimen name="authorization_lnr_social">20dp</dimen>
+    <dimen name="authorization_image_social_margin_start">40dp</dimen>
+    <dimen name="authorization_text_social_marrgin_top">40dp</dimen>
+    <dimen name="authorization_text_social_size">14sp</dimen>
+    <dimen name="authorization_text_view_email_margin_top">20dp</dimen>
+    <dimen name="authorization_text_view_email_pass_margin_start">2dp</dimen>
+    <dimen name="authorization_text_view_email_size">12sp</dimen>
+    <dimen name="authorization_text_view_pass_margin_top">26dp</dimen>
+    <dimen name="authorization_button_login_margin_top">26dp</dimen>
+    <dimen name="authorization_button_login_default_padding">12dp</dimen>
+    <dimen name="authorization_button_login_size">16sp</dimen>
+    <dimen name="authorization_lnr_extra_help_margin_top">20dp</dimen>
+    <dimen name="authorization_lnr_extra_help_margin_bottom">30dp</dimen>
+    <dimen name="authorization_lnr_extra_help_text_view_size">14sp</dimen>
 </resources>

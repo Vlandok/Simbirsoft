@@ -9,19 +9,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Category;
-import com.vlad.lesson4.data.model.EventCategories;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsActivity;
-import com.vlad.lesson4.utils.JsonSupport;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
 
@@ -83,12 +77,15 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
         viewFlipper = rootView.findViewById(R.id.viewFlipper);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), MainActivity.SPAN_COUNT));
         recyclerView.setAdapter(helpAdapter);
-        if (savedInstanceState != null) {
-            textViewTitleToolbar.setText(R.string.title_help_categ);
-            menuItem.setEnabled(false);
-        }
         helpPresenter.onCreate();
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        textViewTitleToolbar.setText(R.string.title_help_categ);
+        menuItem.setEnabled(false);
+        super.onStart();
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.vlad.lesson4.data.remote.api.FirebaseApi;
 import com.vlad.lesson4.domain.provider.CategoryProvider;
 import com.vlad.lesson4.domain.provider.EventProvider;
 import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
+import com.vlad.lesson4.domain.provider.UserProvider;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailPresenter;
 import com.vlad.lesson4.presentation.ui.help.HelpAdapter;
 import com.vlad.lesson4.presentation.ui.help.HelpPresenter;
@@ -32,13 +33,15 @@ public class ApplicationComponents {
     private final CategoryProvider categoryProvider;
     private final EventProvider eventProvider;
     private final ItemsJsonProvider itemsJsonProvider;
+    private final UserProvider userProvider;
 
     private ApplicationComponents(Context context) {
         this.context = context;
-        this.firebaseApi = Creator.newApiService(context);
+        this.firebaseApi = Creator.newApiService();
         this.categoryProvider = new CategoryProvider(firebaseApi);
         this.eventProvider = new EventProvider(firebaseApi);
         this.itemsJsonProvider = new ItemsJsonProvider(context);
+        this.userProvider = new UserProvider(firebaseApi);
     }
 
     public static ApplicationComponents getInstance(Context context) {
@@ -56,10 +59,6 @@ public class ApplicationComponents {
         return new MainPresenter();
     }
 
-    public ProfileEditPresenter provideProfileEditPresenter() {
-        return new ProfileEditPresenter();
-    }
-
     public ProfileEditAdapter provideProfileEditAdapter() {
         return new ProfileEditAdapter();
     }
@@ -74,6 +73,10 @@ public class ApplicationComponents {
 
     public EventProvider provideEventProvider() {
         return eventProvider;
+    }
+
+    public UserProvider provideUserProvider() {
+        return userProvider;
     }
 
     public HelpPresenter provideHelpPresenter() {

@@ -79,6 +79,12 @@ public class SearchFragment extends BaseFragment implements SearchMvpView {
     }
 
     @Override
+    public void onStart() {
+        menuItem.setEnabled(false);
+        super.onStart();
+    }
+
+    @Override
     public void onPause() {
         menuItem.setEnabled(true);
         super.onPause();

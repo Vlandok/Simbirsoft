@@ -1,6 +1,7 @@
 package com.vlad.lesson4.presentation.ui.profileedit;
 
 import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.vlad.lesson4.R;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ProfileEditViewHolder extends RecyclerView.ViewHolder {
 
     private TextView textViewFriend;
+    private Switch switchNotify;
 
     public TextView getTextViewFriend() {
         return textViewFriend;
@@ -37,6 +39,5 @@ public class ProfileEditViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
-
     }
 }

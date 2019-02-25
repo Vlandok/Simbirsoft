@@ -73,12 +73,15 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
         recyclerView = rootView.findViewById(R.id.recyclerCharityEvents);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(charityEventsAdapter);
-        if (savedInstanceState != null) {
-            textViewTitleToolbar.setText(R.string.news_bottom_nav);
-            menuItem.setEnabled(false);
-        }
         newsPresenter.onCreate();
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        textViewTitleToolbar.setText(R.string.news_bottom_nav);
+        menuItem.setEnabled(false);
+        super.onStart();
     }
 
     @Override
