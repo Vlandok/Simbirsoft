@@ -5,6 +5,8 @@ import com.vlad.lesson4.domain.provider.EventProvider;
 import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -17,7 +19,7 @@ public class CharityEventDetailPresenter extends BasePresenter<CharityEventDetai
     private EventProvider eventProvider;
     @NonNull
     private ItemsJsonProvider itemsJsonProvider;
-
+    @Inject
     public CharityEventDetailPresenter(@NonNull EventProvider eventProvider,
                                        @NonNull ItemsJsonProvider itemsJsonProvider) {
         this.eventProvider = eventProvider;

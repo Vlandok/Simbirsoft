@@ -16,6 +16,7 @@ import android.widget.ViewFlipper;
 
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
+import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.utils.Date;
 import com.vlad.lesson4.utils.MakeLinksClickable;
@@ -24,6 +25,8 @@ import com.vlad.lesson4.utils.MyGlide;
 import org.threeten.bp.LocalDate;
 
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -44,7 +47,8 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
 
     private Toolbar toolbar;
     private ViewFlipper viewFlipper;
-    private CharityEventDetailPresenter charityEventDetailPresenter;
+    @Inject
+    CharityEventDetailPresenter charityEventDetailPresenter;
     private TextView textViewTitleDetailEvent;
     private TextView textViewTimeDetailEvent;
     private TextView textViewNameCompanyEvent;
@@ -58,6 +62,7 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     private TextView textViewAskEvent;
     private LinearLayout linearLayoutImageEvent;
     private int id;
+    private ActivityComponent activityComponent;
 
     public static Intent createStartIntent(Context context, int idEvent) {
         Intent intent = new Intent(context, CharityEventDetailActivity.class);
@@ -84,6 +89,9 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_event_detail);
+        activityComponent = getActivityComponent();
+        activityComponent.inject(this);
+        charityEventDetailPresenter.attachView(this);
         toolbar = findViewById(R.id.toolbarEventDetail);
         viewFlipper = findViewById(R.id.viewFlipperEventDetail);
         textViewTitleDetailEvent = findViewById(R.id.textViewTitleDetailEvent);
@@ -106,8 +114,7 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        charityEventDetailPresenter = getApplicationComponents().provideCharityEventDetailPresenter();
-        charityEventDetailPresenter.attachView(this);
+
         id = getIntent().getIntExtra(EXTRA_ID_EVENT, DEFAULT_VALUE);
         charityEventDetailPresenter.onCreate(id);
     }

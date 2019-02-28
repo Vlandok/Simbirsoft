@@ -12,6 +12,9 @@ import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
 import durdinapps.rxfirebase2.RxFirebaseDatabase;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;

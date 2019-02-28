@@ -14,12 +14,15 @@ import android.widget.ViewFlipper;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
+import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity;
 import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsAdapter;
 
 import java.util.List;
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,14 +36,16 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
 
-    private NewsPresenter newsPresenter;
+    @Inject
+     NewsPresenter newsPresenter;
     private MenuItem menuItem;
-    private CharityEventsAdapter charityEventsAdapter;
+    @Inject
+     CharityEventsAdapter charityEventsAdapter;
     private RecyclerView recyclerView;
     private ViewFlipper viewFlipper;
     private Button buttonError;
     private TextView textViewTitleToolbar;
-
+    private ActivityComponent activityComponent;
 
     public NewsFragment() {
 
@@ -54,8 +59,8 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        newsPresenter = getApplicationComponents().provideNewsPresenter();
-        charityEventsAdapter = getApplicationComponents().provideCharityEventsAdapter();
+        activityComponent = getActivityComponent();
+        activityComponent.inject(this);
         newsPresenter.attachView(this);
     }
 

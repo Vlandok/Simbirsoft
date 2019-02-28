@@ -9,10 +9,13 @@ import android.widget.ViewFlipper;
 
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
+import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,12 +35,15 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
 
     private int idCategory;
     private String titleToolbar;
-    private CharityEventsPresenter charityEventsPresenter;
-    private CharityEventsAdapter charityEventsAdapter;
+    @Inject
+    CharityEventsPresenter charityEventsPresenter;
+    @Inject
+    CharityEventsAdapter charityEventsAdapter;
     private RecyclerView recyclerView;
     private ViewFlipper viewFlipper;
     private TextView textViewTitleToolbar;
     private Toolbar toolbar;
+    private ActivityComponent activityComponent;
 
     public static Intent createStartIntent(Context context, int idCategory, String titleToolbar) {
         Intent intent = new Intent(context, CharityEventsActivity.class);
@@ -50,6 +56,9 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_events);
+        activityComponent = getActivityComponent();
+        activityComponent.inject(this);
+        charityEventsPresenter.attachView(this);
         toolbar = findViewById(R.id.toolbar);
         viewFlipper = findViewById(R.id.viewFlipperCharityEvents);
         textViewTitleToolbar = findViewById(R.id.textViewToolbar);
@@ -61,9 +70,6 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        charityEventsPresenter = getApplicationComponents().provideCharityEventsPresenter();
-        charityEventsAdapter = getApplicationComponents().provideCharityEventsAdapter();
-        charityEventsPresenter.attachView(this);
         idCategory = getIntent().getIntExtra(ARGUMENT_ID_CATEGORY_HELP, DEFAULT_VALUE);
         titleToolbar = getIntent().getStringExtra(ARGUMENT_TITLE_CATEGORY_HELP);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

@@ -7,17 +7,21 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.vlad.lesson4.R;
+import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.authorization.AuthorizationActivity;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.presentation.ui.help.HelpFragment;
 import com.vlad.lesson4.presentation.ui.news.NewsFragment;
 import com.vlad.lesson4.presentation.ui.profileedit.ProfileEditFragment;
 import com.vlad.lesson4.presentation.ui.search.SearchFragment;
+
+import javax.inject.Inject;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -33,7 +37,9 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     private Fragment fragment = null;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private MainPresenter mainPresenter;
+    @Inject
+    MainPresenter mainPresenter;
+    private ActivityComponent activityComponent;
 
     private final int WIDTH_HEIGHT_ICON = 40;
     private final int TEXT_SIZE_BOT_MENU = 11;
@@ -55,8 +61,11 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AndroidThreeTen.init(this);
-
         mAuth = FirebaseAuth.getInstance();
+
+        activityComponent = getActivityComponent();
+        activityComponent.inject(this);
+        mainPresenter.attachView(this);
 
         toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottomNavigationMenu);
@@ -76,8 +85,6 @@ public class MainActivity extends BaseActivity implements MainMvpView {
             fragmentTransaction.commit();
         }
         setSupportActionBar(toolbar);
-        mainPresenter = getApplicationComponents().provideMainPresenter();
-        mainPresenter.attachView(this);
         toolbar.setNavigationOnClickListener(view -> finish());
         mainPresenter.onCreate(savedInstanceState);
     }

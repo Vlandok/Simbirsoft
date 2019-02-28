@@ -4,6 +4,8 @@ import com.vlad.lesson4.domain.provider.CategoryProvider;
 import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -16,6 +18,7 @@ public class HelpPresenter extends BasePresenter<HelpMvpView> {
     @NonNull
     private ItemsJsonProvider itemsJsonProvider;
 
+    @Inject
     public HelpPresenter(@NonNull CategoryProvider categoryProvider,
                          @NonNull ItemsJsonProvider itemsJsonProvider) {
         this.categoryProvider = categoryProvider;

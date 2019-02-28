@@ -9,10 +9,13 @@ import android.widget.ViewFlipper;
 
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.SearchResultsNko;
+import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.search.Updatable;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,10 +28,13 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
 
-    private SearchResultNkoPresenter searchResultNkoPresenter;
+    @Inject
+    SearchResultNkoPresenter searchResultNkoPresenter;
     private RecyclerView recyclerView;
-    private SearchResultNkoAdapter searchResultNkoAdapter;
+    @Inject
+    SearchResultNkoAdapter searchResultNkoAdapter;
     private ViewFlipper viewFlipper;
+    private ActivityComponent activityComponent;
 
     public SearchResultNkoFragment() {
 
@@ -41,8 +47,8 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        searchResultNkoPresenter = getApplicationComponents().provideSearchResultNkoPresenter();
-        searchResultNkoAdapter = getApplicationComponents().provideSearchResultNkoAdapter();
+        activityComponent = getActivityComponent();
+        activityComponent.inject(this);
         searchResultNkoPresenter.attachView(this);
     }
 

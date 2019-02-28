@@ -18,6 +18,7 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Friend;
 import com.vlad.lesson4.data.model.User;
+import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.domain.provider.ProfileEditProvider;
 import com.vlad.lesson4.presentation.ui.authorization.AuthorizationActivity;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
@@ -26,6 +27,8 @@ import com.vlad.lesson4.utils.MyGlide;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -48,12 +51,14 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     private ImageView imageViewUser;
     private TextView textViewFullName;
     private TextView textViewBirthData;
+    private ActivityComponent activityComponent;
     private TextView textViewFieldActivity;
     private ProfileEditPresenter profileEditPresenter;
     private AlertDialog dialog;
     private MenuItem menuItem;
     private RecyclerView recyclerView;
-    private ProfileEditAdapter profileEditAdapter;
+    @Inject
+    ProfileEditAdapter profileEditAdapter;
     private Unbinder unbinder;
     private ProfileEditViewHolderRx profileEditViewHolderRx;
     private ProfileEditModel profileEditModel;
@@ -76,7 +81,8 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        profileEditAdapter = getApplicationComponents().provideProfileEditAdapter();
+        activityComponent = getActivityComponent();
+        activityComponent.inject(this);
     }
 
     @Override

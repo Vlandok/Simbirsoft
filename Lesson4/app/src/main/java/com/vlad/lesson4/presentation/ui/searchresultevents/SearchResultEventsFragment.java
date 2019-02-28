@@ -9,10 +9,13 @@ import android.widget.ViewFlipper;
 
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.SearchResults;
+import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.search.Updatable;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,10 +27,13 @@ public class SearchResultEventsFragment extends BaseFragment implements SearchRe
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
 
-    private SearchResultEventsPresenter searchResultPresenter;
+    @Inject
+    SearchResultEventsPresenter searchResultPresenter;
     private RecyclerView recyclerView;
-    private SearchResultEventsAdapter searchResultAdapter;
+    @Inject
+    SearchResultEventsAdapter searchResultAdapter;
     private ViewFlipper viewFlipper;
+    private ActivityComponent activityComponent;
 
     public SearchResultEventsFragment() {
 
@@ -40,8 +46,8 @@ public class SearchResultEventsFragment extends BaseFragment implements SearchRe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        searchResultPresenter = getApplicationComponents().provideSearchResultEventsPresenter();
-        searchResultAdapter = getApplicationComponents().provideSearchResultEventsAdapter();
+        activityComponent = getActivityComponent();
+        activityComponent.inject(this);
         searchResultPresenter.attachView(this);
     }
 

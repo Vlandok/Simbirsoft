@@ -12,12 +12,17 @@ import android.widget.ViewFlipper;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Category;
+import com.vlad.lesson4.di.component.ActivityComponent;
+import com.vlad.lesson4.di.component.ApplicationComponent;
+import com.vlad.lesson4.di.component.DaggerApplicationComponent;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsActivity;
 
 import java.util.List;
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,12 +39,15 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
     private static final int VIEW_ERROR = 2;
 
     private RecyclerView recyclerView;
-    private HelpAdapter helpAdapter;
-    private HelpPresenter helpPresenter;
+    @Inject
+    HelpAdapter helpAdapter;
+    @Inject
+    HelpPresenter helpPresenter;
     private ViewFlipper viewFlipper;
     private MenuItem menuItem;
     private Button buttonError;
     private TextView textViewTitleToolbar;
+    private ActivityComponent activityComponent;
 
     public HelpFragment() {
 
@@ -52,8 +60,8 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        helpPresenter = getApplicationComponents().provideHelpPresenter();
-        helpAdapter = getApplicationComponents().provideHelpAdapter();
+        activityComponent = getActivityComponent();
+        activityComponent.inject(this);
         helpPresenter.attachView(this);
     }
 

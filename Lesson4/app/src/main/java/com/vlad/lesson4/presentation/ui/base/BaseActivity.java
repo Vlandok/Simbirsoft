@@ -4,22 +4,38 @@ import android.os.Bundle;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.vlad.lesson4.MyApplication;
-import com.vlad.lesson4.di.ApplicationComponents;
+import com.vlad.lesson4.di.component.ActivityComponent;
+//import com.vlad.lesson4.di.component.DaggerActivityComponent;
+import com.vlad.lesson4.di.component.DaggerActivityComponent;
+import com.vlad.lesson4.di.module.ActivityModule;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import io.realm.RealmConfiguration;
 
 public abstract class BaseActivity extends AppCompatActivity {
+
+    private ActivityComponent activityComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AndroidThreeTen.init(this);
+        activityComponent = DaggerActivityComponent.builder()
+                .activityModule(new ActivityModule(this))
+                .applicationComponent(((MyApplication) getApplication()).getApplicationComponent())
+                .build();
     }
 
-    public ApplicationComponents getApplicationComponents() {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        return ((MyApplication) getApplication()).getApplicationComponents();
+    public ActivityComponent getActivityComponent() {
+        return activityComponent;
     }
+
+//    public ApplicationComponent getApplicationComponent() {
+//        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+//        return ((MyApplication) getApplication()).getApplicationComponent();
+//    }
+
+//    public ApplicationComponents getApplicationComponents() {
+//        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+//        return ((MyApplication) getApplication()).getApplicationComponents();
+//    }
 }
