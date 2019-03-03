@@ -5,7 +5,6 @@ import android.app.Application;
 
 import com.google.firebase.FirebaseApp;
 import com.vlad.lesson4.di.component.ApplicationComponent;
-//import com.vlad.lesson4.di.component.DaggerApplicationComponent;
 import com.vlad.lesson4.di.component.DaggerApplicationComponent;
 import com.vlad.lesson4.di.module.FirebaseModule;
 
@@ -29,12 +28,5 @@ public class MyApplication extends Application {
         applicationComponent = DaggerApplicationComponent.builder()
                 .firebaseModule(new FirebaseModule())
                 .build();
-
-
-//        applicationComponents = ApplicationComponents.getInstance(this);
     }
-
-//    public ApplicationComponents getApplicationComponents() {
-//        return applicationComponents;
-//    }
 }

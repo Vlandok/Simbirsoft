@@ -14,10 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
+import com.vlad.lesson4.presentation.ui.base.BaseActivityMoxy;
 import com.vlad.lesson4.utils.Date;
 import com.vlad.lesson4.utils.MakeLinksClickable;
 import com.vlad.lesson4.utils.MyGlide;
@@ -34,7 +37,7 @@ import static com.vlad.lesson4.presentation.ui.main.MainActivity.DOT;
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.EMPTY;
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.NOTHING;
 
-public class CharityEventDetailActivity extends BaseActivity implements CharityEventDetailMvpView {
+public class CharityEventDetailActivity extends BaseActivityMoxy implements CharityEventDetailMvpView {
 
     public static final String EXTRA_ID_EVENT = "EXTRA_ID_EVENT";
     public static final int DEFAULT_VALUE = -1;
@@ -48,6 +51,7 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     private Toolbar toolbar;
     private ViewFlipper viewFlipper;
     @Inject
+    @InjectPresenter
     CharityEventDetailPresenter charityEventDetailPresenter;
     private TextView textViewTitleDetailEvent;
     private TextView textViewTimeDetailEvent;
@@ -63,6 +67,11 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     private LinearLayout linearLayoutImageEvent;
     private int id;
     private ActivityComponent activityComponent;
+
+    @ProvidePresenter
+    public CharityEventDetailPresenter provideCharityEventDetailPresenter() {
+        return charityEventDetailPresenter;
+    }
 
     public static Intent createStartIntent(Context context, int idEvent) {
         Intent intent = new Intent(context, CharityEventDetailActivity.class);
@@ -116,7 +125,7 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
         }
 
         id = getIntent().getIntExtra(EXTRA_ID_EVENT, DEFAULT_VALUE);
-        charityEventDetailPresenter.onCreate(id);
+        charityEventDetailPresenter.getEvent(id);
     }
 
     @Override
@@ -145,7 +154,7 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
 
     @Override
     public void onClickErrorButton() {
-        charityEventDetailPresenter.onCreate(id);
+        charityEventDetailPresenter.getEvent(id);
     }
 
     @Override

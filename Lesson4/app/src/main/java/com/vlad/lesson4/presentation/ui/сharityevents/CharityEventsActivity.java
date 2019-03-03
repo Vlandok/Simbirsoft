@@ -7,10 +7,13 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
+import com.vlad.lesson4.presentation.ui.base.BaseActivityMoxy;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity;
 
 import java.util.List;
@@ -24,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import static com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity.DEFAULT_VALUE;
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.EMPTY;
 
-public class CharityEventsActivity extends BaseActivity implements CharityEventsMvpView {
+public class CharityEventsActivity extends BaseActivityMoxy implements CharityEventsMvpView {
 
     public static final String ARGUMENT_ID_CATEGORY_HELP = "ARGUMENT_ID_CATEGORY_HELP";
     public static final String ARGUMENT_TITLE_CATEGORY_HELP = "ARGUMENT_TITLE_CATEGORY_HELP";
@@ -36,6 +39,7 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
     private int idCategory;
     private String titleToolbar;
     @Inject
+    @InjectPresenter
     CharityEventsPresenter charityEventsPresenter;
     @Inject
     CharityEventsAdapter charityEventsAdapter;
@@ -44,6 +48,11 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
     private TextView textViewTitleToolbar;
     private Toolbar toolbar;
     private ActivityComponent activityComponent;
+
+    @ProvidePresenter
+    CharityEventsPresenter provideCharityEventsPresenter() {
+        return charityEventsPresenter;
+    }
 
     public static Intent createStartIntent(Context context, int idCategory, String titleToolbar) {
         Intent intent = new Intent(context, CharityEventsActivity.class);
@@ -74,7 +83,7 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
         titleToolbar = getIntent().getStringExtra(ARGUMENT_TITLE_CATEGORY_HELP);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(charityEventsAdapter);
-        charityEventsPresenter.onCreate(idCategory);
+        charityEventsPresenter.getCharityEvents(idCategory);
     }
 
     @Override
@@ -86,7 +95,7 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
 
     @Override
     protected void onDestroy() {
-        charityEventsPresenter.detachView();
+        charityEventsPresenter.detachView(this);
         super.onDestroy();
     }
 
@@ -104,7 +113,7 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
 
     @Override
     public void onClickErrorButton() {
-        charityEventsPresenter.onCreate(idCategory);
+        charityEventsPresenter.getCharityEvents(idCategory);
     }
 
     @Override

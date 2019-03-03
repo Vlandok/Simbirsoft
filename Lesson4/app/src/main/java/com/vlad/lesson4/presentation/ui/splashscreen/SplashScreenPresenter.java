@@ -1,20 +1,20 @@
 package com.vlad.lesson4.presentation.ui.splashscreen;
 
-import com.vlad.lesson4.presentation.ui.base.BasePresenter;
+import com.arellomobile.mvp.InjectViewState;
+import com.vlad.lesson4.presentation.ui.base.BasePresenterMoxy;
 
-public class SplashScreenPresenter extends BasePresenter<SplashScreenMvpView> {
-
-    public void onCreate() {
-        saveDataInRealmAsync();
-    }
+@InjectViewState
+public class SplashScreenPresenter extends BasePresenterMoxy<SplashScreenMvpView> {
 
     @Override
-    protected void doUnsubscribe() {
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        saveDataInRealmAsync();
     }
 
     private void saveDataInRealmAsync() {
         SplashScreenTask splashScreenTask
-                = new SplashScreenTask(this, getMvpView());
+                = new SplashScreenTask(this, getViewState());
         splashScreenTask.execute();
     }
 }

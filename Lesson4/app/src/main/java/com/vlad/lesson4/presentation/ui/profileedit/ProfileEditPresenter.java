@@ -1,5 +1,6 @@
 package com.vlad.lesson4.presentation.ui.profileedit;
 
+import com.arellomobile.mvp.InjectViewState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -7,14 +8,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Friend;
 import com.vlad.lesson4.data.model.User;
-import com.vlad.lesson4.presentation.ui.base.BasePresenter;
+import com.vlad.lesson4.presentation.ui.base.BasePresenterMoxy;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-import javax.inject.Inject;
-
-import butterknife.BindView;
 import durdinapps.rxfirebase2.RxFirebaseDatabase;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -22,7 +20,8 @@ import io.reactivex.schedulers.Schedulers;
 import rx.Completable;
 import rx.Observable;
 
-public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
+@InjectViewState
+public class ProfileEditPresenter extends BasePresenterMoxy<ProfileEditMvpView> {
 
     private final static String USERS_REF = "users";
     private final static String SWITCH_NOTIFY_REF = "isPushNotifications";
@@ -37,16 +36,10 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
         this.profileEditModel = profileEditModel;
     }
 
-    public void onCreate() {
-        checkViewAttached();
-        getUserInfo();
-    }
-
     @Override
-    protected void doUnsubscribe() {
-        if (disposable != null) {
-            disposable.dispose();
-        }
+    public void attachView(ProfileEditMvpView view) {
+        super.attachView(view);
+        getUserInfo();
     }
 
     private void setSwitchNotify(DatabaseReference databaseReference) {
@@ -57,7 +50,7 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
 
     private Completable getImageUrl(final String url) {
         return Completable.create(subscriber -> {
-            getMvpView().setImageUser(url);
+            getViewState().setImageUser(url);
             subscriber.onCompleted();
         });
     }
@@ -73,17 +66,17 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
                     .compose(profileEditModel.applySchedulerMaybe())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe(__ -> getMvpView().showProgressView())
+                    .doOnSubscribe(__ -> getViewState().showProgressView())
                     .doOnError(Throwable::printStackTrace)
                     .subscribe(user -> getImageUrl(user.getFullImageUrl()).subscribe(() -> {
                         setSwitchNotify(query);
                         ArrayList<Friend> arrayListFriendsExample = initArrayListFriends();
                         if (arrayListFriendsExample.isEmpty()) {
-                            getMvpView().showLoadingError();
+                            getViewState().showLoadingError();
                         } else {
-                            getMvpView().showInfoUser(user, initArrayListFriends());
-                            getMvpView().clickOnImageUser();
-                            getMvpView().clickToExitAccount();
+                            getViewState().showInfoUser(user, initArrayListFriends());
+                            getViewState().clickOnImageUser();
+                            getViewState().clickToExitAccount();
                         }
                     }));
         }

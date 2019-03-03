@@ -1,14 +1,17 @@
 package com.vlad.lesson4.presentation.ui.searchresultevents;
 
+import com.arellomobile.mvp.InjectViewState;
 import com.vlad.lesson4.data.model.SearchResults;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
+import com.vlad.lesson4.presentation.ui.base.BasePresenterMoxy;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import static com.vlad.lesson4.presentation.ui.search.FragmentPagerAdapter.ALL_CHARACTERS;
 
-public class SearchResultEventsPresenter extends BasePresenter<SearchResultEventsMvpView> {
+@InjectViewState
+public class SearchResultEventsPresenter extends BasePresenterMoxy<SearchResultEventsMvpView> {
 
     public static int LENGTH_STRING_RANDOM = 10;
 
@@ -23,19 +26,17 @@ public class SearchResultEventsPresenter extends BasePresenter<SearchResultEvent
     }
 
     public void onCreate() {
-        checkViewAttached();
         getSearchResults();
     }
 
     private void getSearchResults() {
-        checkViewAttached();
-        getMvpView().showProgressView();
+        getViewState().showProgressView();
         ArrayList<SearchResults> arrayListSearchResults = initSearchResults();
         if (arrayListSearchResults == null) {
-            getMvpView().showLoadingError();
+            getViewState().showLoadingError();
         } else {
-            getMvpView().showSearchResult(arrayListSearchResults);
-            getMvpView().clickItemSearchResult();
+            getViewState().showSearchResult(arrayListSearchResults);
+            getViewState().clickItemSearchResult();
         }
     }
 

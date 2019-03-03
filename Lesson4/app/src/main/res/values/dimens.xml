@@ -159,4 +159,5 @@
     <dimen name="authorization_lnr_extra_help_margin_top">20dp</dimen>
     <dimen name="authorization_lnr_extra_help_margin_bottom">30dp</dimen>
     <dimen name="authorization_lnr_extra_help_text_view_size">14sp</dimen>
+    <dimen name="title_event_line_height_android_p">40sp</dimen>
 </resources>

@@ -6,6 +6,7 @@ import com.vlad.lesson4.di.scope.ActivityScope;
 import com.vlad.lesson4.presentation.ui.authorization.AuthorizationActivity;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity;
 import com.vlad.lesson4.presentation.ui.help.HelpFragment;
+import com.vlad.lesson4.presentation.ui.help.HelpPresenter;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 import com.vlad.lesson4.presentation.ui.news.NewsFragment;
 import com.vlad.lesson4.presentation.ui.profileedit.ProfileEditFragment;
@@ -17,7 +18,7 @@ import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsActivity;
 
 import dagger.Component;
 
-@Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
+@Component(modules = ActivityModule.class, dependencies = ApplicationComponent.class)
 @ActivityScope
 public interface ActivityComponent {
 

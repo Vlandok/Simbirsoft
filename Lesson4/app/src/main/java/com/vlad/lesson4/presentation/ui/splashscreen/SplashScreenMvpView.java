@@ -1,6 +1,6 @@
 package com.vlad.lesson4.presentation.ui.splashscreen;
 
-import com.vlad.lesson4.presentation.ui.base.MvpView;
+import com.arellomobile.mvp.MvpView;
 
 public interface SplashScreenMvpView extends MvpView {
     void startMainActivity();

@@ -1,6 +1,6 @@
 package com.vlad.lesson4.presentation.ui.authorization;
 
-import com.vlad.lesson4.presentation.ui.base.MvpView;
+import com.arellomobile.mvp.MvpView;
 
 public interface AuthorizationMvpView extends MvpView {
 

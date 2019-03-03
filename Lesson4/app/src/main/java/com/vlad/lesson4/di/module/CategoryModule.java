@@ -9,7 +9,6 @@ import dagger.Provides;
 @Module
 public class CategoryModule {
 
-
     @Provides
     CategoryProvider categoryProvider(FirebaseApi firebaseApi) {
         return new CategoryProvider(firebaseApi);

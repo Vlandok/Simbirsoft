@@ -1,30 +1,23 @@
 package com.vlad.lesson4.presentation.ui.base;
 
+import com.arellomobile.mvp.MvpPresenter;
+import com.arellomobile.mvp.MvpView;
 import com.vlad.lesson4.exception.MvpViewNotAttachedException;
+
 import io.reactivex.MaybeTransformer;
 import io.reactivex.SingleTransformer;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
-public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
+public abstract class BasePresenterMoxy<T extends MvpView> extends MvpPresenter<T> {
 
-    private T mMvpView;
     private CompositeDisposable compositeDisposable;
 
     @Override
-    public void attachView(T mvpView) {
-        mMvpView = mvpView;
+    public void attachView(T view) {
+        super.attachView(view);
         compositeDisposable = new CompositeDisposable();
-    }
-
-    @Override
-    public void detachView() {
-        mMvpView = null;
-        if (compositeDisposable != null) {
-            compositeDisposable.clear();
-        }
-        doUnsubscribe();
     }
 
     protected <T> SingleTransformer<T, T> applyBinding() {
@@ -41,18 +34,16 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
         compositeDisposable.add(d);
     }
 
-    protected abstract void doUnsubscribe();
-
-    public boolean isViewAttached() {
-        return mMvpView != null;
+    protected void doUnsubscribe() {
+        if (compositeDisposable != null) {
+            compositeDisposable.clear();
+        }
     }
 
-    public T getMvpView() {
-        return mMvpView;
-    }
-
-    public void checkViewAttached() {
-        if (!isViewAttached()) throw new MvpViewNotAttachedException();
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        doUnsubscribe();
     }
 }
 

@@ -13,9 +13,12 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.domain.provider.AuthorizationProvider;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
+import com.vlad.lesson4.presentation.ui.base.BaseActivityMoxy;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 
 import java.util.Objects;
@@ -27,7 +30,7 @@ import butterknife.ButterKnife;
 
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.EMPTY;
 
-public class AuthorizationActivity extends BaseActivity implements AuthorizationMvpView {
+public class AuthorizationActivity extends BaseActivityMoxy implements AuthorizationMvpView {
 
     @BindView(R.id.toolbarAuthorization)
     Toolbar toolbar;
@@ -44,9 +47,15 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
     @BindView(R.id.imageButtonChangeVisiblePassword)
     ImageButton imageButtonChangeVisiblePassword;
 
-    private AuthorizationPresenter authorizationPresenter;
+    @InjectPresenter
+    AuthorizationPresenter authorizationPresenter;
     private AuthorizationViewHolder authorizationViewHolder;
     private AuthorizationModel authorizationModel;
+
+    @ProvidePresenter
+    AuthorizationPresenter provideAuthorizationPresenter(){
+        return authorizationPresenter;
+    }
 
     public static Intent createStartIntent(Context context) {
         return new Intent(context, AuthorizationActivity.class);
@@ -64,13 +73,12 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
         authorizationModel = new AuthorizationProvider(authorizationViewHolder);
         authorizationPresenter = new AuthorizationPresenter(authorizationModel);
         authorizationPresenter.attachView(this);
-        authorizationPresenter.onCreate();
     }
 
     @Override
     protected void onDestroy() {
-        authorizationPresenter.detachView();
         super.onDestroy();
+        authorizationPresenter.detachView(this);
     }
 
     @Override

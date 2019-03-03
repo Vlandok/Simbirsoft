@@ -1,7 +1,9 @@
 package com.vlad.lesson4.presentation.ui.authorization;
 
+import com.arellomobile.mvp.InjectViewState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
+import com.vlad.lesson4.presentation.ui.base.BasePresenterMoxy;
 import com.vlad.lesson4.utils.ValidEmail;
 
 import java.util.concurrent.TimeUnit;
@@ -12,8 +14,8 @@ import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
-
-public class AuthorizationPresenter extends BasePresenter<AuthorizationMvpView> {
+@InjectViewState
+public class AuthorizationPresenter extends BasePresenterMoxy<AuthorizationMvpView> {
 
     private final static int MIN_LENGTH_PASSWORD = 6;
     private final static int TIME_WAIT_MILLISECONDS = 100;
@@ -31,8 +33,9 @@ public class AuthorizationPresenter extends BasePresenter<AuthorizationMvpView> 
         this.authorizationModel = authorizationModel;
     }
 
-    public void onCreate() {
-        checkViewAttached();
+    @Override
+    public void attachView(AuthorizationMvpView view) {
+        super.attachView(view);
         clickChangeVisibilityPassword();
         clickToButtonEntry();
         initEmailObservable();
@@ -60,9 +63,9 @@ public class AuthorizationPresenter extends BasePresenter<AuthorizationMvpView> 
                     (validEmail, validPassword) -> validEmail && validPassword)
                     .subscribe(enabled -> {
                         if (enabled) {
-                            getMvpView().setEntryButtonActive();
+                            getViewState().setEntryButtonActive();
                         } else {
-                            getMvpView().setEntryButtonInactive();
+                            getViewState().setEntryButtonInactive();
                         }
                     });
         }
@@ -77,7 +80,7 @@ public class AuthorizationPresenter extends BasePresenter<AuthorizationMvpView> 
         clickButtonChangeVisible = authorizationModel.clickChangeVisibilityPassword();
         clickButtonChangeVisible
                 .subscribe(__ ->
-                        getMvpView().clickChangeVisibilityPassword());
+                        getViewState().clickChangeVisibilityPassword());
     }
 
     private void signInAccount() {
@@ -87,18 +90,10 @@ public class AuthorizationPresenter extends BasePresenter<AuthorizationMvpView> 
                 authorizationModel.changeTextPassword().toBlocking().first())
                 .compose(applyBindingMaybe())
                 .map(authResult -> authResult.getUser() != null)
-                .doOnSubscribe(__ -> getMvpView().showProgressView())
-                .doOnEvent((__, throwable) -> getMvpView().hideProgressView())
-                .subscribe(logged -> getMvpView().clickEntryButton(),
-                        error -> getMvpView().showAlertError());
-    }
-
-    @Override
-    protected void doUnsubscribe() {
-        if (editTextSub != null && disposable != null) {
-            editTextSub.unsubscribe();
-            disposable.dispose();
-        }
+                .doOnSubscribe(__ -> getViewState().showProgressView())
+                .doOnEvent((__, throwable) -> getViewState().hideProgressView())
+                .subscribe(logged -> getViewState().clickEntryButton(),
+                        error -> getViewState().showAlertError());
     }
 }
 

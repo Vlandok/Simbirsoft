@@ -13,22 +13,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.vlad.lesson4.R;
-import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.authorization.AuthorizationActivity;
-import com.vlad.lesson4.presentation.ui.base.BaseActivity;
+import com.vlad.lesson4.presentation.ui.base.BaseActivityMoxy;
 import com.vlad.lesson4.presentation.ui.help.HelpFragment;
 import com.vlad.lesson4.presentation.ui.news.NewsFragment;
 import com.vlad.lesson4.presentation.ui.profileedit.ProfileEditFragment;
 import com.vlad.lesson4.presentation.ui.search.SearchFragment;
-
-import javax.inject.Inject;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class MainActivity extends BaseActivity implements MainMvpView {
+public class MainActivity extends BaseActivityMoxy implements MainMvpView {
 
     private Toolbar toolbar;
     private BottomNavigationViewEx bottomNavigationView;
@@ -37,9 +34,9 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     private Fragment fragment = null;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    @Inject
+
+    @InjectPresenter
     MainPresenter mainPresenter;
-    private ActivityComponent activityComponent;
 
     private final int WIDTH_HEIGHT_ICON = 40;
     private final int TEXT_SIZE_BOT_MENU = 11;
@@ -55,38 +52,21 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         return new Intent(context, MainActivity.class);
     }
 
-    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AndroidThreeTen.init(this);
         mAuth = FirebaseAuth.getInstance();
-
-        activityComponent = getActivityComponent();
-        activityComponent.inject(this);
-        mainPresenter.attachView(this);
-
         toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottomNavigationMenu);
-        setParametersBottomNav();
         toolbar.setTitle(EMPTY);
         fragmentManager = getSupportFragmentManager();
-        if (savedInstanceState == null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.containerFragments, HelpFragment.getInstance(),
-                    HelpFragment.FRAGMENT_TAG_HELP);
-            fragmentTransaction.add(R.id.containerFragments, SearchFragment.getInstance(),
-                    SearchFragment.FRAGMENT_TAG_SEARCH);
-            fragmentTransaction.add(R.id.containerFragments, ProfileEditFragment.getInstance(),
-                    ProfileEditFragment.FRAGMENT_TAG_PROFILE);
-            fragmentTransaction.add(R.id.containerFragments, NewsFragment.getInstance(),
-                    NewsFragment.FRAGMENT_TAG_NEWS);
-            fragmentTransaction.commit();
-        }
+        setParametersBottomNav();
+        addFragments(savedInstanceState);
+        clickButtonBottomNav(savedInstanceState);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> finish());
-        mainPresenter.onCreate(savedInstanceState);
     }
 
     @Override
@@ -95,14 +75,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         currentUser = mAuth.getCurrentUser();
     }
 
-    @Override
-    protected void onDestroy() {
-        mainPresenter.detachView();
-        super.onDestroy();
-    }
-
-    @Override
-    public void clickButtonBottomNav(Bundle savedInstanceState) {
+    private void clickButtonBottomNav(Bundle savedInstanceState) {
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
             if (id == R.id.i_profile && currentUser == null) {
@@ -162,6 +135,21 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         });
         if (savedInstanceState == null) {
             bottomNavigationView.setSelectedItemId(R.id.i_help);
+        }
+    }
+
+    private void addFragments(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.containerFragments, HelpFragment.getInstance(),
+                    HelpFragment.FRAGMENT_TAG_HELP);
+            fragmentTransaction.add(R.id.containerFragments, SearchFragment.getInstance(),
+                    SearchFragment.FRAGMENT_TAG_SEARCH);
+            fragmentTransaction.add(R.id.containerFragments, ProfileEditFragment.getInstance(),
+                    ProfileEditFragment.FRAGMENT_TAG_PROFILE);
+            fragmentTransaction.add(R.id.containerFragments, NewsFragment.getInstance(),
+                    NewsFragment.FRAGMENT_TAG_NEWS);
+            fragmentTransaction.commit();
         }
     }
 

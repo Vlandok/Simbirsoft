@@ -5,6 +5,8 @@ import com.vlad.lesson4.data.remote.api.FirebaseApi;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Single;
 import io.reactivex.SingleTransformer;
 import io.reactivex.schedulers.Schedulers;
@@ -13,6 +15,7 @@ public class EventProvider {
 
     private final FirebaseApi firebaseApi;
 
+    @Inject
     public EventProvider(FirebaseApi firebaseApi) {
         this.firebaseApi = firebaseApi;
     }

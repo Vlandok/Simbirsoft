@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.SearchResultsNko;
 import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
+import com.vlad.lesson4.presentation.ui.base.BaseFragmentMoxy;
 import com.vlad.lesson4.presentation.ui.search.Updatable;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import javax.inject.Inject;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SearchResultNkoFragment extends BaseFragment implements SearchResultNkoMvpView, Updatable {
+public class SearchResultNkoFragment extends BaseFragmentMoxy implements SearchResultNkoMvpView, Updatable {
 
     public final static String FRAGMENT_TAG_SEARCH_NKO = "fragment_tag_search_nko";
 
@@ -29,6 +31,7 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
     private static final int VIEW_ERROR = 2;
 
     @Inject
+    @InjectPresenter
     SearchResultNkoPresenter searchResultNkoPresenter;
     private RecyclerView recyclerView;
     @Inject
@@ -49,7 +52,6 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
         super.onCreate(savedInstanceState);
         activityComponent = getActivityComponent();
         activityComponent.inject(this);
-        searchResultNkoPresenter.attachView(this);
     }
 
     @Override
@@ -58,6 +60,7 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
         View rootView = inflater.inflate(R.layout.fragment_search_result_nko, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerViewSearchResultNko);
         viewFlipper = rootView.findViewById(R.id.viewFlipper);
+        searchResultNkoPresenter.attachView(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(searchResultNkoAdapter);
         searchResultNkoPresenter.onCreate();
@@ -66,7 +69,7 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
 
     @Override
     public void onDestroy() {
-        searchResultNkoPresenter.detachView();
+        searchResultNkoPresenter.detachView(this);
         super.onDestroy();
     }
 

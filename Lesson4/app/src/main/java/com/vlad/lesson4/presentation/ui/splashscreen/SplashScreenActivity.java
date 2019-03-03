@@ -3,25 +3,20 @@ package com.vlad.lesson4.presentation.ui.splashscreen;
 import android.os.Bundle;
 import android.widget.ViewFlipper;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.vlad.lesson4.R;
-import com.vlad.lesson4.di.component.ActivityComponent;
-import com.vlad.lesson4.presentation.ui.base.BaseActivity;
+import com.vlad.lesson4.presentation.ui.base.BaseActivityMoxy;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 
-import javax.inject.Inject;
-
-//import com.vlad.lesson4.di.component.DaggerActivityComponent;
-
-public class SplashScreenActivity extends BaseActivity implements SplashScreenMvpView {
-
-    private static final int VIEW_LOADING = 0;
-    private static final int VIEW_ERROR = 1;
-    private ActivityComponent activityComponent;
+public class SplashScreenActivity extends BaseActivityMoxy implements SplashScreenMvpView {
 
     public final static int SECONDS_SLEEP = 2;
 
-    @Inject
-    SplashScreenPresenter splashScreenPresenter;
+    private static final int VIEW_LOADING = 0;
+    private static final int VIEW_ERROR = 1;
+
+    @InjectPresenter
+    public SplashScreenPresenter splashScreenPresenter;
 
     private ViewFlipper viewFlipper;
 
@@ -30,17 +25,6 @@ public class SplashScreenActivity extends BaseActivity implements SplashScreenMv
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         viewFlipper = findViewById(R.id.viewFlipperSplashScreen);
-
-        activityComponent = getActivityComponent();
-        activityComponent.inject(this);
-        splashScreenPresenter.attachView(this);
-        splashScreenPresenter.onCreate();
-    }
-
-    @Override
-    protected void onDestroy() {
-        splashScreenPresenter.detachView();
-        super.onDestroy();
     }
 
     @Override

@@ -1,8 +1,15 @@
 package com.vlad.lesson4.presentation.ui.news;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.vlad.lesson4.MyApplication;
+import com.vlad.lesson4.data.remote.api.FirebaseApi;
+import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.domain.provider.EventProvider;
 import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
+import com.vlad.lesson4.presentation.ui.base.BaseActivityMoxy;
+import com.vlad.lesson4.presentation.ui.base.BaseFragmentMoxy;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
+import com.vlad.lesson4.presentation.ui.base.BasePresenterMoxy;
 
 import javax.inject.Inject;
 
@@ -10,7 +17,8 @@ import androidx.annotation.NonNull;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
-public class NewsPresenter extends BasePresenter<NewsMvpView> {
+@InjectViewState
+public class NewsPresenter extends BasePresenterMoxy<NewsMvpView> {
 
     private Disposable disposable;
     @NonNull
@@ -18,37 +26,29 @@ public class NewsPresenter extends BasePresenter<NewsMvpView> {
     @NonNull
     private ItemsJsonProvider itemsJsonProvider;
 
-    @Inject
     public NewsPresenter(@NonNull EventProvider eventProvider,
                          @NonNull ItemsJsonProvider itemsJsonProvider) {
         this.eventProvider = eventProvider;
         this.itemsJsonProvider = itemsJsonProvider;
     }
 
-    public void onCreate() {
-        checkViewAttached();
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
         getCharityEvents();
     }
 
-    private void getCharityEvents() {
-        checkViewAttached();
+    public void getCharityEvents() {
         disposable = eventProvider.getEvents()
                 .compose(applyBinding())
                 .compose(eventProvider.applyScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(__ -> getMvpView().showProgressView())
+                .doOnSubscribe(__ -> getViewState().showProgressView())
                 .doOnError(Throwable::printStackTrace)
                 .onErrorReturn(__ -> itemsJsonProvider.getListEventsCategoryFromJson())
                 .subscribe(events -> {
-                    getMvpView().showCharityEvents(events);
-                    getMvpView().onClickEvent();
+                    getViewState().showCharityEvents(events);
+                    getViewState().onClickEvent();
                 });
-    }
-
-    @Override
-    protected void doUnsubscribe() {
-        if (disposable != null) {
-            disposable.dispose();
-        }
     }
 }

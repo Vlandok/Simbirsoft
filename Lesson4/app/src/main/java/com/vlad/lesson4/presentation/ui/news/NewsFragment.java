@@ -11,11 +11,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
+import com.vlad.lesson4.data.remote.api.FirebaseApi;
 import com.vlad.lesson4.di.component.ActivityComponent;
+import com.vlad.lesson4.domain.provider.EventProvider;
+import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
+import com.vlad.lesson4.presentation.ui.base.BaseFragmentMoxy;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity;
 import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsAdapter;
 
@@ -28,7 +34,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NewsFragment extends BaseFragment implements NewsMvpView {
+public class NewsFragment extends BaseFragmentMoxy implements NewsMvpView {
 
     public final static String FRAGMENT_TAG_NEWS = "FRAGMENT_TAG_NEWS";
 
@@ -37,15 +43,21 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     private static final int VIEW_ERROR = 2;
 
     @Inject
-     NewsPresenter newsPresenter;
-    private MenuItem menuItem;
+    @InjectPresenter
+    NewsPresenter newsPresenter;
     @Inject
-     CharityEventsAdapter charityEventsAdapter;
+    CharityEventsAdapter charityEventsAdapter;
+    private MenuItem menuItem;
     private RecyclerView recyclerView;
     private ViewFlipper viewFlipper;
     private Button buttonError;
     private TextView textViewTitleToolbar;
     private ActivityComponent activityComponent;
+
+    @ProvidePresenter
+    NewsPresenter provideNewsPresenter() {
+        return newsPresenter;
+    }
 
     public NewsFragment() {
 
@@ -61,7 +73,6 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
         setHasOptionsMenu(true);
         activityComponent = getActivityComponent();
         activityComponent.inject(this);
-        newsPresenter.attachView(this);
     }
 
     @Override
@@ -78,7 +89,7 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
         recyclerView = rootView.findViewById(R.id.recyclerCharityEvents);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(charityEventsAdapter);
-        newsPresenter.onCreate();
+        newsPresenter.attachView(this);
         return rootView;
     }
 
@@ -98,7 +109,7 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        newsPresenter.detachView();
+        newsPresenter.detachView(this);
     }
 
     @Override
@@ -116,7 +127,7 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     @Override
     public void onClickErrorButton() {
         if (newsPresenter != null && buttonError != null) {
-            buttonError.setOnClickListener(view -> newsPresenter.onCreate());
+            buttonError.setOnClickListener(view -> newsPresenter.getCharityEvents());
         }
     }
 

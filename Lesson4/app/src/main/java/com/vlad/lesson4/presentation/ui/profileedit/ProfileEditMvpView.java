@@ -1,8 +1,8 @@
 package com.vlad.lesson4.presentation.ui.profileedit;
 
+import com.arellomobile.mvp.MvpView;
 import com.vlad.lesson4.data.model.Friend;
 import com.vlad.lesson4.data.model.User;
-import com.vlad.lesson4.presentation.ui.base.MvpView;
 
 import java.util.ArrayList;
 

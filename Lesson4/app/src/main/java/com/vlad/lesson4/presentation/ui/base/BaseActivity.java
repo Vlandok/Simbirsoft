@@ -5,11 +5,11 @@ import android.os.Bundle;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.di.component.ActivityComponent;
-//import com.vlad.lesson4.di.component.DaggerActivityComponent;
 import com.vlad.lesson4.di.component.DaggerActivityComponent;
 import com.vlad.lesson4.di.module.ActivityModule;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -28,14 +28,4 @@ public abstract class BaseActivity extends AppCompatActivity {
     public ActivityComponent getActivityComponent() {
         return activityComponent;
     }
-
-//    public ApplicationComponent getApplicationComponent() {
-//        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-//        return ((MyApplication) getApplication()).getApplicationComponent();
-//    }
-
-//    public ApplicationComponents getApplicationComponents() {
-//        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-//        return ((MyApplication) getApplication()).getApplicationComponents();
-//    }
 }

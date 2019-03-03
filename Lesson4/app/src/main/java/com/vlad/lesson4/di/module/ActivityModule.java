@@ -2,6 +2,7 @@ package com.vlad.lesson4.di.module;
 
 import android.content.Context;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.vlad.lesson4.di.ActivityContext;
 import com.vlad.lesson4.domain.provider.CategoryProvider;
 import com.vlad.lesson4.domain.provider.EventProvider;
@@ -28,9 +29,14 @@ import io.reactivex.disposables.CompositeDisposable;
 @Module(includes = {CategoryModule.class, UserModule.class, ItemsJsonModule.class, EventModule.class})
 public class ActivityModule {
     private AppCompatActivity mActivity;
+    private MvpAppCompatActivity mvpActivity;
 
     public ActivityModule(AppCompatActivity activity) {
         this.mActivity = activity;
+    }
+
+    public ActivityModule(MvpAppCompatActivity mvpActivity) {
+        this.mvpActivity = mvpActivity;
     }
 
     @ActivityContext
@@ -42,6 +48,11 @@ public class ActivityModule {
     @Provides
     AppCompatActivity provideActivity() {
         return mActivity;
+    }
+
+    @Provides
+    MvpAppCompatActivity provideActivityMvp() {
+        return mvpActivity;
     }
 
     @ActivityContext

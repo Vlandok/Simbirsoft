@@ -13,6 +13,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
@@ -21,7 +23,7 @@ import com.vlad.lesson4.data.model.User;
 import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.domain.provider.ProfileEditProvider;
 import com.vlad.lesson4.presentation.ui.authorization.AuthorizationActivity;
-import com.vlad.lesson4.presentation.ui.base.BaseFragment;
+import com.vlad.lesson4.presentation.ui.base.BaseFragmentMoxy;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 import com.vlad.lesson4.utils.MyGlide;
 
@@ -38,7 +40,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpView {
+public class ProfileEditFragment extends BaseFragmentMoxy implements ProfileEditMvpView {
 
     public final static String FRAGMENT_TAG_PROFILE = "FRAGMENT_TAG_PROFILE";
 
@@ -53,7 +55,8 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     private TextView textViewBirthData;
     private ActivityComponent activityComponent;
     private TextView textViewFieldActivity;
-    private ProfileEditPresenter profileEditPresenter;
+    @InjectPresenter
+    ProfileEditPresenter profileEditPresenter;
     private AlertDialog dialog;
     private MenuItem menuItem;
     private RecyclerView recyclerView;
@@ -68,6 +71,11 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     Button buttonExitAccount;
     @BindView(R.id.switchNotify)
     Switch switchNotify;
+
+    @ProvidePresenter
+    ProfileEditPresenter provideProfileEditPresenter() {
+        return profileEditPresenter;
+    }
 
     public static ProfileEditFragment getInstance() {
         return new ProfileEditFragment();
@@ -93,7 +101,6 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
         profileEditViewHolderRx = new ProfileEditViewHolderRx(switchNotify);
         profileEditModel = new ProfileEditProvider(profileEditViewHolderRx);
         profileEditPresenter = new ProfileEditPresenter(profileEditModel);
-        profileEditPresenter.attachView(this);
         BottomNavigationViewEx bottomNavigationView = Objects.requireNonNull(getActivity())
                 .findViewById(R.id.bottomNavigationMenu);
         textViewTitleToolbar = Objects.requireNonNull(getActivity())
@@ -109,28 +116,28 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
         viewFlipper = rootView.findViewById(R.id.viewFlipper);
         dialog = new AlertDialog.Builder(Objects.requireNonNull(getActivity()))
                 .setView(inflater.inflate(R.layout.dialog_profile_edit, null)).create();
-        profileEditPresenter.onCreate();
+        profileEditPresenter.attachView(this);
         return rootView;
     }
 
     @Override
     public void onStart() {
+        super.onStart();
         textViewTitleToolbar.setText(R.string.profil_bottom_nav);
         menuItem.setEnabled(false);
-        super.onStart();
     }
 
     @Override
     public void onPause() {
-        menuItem.setEnabled(true);
         super.onPause();
+        menuItem.setEnabled(true);
     }
 
     @Override
     public void onDestroy() {
-        profileEditPresenter.detachView();
-        unbinder.unbind();
         super.onDestroy();
+        profileEditPresenter.detachView(this);
+        unbinder.unbind();
     }
 
     @Override
@@ -153,7 +160,9 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
 
     @Override
     public void setImageUser(String urlImage) {
-        MyGlide.loadImage(this, urlImage, imageViewUser);
+        if (getActivity() != null) {
+            MyGlide.loadImage(this, urlImage, imageViewUser);
+        }
     }
 
     @Override

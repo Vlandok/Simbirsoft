@@ -8,7 +8,7 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
 
-@Module
+@Module(includes = ContextModule.class)
 public class OkHttpClientModule {
     @Singleton
     @Provides

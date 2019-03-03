@@ -1,14 +1,16 @@
 package com.vlad.lesson4.presentation.ui.searchresultnko;
 
+import com.arellomobile.mvp.InjectViewState;
 import com.vlad.lesson4.data.model.SearchResultsNko;
-import com.vlad.lesson4.presentation.ui.base.BasePresenter;
+import com.vlad.lesson4.presentation.ui.base.BasePresenterMoxy;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import static com.vlad.lesson4.presentation.ui.search.FragmentPagerAdapter.ALL_CHARACTERS;
 
-public class SearchResultNkoPresenter extends BasePresenter<SearchResultNkoMvpView> {
+@InjectViewState
+public class SearchResultNkoPresenter extends BasePresenterMoxy<SearchResultNkoMvpView> {
 
     public static int LENGTH_STRING_RANDOM = 10;
 
@@ -23,19 +25,17 @@ public class SearchResultNkoPresenter extends BasePresenter<SearchResultNkoMvpVi
     }
 
     public void onCreate() {
-        checkViewAttached();
         getSearchResults();
     }
 
     private void getSearchResults() {
-        checkViewAttached();
-        getMvpView().showProgressView();
+        getViewState().showProgressView();
         ArrayList<SearchResultsNko> arrayListSearchResults = initSearchResults();
         if (arrayListSearchResults == null) {
-            getMvpView().showLoadingError();
+            getViewState().showLoadingError();
         } else {
-            getMvpView().showSearchResultNko(arrayListSearchResults);
-            getMvpView().clickItemSearchResultNko();
+            getViewState().showSearchResultNko(arrayListSearchResults);
+            getViewState().clickItemSearchResultNko();
         }
     }
 
