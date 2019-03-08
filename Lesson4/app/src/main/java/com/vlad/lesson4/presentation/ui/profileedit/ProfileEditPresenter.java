@@ -1,5 +1,7 @@
 package com.vlad.lesson4.presentation.ui.profileedit;
 
+import android.annotation.SuppressLint;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -8,26 +10,24 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Friend;
 import com.vlad.lesson4.data.model.User;
-import com.vlad.lesson4.presentation.ui.base.BasePresenterMoxy;
+import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 import durdinapps.rxfirebase2.RxFirebaseDatabase;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import rx.Completable;
 import rx.Observable;
 
 @InjectViewState
-public class ProfileEditPresenter extends BasePresenterMoxy<ProfileEditMvpView> {
+public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
 
     private final static String USERS_REF = "users";
     private final static String SWITCH_NOTIFY_REF = "isPushNotifications";
 
     private ArrayList<Friend> arrayListFriends;
-    private Disposable disposable;
     private ProfileEditModel profileEditModel;
     private Observable<Boolean> switchObservable;
     private FirebaseAuth mAuth;
@@ -55,13 +55,14 @@ public class ProfileEditPresenter extends BasePresenterMoxy<ProfileEditMvpView> 
         });
     }
 
+    @SuppressLint("CheckResult")
     private void getUserInfo() {
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             DatabaseReference query = FirebaseDatabase.getInstance().getReference().child(USERS_REF)
                     .child(Objects.requireNonNull(firebaseUser).getUid());
-            disposable = RxFirebaseDatabase.observeSingleValueEvent(query, User.class)
+            RxFirebaseDatabase.observeSingleValueEvent(query, User.class)
                     .compose(applyBindingMaybe())
                     .compose(profileEditModel.applySchedulerMaybe())
                     .subscribeOn(Schedulers.io())

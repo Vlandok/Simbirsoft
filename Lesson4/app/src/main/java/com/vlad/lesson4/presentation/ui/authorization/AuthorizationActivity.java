@@ -18,7 +18,6 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.domain.provider.AuthorizationProvider;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
-import com.vlad.lesson4.presentation.ui.base.BaseActivityMoxy;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 
 import java.util.Objects;
@@ -30,7 +29,7 @@ import butterknife.ButterKnife;
 
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.EMPTY;
 
-public class AuthorizationActivity extends BaseActivityMoxy implements AuthorizationMvpView {
+public class AuthorizationActivity extends BaseActivity implements AuthorizationMvpView {
 
     @BindView(R.id.toolbarAuthorization)
     Toolbar toolbar;
@@ -46,16 +45,9 @@ public class AuthorizationActivity extends BaseActivityMoxy implements Authoriza
     ProgressBar progressBar;
     @BindView(R.id.imageButtonChangeVisiblePassword)
     ImageButton imageButtonChangeVisiblePassword;
-
-    @InjectPresenter
     AuthorizationPresenter authorizationPresenter;
     private AuthorizationViewHolder authorizationViewHolder;
     private AuthorizationModel authorizationModel;
-
-    @ProvidePresenter
-    AuthorizationPresenter provideAuthorizationPresenter(){
-        return authorizationPresenter;
-    }
 
     public static Intent createStartIntent(Context context) {
         return new Intent(context, AuthorizationActivity.class);

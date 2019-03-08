@@ -5,10 +5,10 @@ import android.widget.ViewFlipper;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.vlad.lesson4.R;
-import com.vlad.lesson4.presentation.ui.base.BaseActivityMoxy;
+import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 
-public class SplashScreenActivity extends BaseActivityMoxy implements SplashScreenMvpView {
+public class SplashScreenActivity extends BaseActivity implements SplashScreenMvpView {
 
     public final static int SECONDS_SLEEP = 2;
 

@@ -17,13 +17,14 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Friend;
 import com.vlad.lesson4.data.model.User;
 import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.domain.provider.ProfileEditProvider;
 import com.vlad.lesson4.presentation.ui.authorization.AuthorizationActivity;
-import com.vlad.lesson4.presentation.ui.base.BaseFragmentMoxy;
+import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 import com.vlad.lesson4.utils.MyGlide;
 
@@ -34,13 +35,14 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class ProfileEditFragment extends BaseFragmentMoxy implements ProfileEditMvpView {
+public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpView {
 
     public final static String FRAGMENT_TAG_PROFILE = "FRAGMENT_TAG_PROFILE";
 
@@ -53,9 +55,7 @@ public class ProfileEditFragment extends BaseFragmentMoxy implements ProfileEdit
     private ImageView imageViewUser;
     private TextView textViewFullName;
     private TextView textViewBirthData;
-    private ActivityComponent activityComponent;
     private TextView textViewFieldActivity;
-    @InjectPresenter
     ProfileEditPresenter profileEditPresenter;
     private AlertDialog dialog;
     private MenuItem menuItem;
@@ -72,11 +72,6 @@ public class ProfileEditFragment extends BaseFragmentMoxy implements ProfileEdit
     @BindView(R.id.switchNotify)
     Switch switchNotify;
 
-    @ProvidePresenter
-    ProfileEditPresenter provideProfileEditPresenter() {
-        return profileEditPresenter;
-    }
-
     public static ProfileEditFragment getInstance() {
         return new ProfileEditFragment();
     }
@@ -87,10 +82,10 @@ public class ProfileEditFragment extends BaseFragmentMoxy implements ProfileEdit
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        MyApplication.getInstance(getActivity())
+                .plusActivityComponent((AppCompatActivity) getActivity()).inject(this);
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        activityComponent = getActivityComponent();
-        activityComponent.inject(this);
     }
 
     @Override
@@ -136,6 +131,7 @@ public class ProfileEditFragment extends BaseFragmentMoxy implements ProfileEdit
     @Override
     public void onDestroy() {
         super.onDestroy();
+        MyApplication.getInstance(getActivity()).clearActivityComponent();
         profileEditPresenter.detachView(this);
         unbinder.unbind();
     }

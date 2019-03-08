@@ -6,11 +6,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.tabs.TabLayout;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
-import com.vlad.lesson4.presentation.ui.base.BaseFragmentMoxy;
 
 import java.util.Objects;
 
@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-public class SearchFragment extends BaseFragmentMoxy implements SearchMvpView {
+public class SearchFragment extends BaseFragment implements SearchMvpView {
 
     public final static String FRAGMENT_TAG_SEARCH = "FRAGMENT_TAG_SEARCH";
 
@@ -28,6 +28,9 @@ public class SearchFragment extends BaseFragmentMoxy implements SearchMvpView {
     private MenuItem menuItem;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    @InjectPresenter
+    SearchPresenter searchPresenter;
 
     public SearchFragment() {
     }

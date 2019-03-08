@@ -8,11 +8,10 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.SearchResults;
-import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
-import com.vlad.lesson4.presentation.ui.base.BaseFragmentMoxy;
 import com.vlad.lesson4.presentation.ui.search.Updatable;
 
 import java.util.ArrayList;
@@ -20,10 +19,11 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SearchResultEventsFragment extends BaseFragmentMoxy implements SearchResultEventsMvpView, Updatable {
+public class SearchResultEventsFragment extends BaseFragment implements SearchResultEventsMvpView, Updatable {
 
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
@@ -36,7 +36,6 @@ public class SearchResultEventsFragment extends BaseFragmentMoxy implements Sear
     @Inject
     SearchResultEventsAdapter searchResultAdapter;
     private ViewFlipper viewFlipper;
-    private ActivityComponent activityComponent;
 
     public SearchResultEventsFragment() {
 
@@ -48,9 +47,9 @@ public class SearchResultEventsFragment extends BaseFragmentMoxy implements Sear
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        MyApplication.getInstance(getActivity())
+                .plusActivityComponent((AppCompatActivity) getActivity()).inject(this);
         super.onCreate(savedInstanceState);
-        activityComponent = getActivityComponent();
-        activityComponent.inject(this);
     }
 
     @Override
@@ -59,17 +58,15 @@ public class SearchResultEventsFragment extends BaseFragmentMoxy implements Sear
         View rootView = inflater.inflate(R.layout.fragment_search_result_events, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerViewSearchResult);
         viewFlipper = rootView.findViewById(R.id.viewFlipper);
-        searchResultPresenter.attachView(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(searchResultAdapter);
-        searchResultPresenter.onCreate();
         return rootView;
     }
 
     @Override
     public void onDestroy() {
-        searchResultPresenter.detachView(this);
         super.onDestroy();
+        MyApplication.getInstance(getActivity()).clearActivityComponent();
     }
 
     @Override

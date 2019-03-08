@@ -15,7 +15,6 @@ public class EventProvider {
 
     private final FirebaseApi firebaseApi;
 
-    @Inject
     public EventProvider(FirebaseApi firebaseApi) {
         this.firebaseApi = firebaseApi;
     }

@@ -1,10 +1,10 @@
 package com.vlad.lesson4.presentation.ui.splashscreen;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.vlad.lesson4.presentation.ui.base.BasePresenterMoxy;
+import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
 @InjectViewState
-public class SplashScreenPresenter extends BasePresenterMoxy<SplashScreenMvpView> {
+public class SplashScreenPresenter extends BasePresenter<SplashScreenMvpView> {
 
     @Override
     protected void onFirstViewAttach() {

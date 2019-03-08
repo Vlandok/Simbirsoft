@@ -1,58 +1,65 @@
 package com.vlad.lesson4.presentation.ui.base;
 
-import com.vlad.lesson4.exception.MvpViewNotAttachedException;
+import com.arellomobile.mvp.MvpPresenter;
+import com.arellomobile.mvp.MvpView;
+
 import io.reactivex.MaybeTransformer;
+import io.reactivex.ObservableTransformer;
 import io.reactivex.SingleTransformer;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
-public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
+public abstract class BasePresenter<T extends MvpView> extends MvpPresenter<T> {
 
-    private T mMvpView;
     private CompositeDisposable compositeDisposable;
+    private CompositeSubscription compositeSubscription;
 
     @Override
-    public void attachView(T mvpView) {
-        mMvpView = mvpView;
+    public void attachView(T view) {
+        super.attachView(view);
         compositeDisposable = new CompositeDisposable();
+        compositeSubscription = new CompositeSubscription();
     }
 
-    @Override
-    public void detachView() {
-        mMvpView = null;
-        if (compositeDisposable != null) {
-            compositeDisposable.clear();
-        }
-        doUnsubscribe();
-    }
-
-    protected <T> SingleTransformer<T, T> applyBinding() {
+    protected <Y> SingleTransformer<Y, Y> applyBinding() {
         return upstream -> upstream
                 .doOnSubscribe((Consumer<Disposable>) this::bindToLifecycle);
     }
 
-    protected <T> MaybeTransformer<T, T> applyBindingMaybe() {
+    protected <Y> MaybeTransformer<Y, Y> applyBindingMaybe() {
         return upstream -> upstream
                 .doOnSubscribe((Consumer<Disposable>) this::bindToLifecycle);
     }
 
-    protected void bindToLifecycle(Disposable d) {
+    private void bindToLifecycle(Disposable d) {
         compositeDisposable.add(d);
     }
 
-    protected abstract void doUnsubscribe();
-
-    public boolean isViewAttached() {
-        return mMvpView != null;
+    protected void addSubscription(Subscription subscription) {
+        compositeSubscription.add(subscription);
     }
 
-    public T getMvpView() {
-        return mMvpView;
+    protected void bindToLifecycle (Subscription subscription) {
+        compositeSubscription.add(subscription);
     }
 
-    public void checkViewAttached() {
-        if (!isViewAttached()) throw new MvpViewNotAttachedException();
+    protected void doUnsubscribe() {
+        if (compositeDisposable != null) {
+            compositeDisposable.clear();
+        }
+        if (compositeSubscription != null) {
+            compositeSubscription.clear();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        doUnsubscribe();
     }
 }
 

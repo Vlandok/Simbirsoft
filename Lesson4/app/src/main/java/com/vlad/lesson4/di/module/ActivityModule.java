@@ -29,36 +29,15 @@ import io.reactivex.disposables.CompositeDisposable;
 @Module(includes = {CategoryModule.class, UserModule.class, ItemsJsonModule.class, EventModule.class})
 public class ActivityModule {
     private AppCompatActivity mActivity;
-    private MvpAppCompatActivity mvpActivity;
 
     public ActivityModule(AppCompatActivity activity) {
         this.mActivity = activity;
-    }
-
-    public ActivityModule(MvpAppCompatActivity mvpActivity) {
-        this.mvpActivity = mvpActivity;
     }
 
     @ActivityContext
     @Provides
     Context provideContext() {
         return mActivity;
-    }
-
-    @Provides
-    AppCompatActivity provideActivity() {
-        return mActivity;
-    }
-
-    @Provides
-    MvpAppCompatActivity provideActivityMvp() {
-        return mvpActivity;
-    }
-
-    @ActivityContext
-    @Provides
-    CompositeDisposable provideCompositeDisposable() {
-        return new CompositeDisposable();
     }
 
     @Provides

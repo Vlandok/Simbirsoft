@@ -1,6 +1,5 @@
 package com.vlad.lesson4.presentation.ui.main;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,20 +11,23 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.jakewharton.threetenabp.AndroidThreeTen;
+import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.presentation.ui.authorization.AuthorizationActivity;
-import com.vlad.lesson4.presentation.ui.base.BaseActivityMoxy;
+import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.presentation.ui.help.HelpFragment;
 import com.vlad.lesson4.presentation.ui.news.NewsFragment;
 import com.vlad.lesson4.presentation.ui.profileedit.ProfileEditFragment;
 import com.vlad.lesson4.presentation.ui.search.SearchFragment;
+
+import javax.inject.Inject;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class MainActivity extends BaseActivityMoxy implements MainMvpView {
+public class MainActivity extends BaseActivity implements MainMvpView {
 
     private Toolbar toolbar;
     private BottomNavigationViewEx bottomNavigationView;
@@ -67,6 +69,12 @@ public class MainActivity extends BaseActivityMoxy implements MainMvpView {
         clickButtonBottomNav(savedInstanceState);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> finish());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getInstance(this).clearActivityComponent();
     }
 
     @Override

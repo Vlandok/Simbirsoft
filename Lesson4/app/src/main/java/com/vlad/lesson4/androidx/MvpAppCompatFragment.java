@@ -2,6 +2,7 @@ package com.vlad.lesson4.androidx;
 
 import android.os.Bundle;
 import com.arellomobile.mvp.MvpDelegate;
+
 import androidx.fragment.app.Fragment;
 
 /**

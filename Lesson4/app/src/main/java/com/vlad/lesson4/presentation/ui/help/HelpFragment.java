@@ -10,15 +10,13 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.PresenterType;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Category;
 import com.vlad.lesson4.di.component.ActivityComponent;
-import com.vlad.lesson4.domain.provider.CategoryProvider;
-import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
-import com.vlad.lesson4.presentation.ui.base.BaseFragmentMoxy;
+import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsActivity;
 
@@ -26,17 +24,14 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-public class HelpFragment extends BaseFragmentMoxy implements HelpMvpView {
+public class HelpFragment extends BaseFragment implements HelpMvpView {
 
     public final static String FRAGMENT_TAG_HELP = "FRAGMENT_TAG_HELP";
 
@@ -56,12 +51,6 @@ public class HelpFragment extends BaseFragmentMoxy implements HelpMvpView {
     private RecyclerView recyclerView;
     private MenuItem menuItem;
     private TextView textViewTitleToolbar;
-    private ActivityComponent activityComponent;
-
-    @Inject
-    CategoryProvider categoryProvider;
-    @Inject
-    ItemsJsonProvider itemsJsonProvider;
 
     @ProvidePresenter
     HelpPresenter providePresenter() {
@@ -78,9 +67,9 @@ public class HelpFragment extends BaseFragmentMoxy implements HelpMvpView {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        MyApplication.getInstance(getActivity())
+                .plusActivityComponent((AppCompatActivity) getActivity()).inject(this);
         super.onCreate(savedInstanceState);
-        activityComponent = getActivityComponent();
-        activityComponent.inject(this);
     }
 
     @Nullable
@@ -98,7 +87,6 @@ public class HelpFragment extends BaseFragmentMoxy implements HelpMvpView {
         menuItem = bottomNavigationView.getMenu().findItem(R.id.i_help);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), MainActivity.SPAN_COUNT));
         recyclerView.setAdapter(helpAdapter);
-        helpPresenter.attachView(this);
         return rootView;
     }
 
@@ -118,7 +106,7 @@ public class HelpFragment extends BaseFragmentMoxy implements HelpMvpView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        providePresenter().detachView(this);
+        MyApplication.getInstance(getActivity()).clearActivityComponent();
     }
 
     @Override

@@ -1,9 +1,10 @@
 package com.vlad.lesson4.presentation.ui.authorization;
 
+import android.annotation.SuppressLint;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
-import com.vlad.lesson4.presentation.ui.base.BasePresenterMoxy;
 import com.vlad.lesson4.utils.ValidEmail;
 
 import java.util.concurrent.TimeUnit;
@@ -15,7 +16,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
 @InjectViewState
-public class AuthorizationPresenter extends BasePresenterMoxy<AuthorizationMvpView> {
+public class AuthorizationPresenter extends BasePresenter<AuthorizationMvpView> {
 
     private final static int MIN_LENGTH_PASSWORD = 6;
     private final static int TIME_WAIT_MILLISECONDS = 100;
@@ -27,7 +28,6 @@ public class AuthorizationPresenter extends BasePresenterMoxy<AuthorizationMvpVi
     private Observable<Void> buttonObservable;
     private Observable<Void> clickButtonChangeVisible;
     private FirebaseAuth mAuth;
-    private Disposable disposable;
 
     public AuthorizationPresenter(AuthorizationModel authorizationModel) {
         this.authorizationModel = authorizationModel;
@@ -68,6 +68,7 @@ public class AuthorizationPresenter extends BasePresenterMoxy<AuthorizationMvpVi
                             getViewState().setEntryButtonInactive();
                         }
                     });
+            addSubscription(editTextSub);
         }
     }
 
@@ -83,9 +84,10 @@ public class AuthorizationPresenter extends BasePresenterMoxy<AuthorizationMvpVi
                         getViewState().clickChangeVisibilityPassword());
     }
 
+    @SuppressLint("CheckResult")
     private void signInAccount() {
         mAuth = FirebaseAuth.getInstance();
-        disposable = RxFirebaseAuth.signInWithEmailAndPassword(mAuth,
+        RxFirebaseAuth.signInWithEmailAndPassword(mAuth,
                 authorizationModel.changeTextEmail().toBlocking().first(),
                 authorizationModel.changeTextPassword().toBlocking().first())
                 .compose(applyBindingMaybe())

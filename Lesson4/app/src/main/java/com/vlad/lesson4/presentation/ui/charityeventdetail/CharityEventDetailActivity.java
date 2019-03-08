@@ -16,11 +16,10 @@ import android.widget.ViewFlipper;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
-import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
-import com.vlad.lesson4.presentation.ui.base.BaseActivityMoxy;
 import com.vlad.lesson4.utils.Date;
 import com.vlad.lesson4.utils.MakeLinksClickable;
 import com.vlad.lesson4.utils.MyGlide;
@@ -37,7 +36,7 @@ import static com.vlad.lesson4.presentation.ui.main.MainActivity.DOT;
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.EMPTY;
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.NOTHING;
 
-public class CharityEventDetailActivity extends BaseActivityMoxy implements CharityEventDetailMvpView {
+public class CharityEventDetailActivity extends BaseActivity implements CharityEventDetailMvpView {
 
     public static final String EXTRA_ID_EVENT = "EXTRA_ID_EVENT";
     public static final int DEFAULT_VALUE = -1;
@@ -66,7 +65,6 @@ public class CharityEventDetailActivity extends BaseActivityMoxy implements Char
     private TextView textViewAskEvent;
     private LinearLayout linearLayoutImageEvent;
     private int id;
-    private ActivityComponent activityComponent;
 
     @ProvidePresenter
     public CharityEventDetailPresenter provideCharityEventDetailPresenter() {
@@ -96,11 +94,9 @@ public class CharityEventDetailActivity extends BaseActivityMoxy implements Char
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyApplication.getInstance(this).plusActivityComponent(this).inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_event_detail);
-        activityComponent = getActivityComponent();
-        activityComponent.inject(this);
-        charityEventDetailPresenter.attachView(this);
         toolbar = findViewById(R.id.toolbarEventDetail);
         viewFlipper = findViewById(R.id.viewFlipperEventDetail);
         textViewTitleDetailEvent = findViewById(R.id.textViewTitleDetailEvent);
@@ -126,6 +122,12 @@ public class CharityEventDetailActivity extends BaseActivityMoxy implements Char
 
         id = getIntent().getIntExtra(EXTRA_ID_EVENT, DEFAULT_VALUE);
         charityEventDetailPresenter.getEvent(id);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getInstance(this).clearActivityComponent();
     }
 
     @Override

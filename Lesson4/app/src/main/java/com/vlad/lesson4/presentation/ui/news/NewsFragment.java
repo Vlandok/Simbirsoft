@@ -14,14 +14,11 @@ import android.widget.ViewFlipper;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
-import com.vlad.lesson4.data.remote.api.FirebaseApi;
 import com.vlad.lesson4.di.component.ActivityComponent;
-import com.vlad.lesson4.domain.provider.EventProvider;
-import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
-import com.vlad.lesson4.presentation.ui.base.BaseFragmentMoxy;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity;
 import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsAdapter;
 
@@ -31,10 +28,11 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NewsFragment extends BaseFragmentMoxy implements NewsMvpView {
+public class NewsFragment extends BaseFragment implements NewsMvpView {
 
     public final static String FRAGMENT_TAG_NEWS = "FRAGMENT_TAG_NEWS";
 
@@ -52,7 +50,6 @@ public class NewsFragment extends BaseFragmentMoxy implements NewsMvpView {
     private ViewFlipper viewFlipper;
     private Button buttonError;
     private TextView textViewTitleToolbar;
-    private ActivityComponent activityComponent;
 
     @ProvidePresenter
     NewsPresenter provideNewsPresenter() {
@@ -69,10 +66,10 @@ public class NewsFragment extends BaseFragmentMoxy implements NewsMvpView {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        MyApplication.getInstance(getActivity())
+                .plusActivityComponent((AppCompatActivity) getActivity()).inject(this);
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        activityComponent = getActivityComponent();
-        activityComponent.inject(this);
     }
 
     @Override
@@ -89,7 +86,6 @@ public class NewsFragment extends BaseFragmentMoxy implements NewsMvpView {
         recyclerView = rootView.findViewById(R.id.recyclerCharityEvents);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(charityEventsAdapter);
-        newsPresenter.attachView(this);
         return rootView;
     }
 
@@ -104,12 +100,6 @@ public class NewsFragment extends BaseFragmentMoxy implements NewsMvpView {
     public void onPause() {
         menuItem.setEnabled(true);
         super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        newsPresenter.detachView(this);
     }
 
     @Override

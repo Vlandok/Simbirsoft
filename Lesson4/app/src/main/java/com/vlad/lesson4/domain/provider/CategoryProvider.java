@@ -15,7 +15,6 @@ public class CategoryProvider {
 
     private final FirebaseApi firebaseApi;
 
-    @Inject
     public CategoryProvider(FirebaseApi firebaseApi) {
         this.firebaseApi = firebaseApi;
     }

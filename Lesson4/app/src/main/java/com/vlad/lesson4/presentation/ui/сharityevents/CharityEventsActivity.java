@@ -9,17 +9,17 @@ import android.widget.ViewFlipper;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
-import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
-import com.vlad.lesson4.presentation.ui.base.BaseActivityMoxy;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import static com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity.DEFAULT_VALUE;
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.EMPTY;
 
-public class CharityEventsActivity extends BaseActivityMoxy implements CharityEventsMvpView {
+public class CharityEventsActivity extends BaseActivity implements CharityEventsMvpView {
 
     public static final String ARGUMENT_ID_CATEGORY_HELP = "ARGUMENT_ID_CATEGORY_HELP";
     public static final String ARGUMENT_TITLE_CATEGORY_HELP = "ARGUMENT_TITLE_CATEGORY_HELP";
@@ -47,7 +47,6 @@ public class CharityEventsActivity extends BaseActivityMoxy implements CharityEv
     private ViewFlipper viewFlipper;
     private TextView textViewTitleToolbar;
     private Toolbar toolbar;
-    private ActivityComponent activityComponent;
 
     @ProvidePresenter
     CharityEventsPresenter provideCharityEventsPresenter() {
@@ -63,11 +62,9 @@ public class CharityEventsActivity extends BaseActivityMoxy implements CharityEv
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyApplication.getInstance(this).plusActivityComponent(this).inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_events);
-        activityComponent = getActivityComponent();
-        activityComponent.inject(this);
-        charityEventsPresenter.attachView(this);
         toolbar = findViewById(R.id.toolbar);
         viewFlipper = findViewById(R.id.viewFlipperCharityEvents);
         textViewTitleToolbar = findViewById(R.id.textViewToolbar);
@@ -95,8 +92,8 @@ public class CharityEventsActivity extends BaseActivityMoxy implements CharityEv
 
     @Override
     protected void onDestroy() {
-        charityEventsPresenter.detachView(this);
         super.onDestroy();
+        MyApplication.getInstance(this).clearActivityComponent();
     }
 
     @Override
