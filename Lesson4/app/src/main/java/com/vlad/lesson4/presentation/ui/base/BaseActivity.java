@@ -6,7 +6,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.vlad.lesson4.androidx.MvpAppCompatActivity;
 
 public abstract class BaseActivity extends MvpAppCompatActivity {
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
