@@ -29,12 +29,10 @@ public class SearchResultEventsFragment extends BaseFragment implements SearchRe
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
 
-    @Inject
     @InjectPresenter
     SearchResultEventsPresenter searchResultPresenter;
     private RecyclerView recyclerView;
-    @Inject
-    SearchResultEventsAdapter searchResultAdapter;
+    private SearchResultEventsAdapter searchResultAdapter;
     private ViewFlipper viewFlipper;
 
     public SearchResultEventsFragment() {
@@ -58,6 +56,7 @@ public class SearchResultEventsFragment extends BaseFragment implements SearchRe
         View rootView = inflater.inflate(R.layout.fragment_search_result_events, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerViewSearchResult);
         viewFlipper = rootView.findViewById(R.id.viewFlipper);
+        searchResultAdapter = new SearchResultEventsAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(searchResultAdapter);
         return rootView;

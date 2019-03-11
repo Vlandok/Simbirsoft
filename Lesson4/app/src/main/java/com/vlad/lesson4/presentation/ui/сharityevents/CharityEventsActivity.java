@@ -41,8 +41,7 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
     @Inject
     @InjectPresenter
     CharityEventsPresenter charityEventsPresenter;
-    @Inject
-    CharityEventsAdapter charityEventsAdapter;
+    private CharityEventsAdapter charityEventsAdapter;
     private RecyclerView recyclerView;
     private ViewFlipper viewFlipper;
     private TextView textViewTitleToolbar;
@@ -69,6 +68,7 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
         viewFlipper = findViewById(R.id.viewFlipperCharityEvents);
         textViewTitleToolbar = findViewById(R.id.textViewToolbar);
         recyclerView = findViewById(R.id.recyclerCharityEvents);
+        charityEventsAdapter = new CharityEventsAdapter();
         toolbar.setTitle(EMPTY);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);

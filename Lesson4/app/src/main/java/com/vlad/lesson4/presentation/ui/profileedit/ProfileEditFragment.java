@@ -13,15 +13,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Friend;
 import com.vlad.lesson4.data.model.User;
-import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.domain.provider.ProfileEditProvider;
 import com.vlad.lesson4.presentation.ui.authorization.AuthorizationActivity;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
@@ -30,8 +27,6 @@ import com.vlad.lesson4.utils.MyGlide;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
-import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -56,12 +51,11 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     private TextView textViewFullName;
     private TextView textViewBirthData;
     private TextView textViewFieldActivity;
-    ProfileEditPresenter profileEditPresenter;
+    private ProfileEditPresenter profileEditPresenter;
     private AlertDialog dialog;
     private MenuItem menuItem;
     private RecyclerView recyclerView;
-    @Inject
-    ProfileEditAdapter profileEditAdapter;
+    private ProfileEditAdapter profileEditAdapter;
     private Unbinder unbinder;
     private ProfileEditViewHolderRx profileEditViewHolderRx;
     private ProfileEditModel profileEditModel;
@@ -106,6 +100,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
         textViewBirthData = rootView.findViewById(R.id.textViewBirthData);
         textViewFieldActivity = rootView.findViewById(R.id.textViewFieldActivity);
         recyclerView = rootView.findViewById(R.id.recyclerViewFriends);
+        profileEditAdapter = new ProfileEditAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(profileEditAdapter);
         viewFlipper = rootView.findViewById(R.id.viewFlipper);

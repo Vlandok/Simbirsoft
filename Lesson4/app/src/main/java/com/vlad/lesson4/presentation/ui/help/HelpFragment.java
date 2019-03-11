@@ -39,8 +39,7 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
 
-    @Inject
-    HelpAdapter helpAdapter;
+    private HelpAdapter helpAdapter;
 
     @Inject
     @InjectPresenter
@@ -85,6 +84,7 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
         textViewTitleToolbar = Objects.requireNonNull(getActivity())
                 .findViewById(R.id.textViewToolbar);
         menuItem = bottomNavigationView.getMenu().findItem(R.id.i_help);
+        helpAdapter = new HelpAdapter();
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), MainActivity.SPAN_COUNT));
         recyclerView.setAdapter(helpAdapter);
         return rootView;

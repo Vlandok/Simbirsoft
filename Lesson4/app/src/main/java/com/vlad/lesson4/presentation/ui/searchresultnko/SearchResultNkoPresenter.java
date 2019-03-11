@@ -7,6 +7,8 @@ import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.inject.Inject;
+
 import static com.vlad.lesson4.presentation.ui.search.FragmentPagerAdapter.ALL_CHARACTERS;
 
 @InjectViewState

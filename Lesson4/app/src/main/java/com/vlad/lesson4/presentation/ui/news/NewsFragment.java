@@ -43,8 +43,7 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     @Inject
     @InjectPresenter
     NewsPresenter newsPresenter;
-    @Inject
-    CharityEventsAdapter charityEventsAdapter;
+    private CharityEventsAdapter charityEventsAdapter;
     private MenuItem menuItem;
     private RecyclerView recyclerView;
     private ViewFlipper viewFlipper;
@@ -84,6 +83,7 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
         menuItem = bottomNavigationView.getMenu().findItem(R.id.i_news);
         viewFlipper = rootView.findViewById(R.id.viewFlipperCharityEvents);
         recyclerView = rootView.findViewById(R.id.recyclerCharityEvents);
+        charityEventsAdapter = new CharityEventsAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(charityEventsAdapter);
         return rootView;

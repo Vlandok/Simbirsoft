@@ -30,12 +30,10 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
 
-    @Inject
     @InjectPresenter
     SearchResultNkoPresenter searchResultNkoPresenter;
     private RecyclerView recyclerView;
-    @Inject
-    SearchResultNkoAdapter searchResultNkoAdapter;
+    private SearchResultNkoAdapter searchResultNkoAdapter;
     private ViewFlipper viewFlipper;
 
     public SearchResultNkoFragment() {
@@ -59,6 +57,7 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
         View rootView = inflater.inflate(R.layout.fragment_search_result_nko, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerViewSearchResultNko);
         viewFlipper = rootView.findViewById(R.id.viewFlipper);
+        searchResultNkoAdapter = new SearchResultNkoAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(searchResultNkoAdapter);
         searchResultNkoPresenter.getSearchResults();
