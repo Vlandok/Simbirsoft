@@ -2,20 +2,19 @@ package com.vlad.lesson4.di.module;
 
 import android.content.Context;
 
+import com.vlad.lesson4.data.remote.api.FirebaseApi;
 import com.vlad.lesson4.di.ActivityContext;
+import com.vlad.lesson4.di.scope.ActivityScope;
 import com.vlad.lesson4.domain.provider.CategoryProvider;
 import com.vlad.lesson4.domain.provider.EventProvider;
 import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
-import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailPresenter;
-import com.vlad.lesson4.presentation.ui.help.HelpPresenter;
-import com.vlad.lesson4.presentation.ui.news.NewsPresenter;
-import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsPresenter;
+import com.vlad.lesson4.domain.provider.UserProvider;
 
 import androidx.appcompat.app.AppCompatActivity;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(includes = {CategoryModule.class, UserModule.class, ItemsJsonModule.class, EventModule.class})
+@Module
 public class ActivityModule {
     private AppCompatActivity mActivity;
 
@@ -29,27 +28,27 @@ public class ActivityModule {
         return mActivity;
     }
 
+    @ActivityScope
     @Provides
-    NewsPresenter provideNewsPresenter(EventProvider eventProvider,
-                                       ItemsJsonProvider itemsJsonProvider) {
-        return new NewsPresenter(eventProvider, itemsJsonProvider);
+    EventProvider provideEventProvider(FirebaseApi firebaseApi) {
+        return new EventProvider(firebaseApi);
     }
 
+    @ActivityScope
     @Provides
-    CharityEventsPresenter provideCharityEventsPresenter(EventProvider eventProvider,
-                                                         ItemsJsonProvider itemsJsonProvider) {
-        return new CharityEventsPresenter(eventProvider, itemsJsonProvider);
+    CategoryProvider provideCategoryProvider(FirebaseApi firebaseApi) {
+        return new CategoryProvider(firebaseApi);
     }
 
+    @ActivityScope
     @Provides
-    CharityEventDetailPresenter provideCharityEventDetailPresenter(EventProvider eventProvider,
-                                                                   ItemsJsonProvider itemsJsonProvider) {
-        return new CharityEventDetailPresenter(eventProvider, itemsJsonProvider);
+    UserProvider userProvider(FirebaseApi firebaseApi) {
+        return new UserProvider(firebaseApi);
     }
 
+    @ActivityScope
     @Provides
-    HelpPresenter provideHelpPresenter(CategoryProvider categoryProvider,
-                                       ItemsJsonProvider itemsJsonProvider) {
-        return new HelpPresenter(categoryProvider, itemsJsonProvider);
+    ItemsJsonProvider itemsJsonProvider(@ActivityContext Context context) {
+        return new ItemsJsonProvider(context);
     }
 }
