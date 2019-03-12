@@ -10,9 +10,7 @@ import com.vlad.lesson4.utils.ValidEmail;
 import java.util.concurrent.TimeUnit;
 
 import durdinapps.rxfirebase2.RxFirebaseAuth;
-import io.reactivex.disposables.Disposable;
 import rx.Observable;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
 @InjectViewState
@@ -21,45 +19,31 @@ public class AuthorizationPresenter extends BasePresenter<AuthorizationMvpView> 
     private final static int MIN_LENGTH_PASSWORD = 6;
     private final static int TIME_WAIT_MILLISECONDS = 100;
 
-    private Subscription editTextSub;
-    private AuthorizationModel authorizationModel;
     private Observable<Boolean> emailObservable;
     private Observable<Boolean> passwordObservable;
-    private Observable<Void> buttonObservable;
-    private Observable<Void> clickButtonChangeVisible;
+    private Observable<String> emailObservableString;
+    private Observable<String> passwordObservableString;
     private FirebaseAuth mAuth;
 
-    public AuthorizationPresenter(AuthorizationModel authorizationModel) {
-        this.authorizationModel = authorizationModel;
-    }
-
-    @Override
-    public void attachView(AuthorizationMvpView view) {
-        super.attachView(view);
-        clickChangeVisibilityPassword();
-        clickToButtonEntry();
-        initEmailObservable();
-        initPasswordObservable();
-        checkValidateEmailAndPass();
-    }
-
-    private void initEmailObservable() {
-        emailObservable = authorizationModel.changeTextEmail()
+    void initEmailObservable(Observable<CharSequence> observable) {
+        emailObservableString = observable.map(charSequence -> charSequence.toString().trim());
+        emailObservable = emailObservableString
                 .debounce(TIME_WAIT_MILLISECONDS, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(ValidEmail::isValidEmail);
     }
 
-    private void initPasswordObservable() {
-        passwordObservable = authorizationModel.changeTextPassword()
+    void initPasswordObservable(Observable<CharSequence> observable) {
+        passwordObservableString = observable.map(CharSequence::toString);
+        passwordObservable = passwordObservableString
                 .debounce(TIME_WAIT_MILLISECONDS, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(password -> password.length() >= MIN_LENGTH_PASSWORD);
     }
 
-    private void checkValidateEmailAndPass() {
+    void checkValidateEmailAndPass() {
         if (emailObservable != null && passwordObservable != null) {
-            editTextSub = Observable.combineLatest(emailObservable, passwordObservable,
+            Observable.combineLatest(emailObservable, passwordObservable,
                     (validEmail, validPassword) -> validEmail && validPassword)
                     .subscribe(enabled -> {
                         if (enabled) {
@@ -68,28 +52,24 @@ public class AuthorizationPresenter extends BasePresenter<AuthorizationMvpView> 
                             getViewState().setEntryButtonInactive();
                         }
                     });
-            addSubscription(editTextSub);
         }
     }
 
-    private void clickToButtonEntry() {
-        buttonObservable = authorizationModel.clickButtonEntry();
-        buttonObservable.subscribe(__ -> signInAccount());
+    void clickToButtonEntry(Observable<Void> observable) {
+        observable.subscribe(__ -> signInAccount());
     }
 
-    private void clickChangeVisibilityPassword() {
-        clickButtonChangeVisible = authorizationModel.clickChangeVisibilityPassword();
-        clickButtonChangeVisible
-                .subscribe(__ ->
-                        getViewState().clickChangeVisibilityPassword());
+    void clickChangeVisibilityPassword(Observable<Void> observable) {
+        observable.subscribe(__ ->
+                getViewState().clickChangeVisibilityPassword());
     }
 
     @SuppressLint("CheckResult")
     private void signInAccount() {
         mAuth = FirebaseAuth.getInstance();
         RxFirebaseAuth.signInWithEmailAndPassword(mAuth,
-                authorizationModel.changeTextEmail().toBlocking().first(),
-                authorizationModel.changeTextPassword().toBlocking().first())
+                emailObservableString.toBlocking().first(),
+                passwordObservableString.toBlocking().first())
                 .compose(applyBindingMaybe())
                 .map(authResult -> authResult.getUser() != null)
                 .doOnSubscribe(__ -> getViewState().showProgressView())

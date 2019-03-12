@@ -10,10 +10,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Friend;
 import com.vlad.lesson4.data.model.User;
+import com.vlad.lesson4.domain.provider.ProfileEditProvider;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 import durdinapps.rxfirebase2.RxFirebaseDatabase;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -28,12 +31,13 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
     private final static String SWITCH_NOTIFY_REF = "isPushNotifications";
 
     private ArrayList<Friend> arrayListFriends;
-    private ProfileEditModel profileEditModel;
     private Observable<Boolean> switchObservable;
+    private ProfileEditProvider profileEditProvider;
     private FirebaseAuth mAuth;
 
-    public ProfileEditPresenter(ProfileEditModel profileEditModel) {
-        this.profileEditModel = profileEditModel;
+    @Inject
+    public ProfileEditPresenter(ProfileEditProvider profileEditProvider) {
+        this.profileEditProvider = profileEditProvider;
     }
 
     @Override
@@ -42,8 +46,11 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
         getUserInfo();
     }
 
+    void initObservableSwitch(Observable<Boolean> observable) {
+        switchObservable = observable;
+    }
+
     private void setSwitchNotify(DatabaseReference databaseReference) {
-        switchObservable = profileEditModel.changeSwitchNotify();
         switchObservable.subscribe(aBoolean -> databaseReference.child(SWITCH_NOTIFY_REF)
                 .setValue(aBoolean));
     }
@@ -64,7 +71,7 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
                     .child(Objects.requireNonNull(firebaseUser).getUid());
             RxFirebaseDatabase.observeSingleValueEvent(query, User.class)
                     .compose(applyBindingMaybe())
-                    .compose(profileEditModel.applySchedulerMaybe())
+                    .compose(profileEditProvider.applySchedulerMaybe())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe(__ -> getViewState().showProgressView())

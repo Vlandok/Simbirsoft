@@ -14,9 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.vlad.lesson4.R;
-import com.vlad.lesson4.domain.provider.AuthorizationProvider;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 
@@ -30,7 +30,6 @@ import butterknife.ButterKnife;
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.EMPTY;
 
 public class AuthorizationActivity extends BaseActivity implements AuthorizationMvpView {
-
     @BindView(R.id.toolbarAuthorization)
     Toolbar toolbar;
     @BindView(R.id.textViewToolbar)
@@ -45,9 +44,9 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
     ProgressBar progressBar;
     @BindView(R.id.imageButtonChangeVisiblePassword)
     ImageButton imageButtonChangeVisiblePassword;
+
+    @InjectPresenter
     AuthorizationPresenter authorizationPresenter;
-    private AuthorizationViewHolder authorizationViewHolder;
-    private AuthorizationModel authorizationModel;
 
     public static Intent createStartIntent(Context context) {
         return new Intent(context, AuthorizationActivity.class);
@@ -59,18 +58,13 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
         setContentView(R.layout.activity_authorization);
         ButterKnife.bind(this);
         setSettingsToolbar();
-
-        authorizationViewHolder = new AuthorizationViewHolder(editTextEmail, editTextPassword,
-                buttonLogin, imageButtonChangeVisiblePassword);
-        authorizationModel = new AuthorizationProvider(authorizationViewHolder);
-        authorizationPresenter = new AuthorizationPresenter(authorizationModel);
-        authorizationPresenter.attachView(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        authorizationPresenter.detachView(this);
+        authorizationPresenter.initEmailObservable(RxTextView.textChanges(editTextEmail));
+        authorizationPresenter
+                .initPasswordObservable(RxTextView.textChanges(editTextPassword));
+        authorizationPresenter.clickToButtonEntry(RxView.clicks(buttonLogin));
+        authorizationPresenter
+                .clickChangeVisibilityPassword(RxView.clicks(imageButtonChangeVisiblePassword));
+        authorizationPresenter.checkValidateEmailAndPass();
     }
 
     @Override

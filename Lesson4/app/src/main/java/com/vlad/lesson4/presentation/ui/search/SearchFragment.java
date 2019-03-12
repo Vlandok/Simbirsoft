@@ -29,9 +29,6 @@ public class SearchFragment extends BaseFragment implements SearchMvpView {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    @InjectPresenter
-    SearchPresenter searchPresenter;
-
     public SearchFragment() {
     }
 
