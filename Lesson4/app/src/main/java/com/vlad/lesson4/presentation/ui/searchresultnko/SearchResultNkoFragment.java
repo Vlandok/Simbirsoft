@@ -16,15 +16,11 @@ import com.vlad.lesson4.presentation.ui.search.Updatable;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class SearchResultNkoFragment extends BaseFragment implements SearchResultNkoMvpView, Updatable {
-
-    public final static String FRAGMENT_TAG_SEARCH_NKO = "fragment_tag_search_nko";
 
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
@@ -97,6 +93,8 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
 
     @Override
     public void update() {
-        searchResultNkoAdapter.setItemsSearchResultsNko(searchResultNkoPresenter.initSearchResults());
+        if (searchResultNkoPresenter != null) {
+            searchResultNkoAdapter.setItemsSearchResultsNko(searchResultNkoPresenter.initSearchResults());
+        }
     }
 }

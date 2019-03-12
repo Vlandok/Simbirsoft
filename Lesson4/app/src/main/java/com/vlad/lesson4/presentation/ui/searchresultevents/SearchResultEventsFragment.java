@@ -95,6 +95,8 @@ public class SearchResultEventsFragment extends BaseFragment implements SearchRe
 
     @Override
     public void update() {
-        searchResultAdapter.setItemsSearchResults(searchResultPresenter.initSearchResults());
+        if (searchResultPresenter != null) {
+            searchResultAdapter.setItemsSearchResults(searchResultPresenter.initSearchResults());
+        }
     }
 }

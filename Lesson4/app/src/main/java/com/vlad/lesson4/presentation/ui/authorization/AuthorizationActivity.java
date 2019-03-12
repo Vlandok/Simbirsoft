@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -44,6 +45,8 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
     ProgressBar progressBar;
     @BindView(R.id.imageButtonChangeVisiblePassword)
     ImageButton imageButtonChangeVisiblePassword;
+    @BindView(R.id.layoutWithProgressBar)
+    ConstraintLayout constraintLayoutWithProgressBar;
 
     @InjectPresenter
     AuthorizationPresenter authorizationPresenter;
@@ -76,6 +79,7 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
     @Override
     public void setEntryButtonActive() {
         buttonLogin.setClickable(true);
+        buttonLogin.setEnabled(true);
         buttonLogin.setTextColor(getResources().getColor(R.color.white));
         buttonLogin.setBackground(getResources().getDrawable(R.drawable.rectangle_green_account));
     }
@@ -103,19 +107,23 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
         alert.show();
     }
 
+
     @Override
     public void showProgressView() {
         progressBar.setVisibility(View.VISIBLE);
+        constraintLayoutWithProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressView() {
         progressBar.setVisibility(View.GONE);
+        constraintLayoutWithProgressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void setEntryButtonInactive() {
         buttonLogin.setClickable(false);
+        buttonLogin.setEnabled(false);
         buttonLogin.setTextColor(getResources().getColor(R.color.grey_three));
         buttonLogin.setBackground(getResources().getDrawable(R.drawable.rectangle_grey_account));
     }
@@ -132,7 +140,6 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Override

@@ -6,7 +6,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.tabs.TabLayout;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.R;
@@ -15,6 +14,7 @@ import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -28,6 +28,7 @@ public class SearchFragment extends BaseFragment implements SearchMvpView {
     private MenuItem menuItem;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private ConstraintLayout constraintLayoutSearch;
 
     public SearchFragment() {
     }
@@ -47,6 +48,7 @@ public class SearchFragment extends BaseFragment implements SearchMvpView {
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
         BottomNavigationViewEx bottomNavigationView = Objects.requireNonNull(getActivity())
                 .findViewById(R.id.bottomNavigationMenu);
+        constraintLayoutSearch = getActivity().findViewById(R.id.constraintLayoutToolbarSearch);
         menuItem = bottomNavigationView.getMenu().findItem(R.id.i_search);
         tabLayout = rootView.findViewById(R.id.tablayout);
         viewPager = rootView.findViewById(R.id.viewpager);
@@ -81,14 +83,16 @@ public class SearchFragment extends BaseFragment implements SearchMvpView {
 
     @Override
     public void onStart() {
-        menuItem.setEnabled(false);
         super.onStart();
+        menuItem.setEnabled(false);
+        constraintLayoutSearch.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onPause() {
-        menuItem.setEnabled(true);
         super.onPause();
+        menuItem.setEnabled(true);
+        constraintLayoutSearch.setVisibility(View.GONE);
     }
 }
 
