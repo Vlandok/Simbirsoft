@@ -65,7 +65,7 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        MyApplication.getInstance(getActivity())
+        MyApplication.getInstance()
                 .plusActivityComponent((AppCompatActivity) getActivity()).inject(this);
         super.onCreate(savedInstanceState);
     }
@@ -105,7 +105,7 @@ public class HelpFragment extends BaseFragment implements HelpMvpView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        MyApplication.getInstance(getActivity()).clearActivityComponent();
+        MyApplication.getInstance().clearActivityComponent();
     }
 
     @Override

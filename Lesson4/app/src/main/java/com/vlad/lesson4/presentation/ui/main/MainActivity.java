@@ -11,7 +11,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.jakewharton.threetenabp.AndroidThreeTen;
-import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.presentation.ui.authorization.AuthorizationActivity;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
@@ -19,8 +18,6 @@ import com.vlad.lesson4.presentation.ui.help.HelpFragment;
 import com.vlad.lesson4.presentation.ui.news.NewsFragment;
 import com.vlad.lesson4.presentation.ui.profileedit.ProfileEditFragment;
 import com.vlad.lesson4.presentation.ui.search.SearchFragment;
-
-import javax.inject.Inject;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -69,12 +66,6 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         clickButtonBottomNav(savedInstanceState);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> finish());
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        MyApplication.getInstance(this).clearActivityComponent();
     }
 
     @Override

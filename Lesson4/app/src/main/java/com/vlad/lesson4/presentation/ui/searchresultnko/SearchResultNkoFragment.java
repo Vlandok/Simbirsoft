@@ -42,7 +42,7 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        MyApplication.getInstance(getActivity())
+        MyApplication.getInstance()
                 .plusActivityComponent((AppCompatActivity) getActivity()).inject(this);
         super.onCreate(savedInstanceState);
     }
@@ -63,7 +63,7 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
     @Override
     public void onDestroy() {
         super.onDestroy();
-        MyApplication.getInstance(getActivity()).clearActivityComponent();
+        MyApplication.getInstance().clearActivityComponent();
     }
 
     @Override

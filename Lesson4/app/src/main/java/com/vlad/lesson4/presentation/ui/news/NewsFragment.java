@@ -17,7 +17,6 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
-import com.vlad.lesson4.di.component.ActivityComponent;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailActivity;
 import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsAdapter;
@@ -65,7 +64,7 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        MyApplication.getInstance(getActivity())
+        MyApplication.getInstance()
                 .plusActivityComponent((AppCompatActivity) getActivity()).inject(this);
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);

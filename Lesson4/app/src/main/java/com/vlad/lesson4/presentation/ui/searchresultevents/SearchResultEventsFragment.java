@@ -16,8 +16,6 @@ import com.vlad.lesson4.presentation.ui.search.Updatable;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,7 +43,7 @@ public class SearchResultEventsFragment extends BaseFragment implements SearchRe
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        MyApplication.getInstance(getActivity())
+        MyApplication.getInstance()
                 .plusActivityComponent((AppCompatActivity) getActivity()).inject(this);
         super.onCreate(savedInstanceState);
     }
@@ -65,7 +63,7 @@ public class SearchResultEventsFragment extends BaseFragment implements SearchRe
     @Override
     public void onDestroy() {
         super.onDestroy();
-        MyApplication.getInstance(getActivity()).clearActivityComponent();
+        MyApplication.getInstance().clearActivityComponent();
     }
 
     @Override

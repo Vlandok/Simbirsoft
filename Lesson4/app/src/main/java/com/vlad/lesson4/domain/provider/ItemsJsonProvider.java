@@ -5,27 +5,25 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.data.model.Category;
 import com.vlad.lesson4.data.model.CharityEvent;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.data.model.EventCategories;
-import com.vlad.lesson4.di.ApplicationContext;
+import com.vlad.lesson4.data.remote.api.FirebaseApi;
 import com.vlad.lesson4.utils.JsonSupport;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
-import javax.inject.Inject;
-
-public class ItemsJsonProvider {
+public class ItemsJsonProvider extends BaseProvider {
 
     private static final String FILE_JSON_CATEGORIES = "categories.json";
     private final static String FILE_JSON_EVENTS = "events.json";
 
     private Context context;
 
-    public ItemsJsonProvider(Context context) {
+    public ItemsJsonProvider(FirebaseApi firebaseApi, Context context) {
+        super(firebaseApi);
         this.context = context;
     }
 

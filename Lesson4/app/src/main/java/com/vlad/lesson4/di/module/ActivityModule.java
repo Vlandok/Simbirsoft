@@ -17,16 +17,16 @@ import dagger.Provides;
 
 @Module
 public class ActivityModule {
-    private AppCompatActivity mActivity;
+    private AppCompatActivity appCompatActivity;
 
-    public ActivityModule(AppCompatActivity activity) {
-        this.mActivity = activity;
+    public ActivityModule(AppCompatActivity appCompatActivity) {
+        this.appCompatActivity = appCompatActivity;
     }
 
     @ActivityContext
     @Provides
     Context provideContext() {
-        return mActivity;
+        return appCompatActivity;
     }
 
     @ActivityScope
@@ -55,7 +55,7 @@ public class ActivityModule {
 
     @ActivityScope
     @Provides
-    ItemsJsonProvider itemsJsonProvider(@ActivityContext Context context) {
-        return new ItemsJsonProvider(context);
+    ItemsJsonProvider itemsJsonProvider(FirebaseApi firebaseApi, @ActivityContext Context context) {
+        return new ItemsJsonProvider(firebaseApi, context);
     }
 }

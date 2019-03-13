@@ -85,7 +85,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        MyApplication.getInstance(getActivity())
+        MyApplication.getInstance()
                 .plusActivityComponent((AppCompatActivity) getActivity()).inject(this);
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -132,7 +132,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     @Override
     public void onDestroy() {
         super.onDestroy();
-        MyApplication.getInstance(getActivity()).clearActivityComponent();
+        MyApplication.getInstance().clearActivityComponent();
         unbinder.unbind();
     }
 

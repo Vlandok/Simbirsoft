@@ -1,6 +1,5 @@
 package com.vlad.lesson4;
 
-import android.app.Activity;
 import android.app.Application;
 
 import com.google.firebase.FirebaseApp;
@@ -18,7 +17,7 @@ public class MyApplication extends Application {
     protected static MyApplication instance;
     private ActivityComponent activityComponent;
 
-    public static MyApplication getInstance(Activity activity) {
+    public static MyApplication getInstance() {
         return instance;
     }
 

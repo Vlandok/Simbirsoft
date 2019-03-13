@@ -94,7 +94,7 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        MyApplication.getInstance(this).plusActivityComponent(this).inject(this);
+        MyApplication.getInstance().plusActivityComponent(this).inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_event_detail);
         toolbar = findViewById(R.id.toolbarEventDetail);
@@ -127,7 +127,7 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MyApplication.getInstance(this).clearActivityComponent();
+        MyApplication.getInstance().clearActivityComponent();
     }
 
     @Override
