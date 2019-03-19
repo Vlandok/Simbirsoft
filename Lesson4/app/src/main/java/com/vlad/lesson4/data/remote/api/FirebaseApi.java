@@ -2,7 +2,6 @@ package com.vlad.lesson4.data.remote.api;
 
 import com.vlad.lesson4.data.model.Category;
 import com.vlad.lesson4.data.model.Event;
-import com.vlad.lesson4.data.model.User;
 
 import java.util.List;
 
@@ -15,10 +14,4 @@ public interface FirebaseApi {
 
     @GET("events.json")
     Single<List<Event>> getEvents();
-
-    @GET("users.json")
-    Single<List<User>> getUsers();
-
-    @GET("users.json")
-    User getCurrentUser();
 }

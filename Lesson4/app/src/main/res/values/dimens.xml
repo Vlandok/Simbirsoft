@@ -20,7 +20,7 @@
     <dimen name="tv_title_item_text_size">15sp</dimen>
     <dimen name="bottom_nav_pading_bottom">6dp</dimen>
     <dimen name="bottom_nav_text_size">11sp</dimen>
-    <dimen name="image_view_circles_heart_margin_bottom">16dp</dimen>
+    <dimen name="image_view_circles_heart_margin_bottom">18dp</dimen>
     <dimen name="red_circle_width_height">42dp</dimen>
     <dimen name="white_circle_width_height">54dp</dimen>
     <dimen name="padding_alert_default">24dp</dimen>
@@ -159,4 +159,5 @@
     <dimen name="authorization_lnr_extra_help_margin_top">20dp</dimen>
     <dimen name="authorization_lnr_extra_help_margin_bottom">30dp</dimen>
     <dimen name="authorization_lnr_extra_help_text_view_size">14sp</dimen>
+    <dimen name="title_event_line_height_android_p">40sp</dimen>
 </resources>

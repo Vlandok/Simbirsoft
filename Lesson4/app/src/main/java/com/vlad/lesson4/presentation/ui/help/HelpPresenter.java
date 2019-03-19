@@ -1,52 +1,49 @@
 package com.vlad.lesson4.presentation.ui.help;
 
+import android.annotation.SuppressLint;
+
+import com.arellomobile.mvp.InjectViewState;
 import com.vlad.lesson4.domain.provider.CategoryProvider;
 import com.vlad.lesson4.domain.provider.ItemsJsonProvider;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
-import androidx.annotation.NonNull;
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
+@InjectViewState
 public class HelpPresenter extends BasePresenter<HelpMvpView> {
 
-    private Disposable disposable;
-    @NonNull
     private CategoryProvider categoryProvider;
-    @NonNull
     private ItemsJsonProvider itemsJsonProvider;
 
-    public HelpPresenter(@NonNull CategoryProvider categoryProvider,
-                         @NonNull ItemsJsonProvider itemsJsonProvider) {
+    @Inject
+    public HelpPresenter(CategoryProvider categoryProvider,
+                         ItemsJsonProvider itemsJsonProvider) {
         this.categoryProvider = categoryProvider;
         this.itemsJsonProvider = itemsJsonProvider;
     }
 
-    public void onCreate() {
-        checkViewAttached();
+    @Override
+    public void attachView(HelpMvpView view) {
+        super.attachView(view);
         getItemsCategory();
     }
 
-    public void getItemsCategory() {
-        disposable = categoryProvider.getCategories()
+    @SuppressLint("CheckResult")
+    void getItemsCategory() {
+        categoryProvider.getCategories()
                 .compose(applyBinding())
                 .compose(categoryProvider.applyScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(__ -> getMvpView().showProgressView())
+                .doOnSubscribe(__ -> getViewState().showProgressView())
                 .onErrorReturn(__ -> itemsJsonProvider.getListCategoriesFromJson())
                 .doOnError(Throwable::printStackTrace)
                 .subscribe(categories -> {
-                    getMvpView().showItemsCategory(categories);
-                    getMvpView().onClickCategory();
-
+                    getViewState().showItemsCategory(categories);
+                    getViewState().onClickCategory();
                 });
-    }
-
-    @Override
-    protected void doUnsubscribe() {
-        if (disposable != null) {
-            disposable.dispose();
-        }
     }
 }
 

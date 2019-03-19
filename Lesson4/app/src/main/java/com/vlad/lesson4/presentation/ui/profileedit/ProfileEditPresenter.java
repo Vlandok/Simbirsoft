@@ -1,5 +1,8 @@
 package com.vlad.lesson4.presentation.ui.profileedit;
 
+import android.annotation.SuppressLint;
+
+import com.arellomobile.mvp.InjectViewState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -7,80 +10,81 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Friend;
 import com.vlad.lesson4.data.model.User;
+import com.vlad.lesson4.domain.provider.ProfileEditProvider;
 import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 import durdinapps.rxfirebase2.RxFirebaseDatabase;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import rx.Completable;
 import rx.Observable;
 
+@InjectViewState
 public class ProfileEditPresenter extends BasePresenter<ProfileEditMvpView> {
 
     private final static String USERS_REF = "users";
     private final static String SWITCH_NOTIFY_REF = "isPushNotifications";
 
     private ArrayList<Friend> arrayListFriends;
-    private Disposable disposable;
-    private ProfileEditModel profileEditModel;
     private Observable<Boolean> switchObservable;
+    private ProfileEditProvider profileEditProvider;
     private FirebaseAuth mAuth;
 
-    public ProfileEditPresenter(ProfileEditModel profileEditModel) {
-        this.profileEditModel = profileEditModel;
-    }
-
-    public void onCreate() {
-        checkViewAttached();
-        getUserInfo();
+    @Inject
+    public ProfileEditPresenter(ProfileEditProvider profileEditProvider) {
+        this.profileEditProvider = profileEditProvider;
     }
 
     @Override
-    protected void doUnsubscribe() {
-        if (disposable != null) {
-            disposable.dispose();
-        }
+    public void attachView(ProfileEditMvpView view) {
+        super.attachView(view);
+        getUserInfo();
+    }
+
+    void initObservableSwitch(Observable<Boolean> observable) {
+        switchObservable = observable;
     }
 
     private void setSwitchNotify(DatabaseReference databaseReference) {
-        switchObservable = profileEditModel.changeSwitchNotify();
         switchObservable.subscribe(aBoolean -> databaseReference.child(SWITCH_NOTIFY_REF)
                 .setValue(aBoolean));
     }
 
     private Completable getImageUrl(final String url) {
         return Completable.create(subscriber -> {
-            getMvpView().setImageUser(url);
+            getViewState().setImageUser(url);
             subscriber.onCompleted();
         });
     }
 
+    @SuppressLint("CheckResult")
     private void getUserInfo() {
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             DatabaseReference query = FirebaseDatabase.getInstance().getReference().child(USERS_REF)
                     .child(Objects.requireNonNull(firebaseUser).getUid());
-            disposable = RxFirebaseDatabase.observeSingleValueEvent(query, User.class)
+            RxFirebaseDatabase.observeSingleValueEvent(query, User.class)
                     .compose(applyBindingMaybe())
-                    .compose(profileEditModel.applySchedulerMaybe())
+                    .compose(profileEditProvider.applySchedulerMaybe())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe(__ -> getMvpView().showProgressView())
+                    .doOnSubscribe(__ -> getViewState().showProgressView())
                     .doOnError(Throwable::printStackTrace)
                     .subscribe(user -> getImageUrl(user.getFullImageUrl()).subscribe(() -> {
                         setSwitchNotify(query);
                         ArrayList<Friend> arrayListFriendsExample = initArrayListFriends();
                         if (arrayListFriendsExample.isEmpty()) {
-                            getMvpView().showLoadingError();
+                            getViewState().showLoadingError();
                         } else {
-                            getMvpView().showInfoUser(user, initArrayListFriends());
-                            getMvpView().clickOnImageUser();
-                            getMvpView().clickToExitAccount();
+                            getViewState().showInfoUser(user, initArrayListFriends());
+                            getViewState().clickOnImageUser();
+                            getViewState().clickToExitAccount();
                         }
                     }));
         }

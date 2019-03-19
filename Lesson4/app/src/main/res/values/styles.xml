@@ -220,6 +220,7 @@
     <style name="TextAuthorization">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:gravity">center_horizontal</item>
         <item name="android:paddingStart">@dimen/authorization_default_padd_text</item>
         <item name="android:paddingEnd">@dimen/authorization_default_padd_text</item>
         <item name="android:textColor">@color/black_70</item>

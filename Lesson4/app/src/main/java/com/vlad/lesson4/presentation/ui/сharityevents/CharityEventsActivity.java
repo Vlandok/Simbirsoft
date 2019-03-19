@@ -7,6 +7,9 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
@@ -14,6 +17,9 @@ import com.vlad.lesson4.presentation.ui.charityeventdetail.CharityEventDetailAct
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,12 +38,19 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
 
     private int idCategory;
     private String titleToolbar;
-    private CharityEventsPresenter charityEventsPresenter;
+    @Inject
+    @InjectPresenter
+    CharityEventsPresenter charityEventsPresenter;
     private CharityEventsAdapter charityEventsAdapter;
     private RecyclerView recyclerView;
     private ViewFlipper viewFlipper;
     private TextView textViewTitleToolbar;
     private Toolbar toolbar;
+
+    @ProvidePresenter
+    CharityEventsPresenter provideCharityEventsPresenter() {
+        return charityEventsPresenter;
+    }
 
     public static Intent createStartIntent(Context context, int idCategory, String titleToolbar) {
         Intent intent = new Intent(context, CharityEventsActivity.class);
@@ -48,12 +61,14 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyApplication.getInstance().plusActivityComponent(this).inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_events);
         toolbar = findViewById(R.id.toolbar);
         viewFlipper = findViewById(R.id.viewFlipperCharityEvents);
         textViewTitleToolbar = findViewById(R.id.textViewToolbar);
         recyclerView = findViewById(R.id.recyclerCharityEvents);
+        charityEventsAdapter = new CharityEventsAdapter();
         toolbar.setTitle(EMPTY);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
@@ -61,14 +76,11 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        charityEventsPresenter = getApplicationComponents().provideCharityEventsPresenter();
-        charityEventsAdapter = getApplicationComponents().provideCharityEventsAdapter();
-        charityEventsPresenter.attachView(this);
         idCategory = getIntent().getIntExtra(ARGUMENT_ID_CATEGORY_HELP, DEFAULT_VALUE);
         titleToolbar = getIntent().getStringExtra(ARGUMENT_TITLE_CATEGORY_HELP);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(charityEventsAdapter);
-        charityEventsPresenter.onCreate(idCategory);
+        charityEventsPresenter.getCharityEvents(idCategory);
     }
 
     @Override
@@ -80,8 +92,8 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
 
     @Override
     protected void onDestroy() {
-        charityEventsPresenter.detachView();
         super.onDestroy();
+        MyApplication.getInstance().clearActivityComponent();
     }
 
     @Override
@@ -98,7 +110,7 @@ public class CharityEventsActivity extends BaseActivity implements CharityEvents
 
     @Override
     public void onClickErrorButton() {
-        charityEventsPresenter.onCreate(idCategory);
+        charityEventsPresenter.getCharityEvents(idCategory);
     }
 
     @Override

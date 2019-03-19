@@ -27,9 +27,9 @@
                 android:layout_marginStart="@dimen/image_event_default_margin"
                 android:layout_marginTop="@dimen/image_event_default_margin"
                 android:layout_marginEnd="@dimen/image_event_default_margin"
-                android:scaleType="fitCenter"
-                android:padding="@dimen/item_charity_event_padding_for_background_default"
                 android:adjustViewBounds="true"
+                android:padding="@dimen/item_charity_event_padding_for_background_default"
+                android:scaleType="fitCenter"
                 android:src="@drawable/fade"
                 tools:background="@drawable/img"
                 tools:src="@drawable/fade" />
@@ -48,6 +48,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/blue_grey"
                 android:textSize="@dimen/title_event_text_size"
+                app:lineHeight="@dimen/title_event_line_height_android_p"
                 tools:targetApi="p"
                 tools:text="Спонсоры отремонтируют школу-интернат" />
 
@@ -65,10 +66,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/description_event_margin_start_end"
+                android:layout_marginTop="@dimen/description_event_margin_top"
                 android:layout_marginEnd="@dimen/description_event_margin_start_end"
                 android:fontFamily="sans-serif"
                 android:lineHeight="@dimen/description_event_line_height"
-                android:layout_marginTop="@dimen/description_event_margin_top"
                 android:lineSpacingExtra="@dimen/description_event_spacing_extra"
                 android:textAlignment="center"
                 android:textColor="@color/black_70"
@@ -100,8 +101,8 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/time_event_text_size"
                     android:textStyle="normal"
-                    tools:text="Осталось 13 дней (21.09 – 20.10)"
-                    tools:targetApi="p" />
+                    tools:targetApi="p"
+                    tools:text="Осталось 13 дней (21.09 – 20.10)" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

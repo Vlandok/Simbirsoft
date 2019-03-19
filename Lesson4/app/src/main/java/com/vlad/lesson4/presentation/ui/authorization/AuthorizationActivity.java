@@ -13,8 +13,10 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.vlad.lesson4.R;
-import com.vlad.lesson4.domain.provider.AuthorizationProvider;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 
@@ -22,13 +24,13 @@ import java.util.Objects;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.vlad.lesson4.presentation.ui.main.MainActivity.EMPTY;
 
 public class AuthorizationActivity extends BaseActivity implements AuthorizationMvpView {
-
     @BindView(R.id.toolbarAuthorization)
     Toolbar toolbar;
     @BindView(R.id.textViewToolbar)
@@ -43,10 +45,11 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
     ProgressBar progressBar;
     @BindView(R.id.imageButtonChangeVisiblePassword)
     ImageButton imageButtonChangeVisiblePassword;
+    @BindView(R.id.layoutWithProgressBar)
+    ConstraintLayout constraintLayoutWithProgressBar;
 
-    private AuthorizationPresenter authorizationPresenter;
-    private AuthorizationViewHolder authorizationViewHolder;
-    private AuthorizationModel authorizationModel;
+    @InjectPresenter
+    AuthorizationPresenter authorizationPresenter;
 
     public static Intent createStartIntent(Context context) {
         return new Intent(context, AuthorizationActivity.class);
@@ -58,19 +61,13 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
         setContentView(R.layout.activity_authorization);
         ButterKnife.bind(this);
         setSettingsToolbar();
-
-        authorizationViewHolder = new AuthorizationViewHolder(editTextEmail, editTextPassword,
-                buttonLogin, imageButtonChangeVisiblePassword);
-        authorizationModel = new AuthorizationProvider(authorizationViewHolder);
-        authorizationPresenter = new AuthorizationPresenter(authorizationModel);
-        authorizationPresenter.attachView(this);
-        authorizationPresenter.onCreate();
-    }
-
-    @Override
-    protected void onDestroy() {
-        authorizationPresenter.detachView();
-        super.onDestroy();
+        authorizationPresenter.initEmailObservable(RxTextView.textChanges(editTextEmail));
+        authorizationPresenter
+                .initPasswordObservable(RxTextView.textChanges(editTextPassword));
+        authorizationPresenter.clickToButtonEntry(RxView.clicks(buttonLogin));
+        authorizationPresenter
+                .clickChangeVisibilityPassword(RxView.clicks(imageButtonChangeVisiblePassword));
+        authorizationPresenter.checkValidateEmailAndPass();
     }
 
     @Override
@@ -82,6 +79,7 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
     @Override
     public void setEntryButtonActive() {
         buttonLogin.setClickable(true);
+        buttonLogin.setEnabled(true);
         buttonLogin.setTextColor(getResources().getColor(R.color.white));
         buttonLogin.setBackground(getResources().getDrawable(R.drawable.rectangle_green_account));
     }
@@ -109,19 +107,23 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
         alert.show();
     }
 
+
     @Override
     public void showProgressView() {
         progressBar.setVisibility(View.VISIBLE);
+        constraintLayoutWithProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressView() {
         progressBar.setVisibility(View.GONE);
+        constraintLayoutWithProgressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void setEntryButtonInactive() {
         buttonLogin.setClickable(false);
+        buttonLogin.setEnabled(false);
         buttonLogin.setTextColor(getResources().getColor(R.color.grey_three));
         buttonLogin.setBackground(getResources().getDrawable(R.drawable.rectangle_grey_account));
     }
@@ -138,7 +140,6 @@ public class AuthorizationActivity extends BaseActivity implements Authorization
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Override

@@ -63,6 +63,7 @@
                         android:lineSpacingExtra="@dimen/title_detail_event_line_spacing_extra"
                         android:textColor="@color/blue_grey"
                         android:textSize="@dimen/title_detail_event_text_size"
+                        app:lineHeight="@dimen/title_event_line_height_android_p"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:targetApi="p"

@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.SearchResults;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
@@ -15,6 +17,7 @@ import com.vlad.lesson4.presentation.ui.search.Updatable;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,7 +27,8 @@ public class SearchResultEventsFragment extends BaseFragment implements SearchRe
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
 
-    private SearchResultEventsPresenter searchResultPresenter;
+    @InjectPresenter
+    SearchResultEventsPresenter searchResultPresenter;
     private RecyclerView recyclerView;
     private SearchResultEventsAdapter searchResultAdapter;
     private ViewFlipper viewFlipper;
@@ -39,10 +43,9 @@ public class SearchResultEventsFragment extends BaseFragment implements SearchRe
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        MyApplication.getInstance()
+                .plusActivityComponent((AppCompatActivity) getActivity()).inject(this);
         super.onCreate(savedInstanceState);
-        searchResultPresenter = getApplicationComponents().provideSearchResultEventsPresenter();
-        searchResultAdapter = getApplicationComponents().provideSearchResultEventsAdapter();
-        searchResultPresenter.attachView(this);
     }
 
     @Override
@@ -51,16 +54,16 @@ public class SearchResultEventsFragment extends BaseFragment implements SearchRe
         View rootView = inflater.inflate(R.layout.fragment_search_result_events, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerViewSearchResult);
         viewFlipper = rootView.findViewById(R.id.viewFlipper);
+        searchResultAdapter = new SearchResultEventsAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(searchResultAdapter);
-        searchResultPresenter.onCreate();
         return rootView;
     }
 
     @Override
     public void onDestroy() {
-        searchResultPresenter.detachView();
         super.onDestroy();
+        MyApplication.getInstance().clearActivityComponent();
     }
 
     @Override
@@ -90,6 +93,8 @@ public class SearchResultEventsFragment extends BaseFragment implements SearchRe
 
     @Override
     public void update() {
-        searchResultAdapter.setItemsSearchResults(searchResultPresenter.initSearchResults());
+        if (searchResultPresenter != null) {
+            searchResultAdapter.setItemsSearchResults(searchResultPresenter.initSearchResults());
+        }
     }
 }

@@ -11,7 +11,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
@@ -21,7 +24,10 @@ import com.vlad.lesson4.presentation.ui.сharityevents.CharityEventsAdapter;
 import java.util.List;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,14 +39,20 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
 
-    private NewsPresenter newsPresenter;
-    private MenuItem menuItem;
+    @Inject
+    @InjectPresenter
+    NewsPresenter newsPresenter;
     private CharityEventsAdapter charityEventsAdapter;
+    private MenuItem menuItem;
     private RecyclerView recyclerView;
     private ViewFlipper viewFlipper;
     private Button buttonError;
     private TextView textViewTitleToolbar;
 
+    @ProvidePresenter
+    NewsPresenter provideNewsPresenter() {
+        return newsPresenter;
+    }
 
     public NewsFragment() {
 
@@ -52,11 +64,10 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        MyApplication.getInstance()
+                .plusActivityComponent((AppCompatActivity) getActivity()).inject(this);
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        newsPresenter = getApplicationComponents().provideNewsPresenter();
-        charityEventsAdapter = getApplicationComponents().provideCharityEventsAdapter();
-        newsPresenter.attachView(this);
     }
 
     @Override
@@ -71,9 +82,9 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
         menuItem = bottomNavigationView.getMenu().findItem(R.id.i_news);
         viewFlipper = rootView.findViewById(R.id.viewFlipperCharityEvents);
         recyclerView = rootView.findViewById(R.id.recyclerCharityEvents);
+        charityEventsAdapter = new CharityEventsAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(charityEventsAdapter);
-        newsPresenter.onCreate();
         return rootView;
     }
 
@@ -91,12 +102,6 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        newsPresenter.detachView();
-    }
-
-    @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.event_filter).setVisible(true);
         super.onPrepareOptionsMenu(menu);
@@ -111,7 +116,7 @@ public class NewsFragment extends BaseFragment implements NewsMvpView {
     @Override
     public void onClickErrorButton() {
         if (newsPresenter != null && buttonError != null) {
-            buttonError.setOnClickListener(view -> newsPresenter.onCreate());
+            buttonError.setOnClickListener(view -> newsPresenter.getCharityEvents());
         }
     }
 

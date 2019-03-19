@@ -3,18 +3,21 @@ package com.vlad.lesson4.presentation.ui.splashscreen;
 import android.os.Bundle;
 import android.widget.ViewFlipper;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
 
 public class SplashScreenActivity extends BaseActivity implements SplashScreenMvpView {
 
+    public final static int SECONDS_SLEEP = 2;
+
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_ERROR = 1;
 
-    public final static int SECONDS_SLEEP = 2;
+    @InjectPresenter
+    public SplashScreenPresenter splashScreenPresenter;
 
-    private SplashScreenPresenter splashScreenPresenter;
     private ViewFlipper viewFlipper;
 
     @Override
@@ -22,15 +25,6 @@ public class SplashScreenActivity extends BaseActivity implements SplashScreenMv
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         viewFlipper = findViewById(R.id.viewFlipperSplashScreen);
-        splashScreenPresenter = getApplicationComponents().provideSplashScreenPresenter();
-        splashScreenPresenter.attachView(this);
-        splashScreenPresenter.onCreate();
-    }
-
-    @Override
-    protected void onDestroy() {
-        splashScreenPresenter.detachView();
-        super.onDestroy();
     }
 
     @Override

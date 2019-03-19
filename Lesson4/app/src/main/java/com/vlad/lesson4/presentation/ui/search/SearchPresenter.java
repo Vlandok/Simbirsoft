@@ -4,9 +4,4 @@ import com.vlad.lesson4.presentation.ui.base.BasePresenter;
 
 public class SearchPresenter extends BasePresenter<SearchMvpView> {
 
-
-    @Override
-    protected void doUnsubscribe() {
-
-    }
 }

@@ -14,6 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Event;
 import com.vlad.lesson4.presentation.ui.base.BaseActivity;
@@ -24,6 +27,8 @@ import com.vlad.lesson4.utils.MyGlide;
 import org.threeten.bp.LocalDate;
 
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -44,7 +49,9 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
 
     private Toolbar toolbar;
     private ViewFlipper viewFlipper;
-    private CharityEventDetailPresenter charityEventDetailPresenter;
+    @Inject
+    @InjectPresenter
+    CharityEventDetailPresenter charityEventDetailPresenter;
     private TextView textViewTitleDetailEvent;
     private TextView textViewTimeDetailEvent;
     private TextView textViewNameCompanyEvent;
@@ -58,6 +65,11 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
     private TextView textViewAskEvent;
     private LinearLayout linearLayoutImageEvent;
     private int id;
+
+    @ProvidePresenter
+    public CharityEventDetailPresenter provideCharityEventDetailPresenter() {
+        return charityEventDetailPresenter;
+    }
 
     public static Intent createStartIntent(Context context, int idEvent) {
         Intent intent = new Intent(context, CharityEventDetailActivity.class);
@@ -82,6 +94,7 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyApplication.getInstance().plusActivityComponent(this).inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_event_detail);
         toolbar = findViewById(R.id.toolbarEventDetail);
@@ -106,10 +119,15 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        charityEventDetailPresenter = getApplicationComponents().provideCharityEventDetailPresenter();
-        charityEventDetailPresenter.attachView(this);
+
         id = getIntent().getIntExtra(EXTRA_ID_EVENT, DEFAULT_VALUE);
-        charityEventDetailPresenter.onCreate(id);
+        charityEventDetailPresenter.getEvent(id);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getInstance().clearActivityComponent();
     }
 
     @Override
@@ -138,7 +156,7 @@ public class CharityEventDetailActivity extends BaseActivity implements CharityE
 
     @Override
     public void onClickErrorButton() {
-        charityEventDetailPresenter.onCreate(id);
+        charityEventDetailPresenter.getEvent(id);
     }
 
     @Override

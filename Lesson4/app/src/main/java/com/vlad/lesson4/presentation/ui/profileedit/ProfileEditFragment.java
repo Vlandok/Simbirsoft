@@ -13,12 +13,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.jakewharton.rxbinding.widget.RxCompoundButton;
+import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.Friend;
 import com.vlad.lesson4.data.model.User;
-import com.vlad.lesson4.domain.provider.ProfileEditProvider;
 import com.vlad.lesson4.presentation.ui.authorization.AuthorizationActivity;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
 import com.vlad.lesson4.presentation.ui.main.MainActivity;
@@ -27,8 +30,11 @@ import com.vlad.lesson4.utils.MyGlide;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -49,20 +55,25 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
     private TextView textViewFullName;
     private TextView textViewBirthData;
     private TextView textViewFieldActivity;
-    private ProfileEditPresenter profileEditPresenter;
+    @Inject
+    @InjectPresenter
+    ProfileEditPresenter profileEditPresenter;
     private AlertDialog dialog;
     private MenuItem menuItem;
     private RecyclerView recyclerView;
     private ProfileEditAdapter profileEditAdapter;
     private Unbinder unbinder;
-    private ProfileEditViewHolderRx profileEditViewHolderRx;
-    private ProfileEditModel profileEditModel;
     private TextView textViewTitleToolbar;
 
     @BindView(R.id.buttonExitAccount)
     Button buttonExitAccount;
     @BindView(R.id.switchNotify)
     Switch switchNotify;
+
+    @ProvidePresenter
+    ProfileEditPresenter provideProfileEditPresenter() {
+        return profileEditPresenter;
+    }
 
     public static ProfileEditFragment getInstance() {
         return new ProfileEditFragment();
@@ -74,9 +85,10 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        MyApplication.getInstance()
+                .plusActivityComponent((AppCompatActivity) getActivity()).inject(this);
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        profileEditAdapter = getApplicationComponents().provideProfileEditAdapter();
     }
 
     @Override
@@ -84,10 +96,6 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_profile_edit, container, false);
         unbinder = ButterKnife.bind(this, rootView);
-        profileEditViewHolderRx = new ProfileEditViewHolderRx(switchNotify);
-        profileEditModel = new ProfileEditProvider(profileEditViewHolderRx);
-        profileEditPresenter = new ProfileEditPresenter(profileEditModel);
-        profileEditPresenter.attachView(this);
         BottomNavigationViewEx bottomNavigationView = Objects.requireNonNull(getActivity())
                 .findViewById(R.id.bottomNavigationMenu);
         textViewTitleToolbar = Objects.requireNonNull(getActivity())
@@ -98,33 +106,34 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
         textViewBirthData = rootView.findViewById(R.id.textViewBirthData);
         textViewFieldActivity = rootView.findViewById(R.id.textViewFieldActivity);
         recyclerView = rootView.findViewById(R.id.recyclerViewFriends);
+        profileEditAdapter = new ProfileEditAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(profileEditAdapter);
         viewFlipper = rootView.findViewById(R.id.viewFlipper);
         dialog = new AlertDialog.Builder(Objects.requireNonNull(getActivity()))
                 .setView(inflater.inflate(R.layout.dialog_profile_edit, null)).create();
-        profileEditPresenter.onCreate();
+        profileEditPresenter.initObservableSwitch(RxCompoundButton.checkedChanges(switchNotify));
         return rootView;
     }
 
     @Override
     public void onStart() {
+        super.onStart();
         textViewTitleToolbar.setText(R.string.profil_bottom_nav);
         menuItem.setEnabled(false);
-        super.onStart();
     }
 
     @Override
     public void onPause() {
-        menuItem.setEnabled(true);
         super.onPause();
+        menuItem.setEnabled(true);
     }
 
     @Override
     public void onDestroy() {
-        profileEditPresenter.detachView();
-        unbinder.unbind();
         super.onDestroy();
+        MyApplication.getInstance().clearActivityComponent();
+        unbinder.unbind();
     }
 
     @Override
@@ -147,7 +156,9 @@ public class ProfileEditFragment extends BaseFragment implements ProfileEditMvpV
 
     @Override
     public void setImageUser(String urlImage) {
-        MyGlide.loadImage(this, urlImage, imageViewUser);
+        if (getActivity() != null) {
+            MyGlide.loadImage(this, urlImage, imageViewUser);
+        }
     }
 
     @Override

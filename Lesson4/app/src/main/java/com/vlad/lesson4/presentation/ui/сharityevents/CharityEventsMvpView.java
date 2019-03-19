@@ -1,7 +1,7 @@
 package com.vlad.lesson4.presentation.ui.сharityevents;
 
+import com.arellomobile.mvp.MvpView;
 import com.vlad.lesson4.data.model.Event;
-import com.vlad.lesson4.presentation.ui.base.MvpView;
 
 import java.util.List;
 

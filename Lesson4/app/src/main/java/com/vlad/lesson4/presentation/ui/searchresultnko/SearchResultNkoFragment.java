@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.vlad.lesson4.MyApplication;
 import com.vlad.lesson4.R;
 import com.vlad.lesson4.data.model.SearchResultsNko;
 import com.vlad.lesson4.presentation.ui.base.BaseFragment;
@@ -14,18 +16,18 @@ import com.vlad.lesson4.presentation.ui.search.Updatable;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class SearchResultNkoFragment extends BaseFragment implements SearchResultNkoMvpView, Updatable {
 
-    public final static String FRAGMENT_TAG_SEARCH_NKO = "fragment_tag_search_nko";
-
     private static final int VIEW_LOADING = 0;
     private static final int VIEW_DATA = 1;
     private static final int VIEW_ERROR = 2;
 
-    private SearchResultNkoPresenter searchResultNkoPresenter;
+    @InjectPresenter
+    SearchResultNkoPresenter searchResultNkoPresenter;
     private RecyclerView recyclerView;
     private SearchResultNkoAdapter searchResultNkoAdapter;
     private ViewFlipper viewFlipper;
@@ -40,10 +42,9 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        MyApplication.getInstance()
+                .plusActivityComponent((AppCompatActivity) getActivity()).inject(this);
         super.onCreate(savedInstanceState);
-        searchResultNkoPresenter = getApplicationComponents().provideSearchResultNkoPresenter();
-        searchResultNkoAdapter = getApplicationComponents().provideSearchResultNkoAdapter();
-        searchResultNkoPresenter.attachView(this);
     }
 
     @Override
@@ -52,16 +53,17 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
         View rootView = inflater.inflate(R.layout.fragment_search_result_nko, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerViewSearchResultNko);
         viewFlipper = rootView.findViewById(R.id.viewFlipper);
+        searchResultNkoAdapter = new SearchResultNkoAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(searchResultNkoAdapter);
-        searchResultNkoPresenter.onCreate();
+        searchResultNkoPresenter.getSearchResults();
         return rootView;
     }
 
     @Override
     public void onDestroy() {
-        searchResultNkoPresenter.detachView();
         super.onDestroy();
+        MyApplication.getInstance().clearActivityComponent();
     }
 
     @Override
@@ -91,6 +93,8 @@ public class SearchResultNkoFragment extends BaseFragment implements SearchResul
 
     @Override
     public void update() {
-        searchResultNkoAdapter.setItemsSearchResultsNko(searchResultNkoPresenter.initSearchResults());
+        if (searchResultNkoPresenter != null) {
+            searchResultNkoAdapter.setItemsSearchResultsNko(searchResultNkoPresenter.initSearchResults());
+        }
     }
 }
