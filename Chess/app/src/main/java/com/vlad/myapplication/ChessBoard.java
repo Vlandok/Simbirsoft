@@ -20,27 +20,38 @@ public class ChessBoard {
 
     public void setFiguresOnBoard(int count) {
         Random random = new Random();
-        List<Integer> positionFigure = new ArrayList<>();
+        List<Integer> listPositionEvenLineWithFigures = new ArrayList<>();
+        List<Integer> listPositionUnEvenLineWithFigures = new ArrayList<>();
         for (int i = 0; i < width; i++) {
+            if (i % 2 == 0) {
+                listPositionEvenLineWithFigures.clear();
+            } else {
+                listPositionUnEvenLineWithFigures.clear();
+            }
             for (int j = 0; j < height; j++) {
                 if (count > 0) {
                     if (random.nextBoolean()) {
-                        if (positionFigure.isEmpty()) {
-                            positionFigure.add(j);
-                            chessBoard[i][j] = "[*]";
-                            count--;
-                        } else {
-                            int sizePositionFigure = positionFigure.size();
-                            for (int index = 0; index < sizePositionFigure; index++) {
-//                                for (int position : positionFigure) {
-//                                    if (j != position - 1 && j != position + 1) {
-                                if (j < positionFigure.get(index) - 1
-                                        || j > positionFigure.get(index) + 1) {
-                                    chessBoard[i][j] = "[*]";
-                                    positionFigure.add(j);
-                                    count--;
+                        boolean isCanInsertFigure = true;
+                        if (!listPositionEvenLineWithFigures.isEmpty() ||
+                                !listPositionUnEvenLineWithFigures.isEmpty()) {
+                            List<Integer> allPositionsWithFigures = new ArrayList<>();
+                            allPositionsWithFigures.addAll(listPositionEvenLineWithFigures);
+                            allPositionsWithFigures.addAll(listPositionUnEvenLineWithFigures);
+                            for (int positionFigure : allPositionsWithFigures) {
+                                if (j >= positionFigure - 1 && j <= positionFigure + 1) {
+                                    isCanInsertFigure = false;
+                                    break;
                                 }
                             }
+                        }
+                        if (isCanInsertFigure) {
+                            if (i % 2 == 0) {
+                                listPositionEvenLineWithFigures.add(j);
+                            } else {
+                                listPositionUnEvenLineWithFigures.add(j);
+                            }
+                            chessBoard[i][j] = "[*]";
+                            count--;
                         }
                     }
                 } else {
@@ -49,6 +60,7 @@ public class ChessBoard {
             }
         }
     }
+
 
     public void setFiguresOnBoardSingle(int count) {
         Random random = new Random();
