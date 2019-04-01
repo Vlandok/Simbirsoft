@@ -1,17 +1,28 @@
 package com.vlad.myapplication;
 
+import com.vlad.myapplication.model.AbstractChessBoard;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class Main {
     private final static int COUNT_FIGURES = 8;
 
     public static void main(String[] args) {
-        ChessBoard chessBoardTaskOne = new ChessBoard();
-        chessBoardTaskOne.setFiguresOnBoard(COUNT_FIGURES);
-        chessBoardTaskOne.showChessBoard();
+        ChessBoardFactory chessBoardFactory = new ChessBoardFactory();
 
-        System.out.println();
+        AbstractChessBoard chessBoardThroughTheCell
+                = chessBoardFactory.getChessBoard(ChessBoardTypes.THROUGHTHECELL);
+        AbstractChessBoard chessBoardSingleInLine
+                = chessBoardFactory.getChessBoard(ChessBoardTypes.SINGLEINLINE);
+        AbstractChessBoard chessBoardRandom = chessBoardFactory.getChessBoard(ChessBoardTypes.RANDOM);
 
-        ChessBoard chessBoardTaskTwo = new ChessBoard();
-        chessBoardTaskTwo.setFiguresOnBoardSingle(COUNT_FIGURES);
-        chessBoardTaskTwo.showChessBoard();
+        List<AbstractChessBoard> chessBoardList = Arrays.asList(chessBoardThroughTheCell,
+                chessBoardSingleInLine, chessBoardRandom);
+        for (AbstractChessBoard chessBoard : chessBoardList) {
+            chessBoard.setFiguresOnBoard(COUNT_FIGURES);
+            chessBoard.showChessBoard();
+            System.out.println();
+        }
     }
 }

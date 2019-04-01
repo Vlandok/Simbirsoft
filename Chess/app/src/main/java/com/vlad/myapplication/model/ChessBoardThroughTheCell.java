@@ -1,25 +1,11 @@
-package com.vlad.myapplication;
+package com.vlad.myapplication.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class ChessBoard {
-    private final int width = 8;
-    private final int height = 8;
-    private String[][] chessBoard;
-
-    public ChessBoard() {
-        chessBoard = new String[width][height];
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                chessBoard[i][j] = "[ ]";
-            }
-        }
-    }
-
+public class ChessBoardThroughTheCell extends AbstractChessBoard {
+    @Override
     public void setFiguresOnBoard(int count) {
-        Random random = new Random();
         List<Integer> listPositionEvenLineWithFigures = new ArrayList<>();
         List<Integer> listPositionUnEvenLineWithFigures = new ArrayList<>();
         for (int i = 0; i < width; i++) {
@@ -58,26 +44,6 @@ public class ChessBoard {
                     break;
                 }
             }
-        }
-    }
-
-
-    public void setFiguresOnBoardSingle(int count) {
-        Random random = new Random();
-        for (int i = 0; i < width; i++) {
-            if (count > 0) {
-                chessBoard[i][random.nextInt(width)] = "[*]";
-                count--;
-            }
-        }
-    }
-
-    public void showChessBoard() {
-        for (String[] fieldBoardArray : chessBoard) {
-            for (String fieldBoard : fieldBoardArray) {
-                System.out.print(fieldBoard + "\t");
-            }
-            System.out.println();
         }
     }
 }
