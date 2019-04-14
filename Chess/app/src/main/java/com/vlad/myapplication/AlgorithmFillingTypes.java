@@ -1,6 +1,6 @@
 package com.vlad.myapplication;
 
-public enum ChessBoardTypes {
+public enum AlgorithmFillingTypes {
     THROUGHTHECELL,
     SINGLEINLINE,
     RANDOM

@@ -3,18 +3,22 @@ package com.vlad.myapplication.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChessBoardThroughTheCell extends AbstractChessBoard {
+import static com.vlad.myapplication.model.ChessBoard.HEIGHT_BOARD;
+import static com.vlad.myapplication.model.ChessBoard.WIDTH_BOARD;
+
+public class AlgorithmFillingThroughTheCell extends AbstractAlgorithmFilling {
     @Override
-    public void setFiguresOnBoard(int count) {
+    public String[][] getFillingFigures(int count) {
+        chessBoard = new String[WIDTH_BOARD][HEIGHT_BOARD];
         List<Integer> listPositionEvenLineWithFigures = new ArrayList<>();
         List<Integer> listPositionUnEvenLineWithFigures = new ArrayList<>();
-        for (int i = 0; i < width; i++) {
+        for (int i = 0; i < HEIGHT_BOARD; i++) {
             if (i % 2 == 0) {
                 listPositionEvenLineWithFigures.clear();
             } else {
                 listPositionUnEvenLineWithFigures.clear();
             }
-            for (int j = 0; j < height; j++) {
+            for (int j = 0; j < WIDTH_BOARD; j++) {
                 if (count > 0) {
                     if (random.nextBoolean()) {
                         boolean isCanInsertFigure = true;
@@ -45,5 +49,11 @@ public class ChessBoardThroughTheCell extends AbstractChessBoard {
                 }
             }
         }
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return chessBoard;
     }
 }
