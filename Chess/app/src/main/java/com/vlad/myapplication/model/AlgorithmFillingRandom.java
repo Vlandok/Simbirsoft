@@ -1,10 +1,18 @@
 package com.vlad.myapplication.model;
 
+import java.util.concurrent.Callable;
+
 import static com.vlad.myapplication.model.ChessBoard.HEIGHT_BOARD;
 import static com.vlad.myapplication.model.ChessBoard.WIDTH_BOARD;
 
-public class AlgorithmFillingRandom extends AbstractAlgorithmFilling {
+public class AlgorithmFillingRandom extends AbstractAlgorithmFilling implements Callable {
 
+    /**
+     * Получение случайного расположения фигур на шахматной доске
+     *
+     * @param count количество фигур
+     * @return расположение фигур
+     */
     @Override
     public String[][] getFillingFigures(int count) {
         chessBoard = new String[WIDTH_BOARD][HEIGHT_BOARD];
@@ -26,5 +34,10 @@ public class AlgorithmFillingRandom extends AbstractAlgorithmFilling {
             e.printStackTrace();
         }
         return chessBoard;
+    }
+
+    @Override
+    public Object call() throws Exception {
+        return getFillingFigures(8);
     }
 }

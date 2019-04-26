@@ -7,6 +7,12 @@ import static com.vlad.myapplication.model.ChessBoard.HEIGHT_BOARD;
 import static com.vlad.myapplication.model.ChessBoard.WIDTH_BOARD;
 
 public class AlgorithmFillingThroughTheCell extends AbstractAlgorithmFilling {
+    /**
+     * Получение расположения фигур на шахматной доске с минимальным отступом одна клетка
+     *
+     * @param count количество фигур
+     * @return расположение фигур
+     */
     @Override
     public String[][] getFillingFigures(int count) {
         chessBoard = new String[WIDTH_BOARD][HEIGHT_BOARD];

@@ -7,4 +7,6 @@ public interface MainMvpView extends MvpView {
     void showProgressView();
     void hideProgressView();
     void clearTextViewChessBoard();
+
+    void showChessBoardExample(String example);
 }

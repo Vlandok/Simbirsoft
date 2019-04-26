@@ -7,10 +7,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.vlad.myapplication.R;
-import com.vlad.myapplication.model.AlgorithmFillingFactory;
-import com.vlad.myapplication.model.ChessBoard;
 
 public class MainActivity extends MvpAppCompatActivity implements MainMvpView {
 
@@ -20,11 +17,6 @@ public class MainActivity extends MvpAppCompatActivity implements MainMvpView {
     MainPresenter mainPresenter;
     TextView textViewChessBoard;
     ProgressBar progressBar;
-
-    @ProvidePresenter
-    MainPresenter provideMainPresenter() {
-        return new MainPresenter(new AlgorithmFillingFactory(), new ChessBoard());
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +45,11 @@ public class MainActivity extends MvpAppCompatActivity implements MainMvpView {
             }
             textViewChessBoard.append("\n");
         }
+    }
+
+    @Override
+    public void showChessBoardExample(String example) {
+                textViewChessBoard.append(example);
     }
 
     @Override
